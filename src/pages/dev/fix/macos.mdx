@@ -1,0 +1,54 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：macOS（Homebrew）
+description: macOS 開發機上用 Homebrew 安裝的 PHP：公式裡的修補版本、更新後重啟與驗證。
+lede: Homebrew 的 PHP 通常在開發機上。它不是正式環境，但若開發機的 PHP 會對外接請求（例如分享給同事的本機服務），一樣要更新。
+checked: "2026-10-22"
+sources:
+  - title: Homebrew homebrew-core：php 公式
+    url: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/p/php.rb
+  - title: Homebrew homebrew-core：php@8.4 公式
+    url: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/p/php%408.4.rb
+  - title: Homebrew homebrew-core：php@8.3 公式
+    url: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/p/php%408.3.rb
+  - title: Homebrew homebrew-core：php@8.2 公式
+    url: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/p/php%408.2.rb
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+next:
+  - href: /dev/fix/docker/
+    label: 開發用的是容器？看 Docker 頁
+  - href: /dev/
+    label: 回總覽，確認正式環境的平台頁
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+> 本站沒有找到 Homebrew 針對這次漏洞的公告；公式頁沒有檢查或升級指令，本站不代寫 `brew` 指令。
+
+## 1. 檢查
+
+<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+
+對照 homebrew-core 公式裡的上游原始碼版本（2026-10-22 查詢）：
+
+| 公式 | 公式裡的上游 tarball |
+| --- | --- |
+| php | php-8.5.12.tar.xz |
+| php@8.4 | php-8.4.27.tar.xz |
+| php@8.3 | php-8.3.36.tar.xz |
+| php@8.2 | php-8.2.35.tar.xz |
+
+同一台機器可能裝了好幾個 `php@` 公式，PATH 上的那一支不一定是本機網頁伺服器在用的那一支。
+
+## 2. 更新
+
+用 Homebrew 平常的更新流程，把已安裝的 PHP 公式更新到上表的版本。若你用的是更舊、已不在 homebrew-core 的分支，見[舊版本策略](/dev/eol/)。
+
+## 3. 重啟
+
+重啟所有用到 PHP 的本機服務：以服務方式在背景執行的 php-fpm、本機的網頁伺服器，以及開著的開發伺服器。
+
+## 4. 驗證
+
+- 再跑一次 `php -v`，並確認本機網頁伺服器連到的是更新後的那一支。
+- 開發機上的版本對上之後，別忘了正式環境要照它自己的平台頁修補。

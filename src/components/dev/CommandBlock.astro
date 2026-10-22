@@ -1,0 +1,103 @@
+---
+// 可一鍵複製的指令區塊。複製按鈕常駐顯示，不依賴 hover；指令以 prop 傳入，名詞自動註解不會掃到。
+interface Props {
+  code: string;
+  /** 區塊標題，例如「Ubuntu 官方部落格的指令」 */
+  label?: string;
+}
+
+const { code, label } = Astro.props;
+const text = code.replace(/^\n+|\s+$/g, '');
+---
+<figure class="command">
+  <figcaption>
+    <span class="command__label">{label ?? '指令'}</span>
+    <button type="button" class="command__copy" data-copy>
+      <span data-copy-text>複製</span>
+    </button>
+  </figcaption>
+  <pre><code>{text}</code></pre>
+  <span class="visually-hidden" role="status" aria-live="polite" data-copy-status></span>
+</figure>
+
+<script>
+  async function copy(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // 沒有 Clipboard API（非 https、舊瀏覽器）時改用選取複製
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.append(area);
+      area.select();
+      const ok = document.execCommand('copy');
+      area.remove();
+      return ok;
+    }
+  }
+
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-copy]');
+    if (!button) return;
+    const figure = button.closest('.command');
+    const code = figure?.querySelector('code')?.textContent ?? '';
+    const label = button.querySelector('[data-copy-text]');
+    const status = figure?.querySelector('[data-copy-status]');
+    const ok = await copy(code);
+    if (label) label.textContent = ok ? '已複製' : '請手動選取';
+    if (status) status.textContent = ok ? '指令已複製到剪貼簿' : '無法自動複製，請手動選取指令';
+    window.setTimeout(() => {
+      if (label) label.textContent = '複製';
+      if (status) status.textContent = '';
+    }, 2000);
+  });
+</script>
+
+<style>
+  .command {
+    margin: 1rem 0 1.5rem;
+    border: 1px solid var(--graphite-rule);
+    border-radius: 6px;
+    background: var(--graphite);
+    color: var(--on-graphite);
+    overflow: hidden;
+  }
+  figcaption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 6px 6px 14px;
+    background: var(--graphite-2);
+    border-bottom: 1px solid var(--graphite-rule);
+    font-size: 0.875rem;
+    color: var(--on-graphite-soft);
+  }
+  .command__copy {
+    min-height: 44px;
+    min-width: 72px;
+    padding: 0 14px;
+    border: 1px solid var(--line-dev);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--on-graphite);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .command__copy:hover { background: rgb(47 178 107 / 0.18); }
+  .command__copy:focus-visible { outline-color: var(--line-dev); }
+  pre {
+    margin: 0;
+    padding: 14px;
+    overflow-x: auto;
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  code { font-family: inherit; white-space: pre; }
+</style>

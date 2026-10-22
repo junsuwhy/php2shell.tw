@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/DevDoc.astro
+title: 暫時緩解
+description: 無法立即升級 PHP 時的官方暫時緩解，以及「不要做」清單：RLIMIT_AS／RLIMIT_DATA、ini_set()、.user.ini 等。
+lede: 官方原話：There are no complete mitigations, updating is the only safe choice. 下面每一項都只降低特定路徑的曝險，不會讓系統變安全。
+checked: "2026-10-22"
+sources:
+  - title: PHP.net 安全公告（2026-10-21，暫時緩解原文）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: JFrog：PHP2Shell all you need to know
+    url: https://research.jfrog.com/post/php2shell-all-you-need-to-know-about-cve-2026-109618-and-cve-2026-109619/
+  - title: Sansec：PHP2Shell
+    url: https://sansec.io/research/php2shell
+  - title: Cloudflare：PHP vulnerabilities WAF protection
+    url: https://blog.cloudflare.com/php-vulnerabilities-waf-protection/
+  - title: 英國 NCSC：Critical security issue affecting PHP
+    url: https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
+next:
+  - href: /dev/
+    label: 回總覽，排定真正的修補
+  - href: /dev/detect/
+    label: 緩解期間，同時查日誌
+---
+
+## 先考慮下線
+
+英國 NCSC 的建議（WordPress 官方新聞稿也引用）：不能立刻完成緩解時，考慮讓系統下線，直到可以完整處理。不直接對網際網路開放（只走 VPN 或內網）也是過渡選項之一。這些都不是修補。
+
+## 針對 CVE-2026-109618
+
+- **`memory_limit=-1`**，並用應用程式改不掉的方式設定，例如 PHP-FPM pool 或 Apache 設定裡的 `php_admin_value`。接著檢查沒有任何 pool、目錄或應用設定把有限值寫回去。底層的配置失敗仍可能走到漏洞路徑，所以這不是把漏洞關掉。
+- **調低 `post_max_size`**：不需要上傳的站設 8M，需要上傳的設 32M；`upload_max_filesize` 要小於 `post_max_size`。
+- **在網頁伺服器或 proxy 層限制請求**：解碼後的請求大小、欄位數、multipart 的 part 數、header 數與巢狀深度。沒有可用 `Content-Length` 的請求也要涵蓋。
+- **用容器或 cgroup 的記憶體限制**當可用性邊界，最好只停掉受影響的 worker。
+
+## 針對 CVE-2026-109619
+
+- **`session.upload_progress.enabled=0`，並重啟所有 worker。** 必須寫在請求開始解析前就生效的位置：php.ini、PHP-FPM pool 或伺服器設定。只擋已確認的 session 路徑，擋不了 OPcache 與 backtrace 那些變體。
+- **PHP 8.5：`fatal_error_backtraces=0`，並重啟所有 worker。** 只擋已確認的 backtrace 路徑。
+- **移除**會在初始化完成前輸出診斷訊息的無效或棄用 per-request 設定。
+- **修掉**攻擊者碰得到的致命錯誤與執行逾時，包括 callback、上傳／匯入處理與清理過程中的失敗。
+
+## 不要做
+
+- **不要**改用 `RLIMIT_AS` 或 `RLIMIT_DATA` 限制記憶體。官方寫明，它們本身就可能造成漏洞所需要的配置失敗。
+- **不要**以為在程式裡用 `ini_set()` 關掉 `session.upload_progress.enabled` 就生效。那時請求早就解析完了。
+- **不要**以為寫進 PHP-FPM 的 `.user.ini` 就生效，理由同上。
+- **不要**以為 `display_errors=0`、調低 `error_reporting`、或在陳述式前加 `@`，能處理「初始化前的診斷」。問題不在訊息被看見，而在中斷發生的時機。
+- **不要**把 WordPress、Drupal、Joomla、Magento 的應用更新，或應用程式的維護模式，當成這次的修補或緩解。
+- **不要**把 WAF 當成修補。Cloudflare 自 2026-10-21 03:02 UTC（台灣時間 11:02）起對含免費方案在內的客戶預設上線規則，同時寫明仍須更新 PHP，而且已看到有人變造請求試圖避開規則。
+- **不要**把降低 `pm.max_requests` 當成修復。JFrog 說讓 worker 較早回收有幫助，但有效能代價，而且只是部分有效。
+- **不要**以為 SELinux 或 AppArmor 限制了網頁行程，漏洞就不存在；那只是縮小失守後的活動範圍。
+
+## 電商與上傳功能
+
+Sansec 對電商的說法：若要臨時止血，可以在網頁伺服器層處理 `multipart/form-data`（會影響上傳與部分結帳流程），或改成唯讀、靜態的維護頁。AWS 同樣提醒，擋 multipart 之前先評估對應用的影響。
+
+## 修補之後記得還原
+
+- 把 `memory_limit` 從 `-1` 改回應用真正需要的上限；無限記憶體本身會變成可用性問題。
+- WAF 規則可以留著當另一層，但不取代版本。

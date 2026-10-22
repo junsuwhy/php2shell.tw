@@ -1,0 +1,78 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：Ubuntu
+description: Ubuntu 上修補 PHP2Shell：USN-8948-1、USN-8948-2 的修補套件版、官方 apt 指令、ondrej PPA、重啟與驗證。
+lede: Ubuntu 官方說一般的系統更新就會帶入修補。下面的指令與版號都抄自 Ubuntu 的安全公告與官方部落格。
+checked: "2026-10-22"
+sources:
+  - title: Ubuntu USN-8948-1（26.10、26.04 LTS、24.04 LTS、22.04 LTS）
+    url: https://ubuntu.com/security/notices/USN-8948-1
+  - title: Ubuntu USN-8948-2（20.04 LTS 至 14.04 LTS）
+    url: https://ubuntu.com/security/notices/USN-8948-2
+  - title: Ubuntu 部落格：PHP2Shell vulnerability fixes available（2026-10-21）
+    url: https://ubuntu.com/blog/php2shell-vulnerability-fixes-available
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+next:
+  - href: /dev/detect/
+    label: 修完了，接著查日誌與偵測訊號
+  - href: /dev/mitigation/
+    label: 還不能更新？先套官方暫時緩解
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+## 1. 檢查
+
+列出已安裝的 PHP 套件（Ubuntu 官方部落格的指令）：
+
+<CommandBlock label="Ubuntu 官方：列出已安裝的 PHP 套件" code={`apt list '?installed ?name(^php[0-9.]+$)'`} />
+
+拿版本對照公告。USN-8948-1（2026-10-21 發布）：
+
+| 發行版 | 套件 | 修補版 |
+| --- | --- | --- |
+| 26.10 | php8.5（含 libapache2-mod-php8.5、php8.5-cgi、php8.5-cli、php8.5-fpm） | 8.5.9-0ubuntu2.1 |
+| 26.04 LTS | php8.5（同上四個套件） | 8.5.4-0ubuntu1.5 |
+| 24.04 LTS | php8.3（libapache2-mod-php8.3、php8.3-cgi、php8.3-cli、php8.3-fpm） | 8.3.6-0ubuntu0.24.04.13 |
+| 22.04 LTS | php8.1（libapache2-mod-php8.1、php8.1-cgi、php8.1-cli、php8.1-fpm） | 8.1.2-1ubuntu2.28 |
+
+USN-8948-2（同日發布，需要 Ubuntu Pro）：
+
+| 發行版 | 修補版 | 取得方式 |
+| --- | --- | --- |
+| 20.04 LTS（php7.4） | 7.4.3-4ubuntu2.29+esm5 | Ubuntu Pro |
+| 18.04 LTS（php7.2） | 7.2.24-0ubuntu0.18.04.17+esm14 | Ubuntu Pro |
+| 16.04 LTS（php7.0） | 7.0.33-0ubuntu0.16.04.16+esm22 | Ubuntu Pro 的 Legacy Support 附加元件 |
+| 14.04 LTS（php5） | 5.5.9+dfsg-1ubuntu4.29+esm18 | Ubuntu Pro 的 Legacy Support 附加元件 |
+
+這些是 Ubuntu 回移植後的版號，數字看起來比 php.net 的修補版舊，但已經修好。判讀方式見[我受影響嗎？](/dev/am-i-affected/)。
+
+### ondrej/php PPA
+
+很多主機用 ondrej/php PPA 裝較新的 PHP 分支。USN 與 Ubuntu 部落格都沒有提到這個 PPA，本站也沒有找到說明這兩個 CVE 的 PPA 公告，因此不列 PPA 的套件版號。狀態：**未找到官方資訊，待查證**。PPA 不是 Ubuntu 官方套件，上面的 USN 不涵蓋它；確認 PPA 已出修補版之前，不要當作已經修好。
+
+## 2. 更新
+
+Ubuntu 部落格寫出兩種做法，擇一：
+
+<CommandBlock label="Ubuntu 官方：完整系統更新" code={`sudo apt update && sudo apt upgrade`} />
+
+<CommandBlock label="Ubuntu 官方：只升級已安裝的 PHP 套件" code={`sudo apt update && sudo apt install --only-upgrade '?name(^php[0-9.]+$)'`} />
+
+20.04 LTS 以前的修補需要先啟用 Ubuntu Pro（16.04、14.04 另需 Legacy Support 附加元件）。
+
+## 3. 重啟
+
+使用 mod_php 時，Ubuntu 部落格寫的是重啟 Apache，或直接重新開機：
+
+<CommandBlock label="Ubuntu 官方：mod_php 重啟 Apache" code={`sudo systemctl restart apache2`} />
+
+<CommandBlock label="Ubuntu 官方：或重新開機" code={`sudo reboot`} />
+
+使用 PHP-FPM 時，一樣要重啟**所有** php-fpm 服務，讓每一支 worker 都換成新程式。
+
+## 4. 驗證
+
+- 再跑一次第 1 步的 `apt list`，確認版本等於或新於公告上的修補版。
+- 向正在接流量的那一支 PHP 確認，不只看命令列的 `php -v`。
+- 用 PPA 的主機，確認 PPA 套件確實已含修補；查不到就視為未修。

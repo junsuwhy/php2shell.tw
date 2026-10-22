@@ -1,0 +1,47 @@
+---
+// 版本矩陣：一律讀 src/data/facts.yaml，不在頁面寫死版號。
+import { facts } from '../../lib/data';
+---
+<div class="table-wrap">
+  <table>
+    <caption>官方修補版本（來源：PHP 安全公告）</caption>
+    <thead>
+      <tr><th scope="col">分支</th><th scope="col">官方給了什麼</th><th scope="col">該怎麼做</th></tr>
+    </thead>
+    <tbody>
+      {facts.fixed.map((f) => (
+        <tr>
+          <th scope="row" class="num">{f.branch}</th>
+          <td><strong class="num">{f.version}</strong>（含 Windows binary）</td>
+          <td>
+            升級到 <span class="num">{f.version}</span> 以上，並重啟所有 worker。
+            {f.eol && <> 本分支安全支援到 <span class="num">{f.eol}</span>，修完仍要排程離開。</>}
+          </td>
+        </tr>
+      ))}
+      <tr>
+        <th scope="row" class="num">{facts.source_backports.join('、')}</th>
+        <td>最小化<strong>原始碼</strong>回移植，沒有新的官方安裝包</td>
+        <td>優先用發行版或 LTS 廠商的回移植套件；見 <a href="/dev/eol/">舊版策略</a></td>
+      </tr>
+      <tr>
+        <th scope="row">{facts.unpatched}</th>
+        <td>沒有官方修補</td>
+        <td>升級到仍受支援且已修補的分支；完成前不要直接對網際網路開放</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p class="matrix-note">
+  發行版套件的版號可能不是上表的 php.net 版號，仍可能已經回移植修補，以該發行版的安全公告為準。程式碼被認為可回溯到 <span class="num">{facts.affected_since}</span>，但並非每一個歷史版號都經過逐一驗證。
+</p>
+
+<style>
+  .table-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+  caption { text-align: left; font-weight: 700; padding-bottom: 6px; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid #c9cdd3; text-align: left; vertical-align: top; }
+  thead th { background: var(--graphite); color: var(--on-graphite); font-weight: 700; }
+  tbody th { white-space: nowrap; }
+  .matrix-note { font-size: 0.9375rem; color: var(--floor-ink-soft); }
+</style>

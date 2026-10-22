@@ -1,0 +1,36 @@
+---
+// 受影響 SAPI 風險排序：讀 src/data/facts.yaml。
+import { facts } from '../../lib/data';
+
+const label = { highest: '官方明確最高', high: '官方列入，必須更新' } as const;
+const highest = facts.sapis.filter((s) => s.risk === 'highest');
+const high = facts.sapis.filter((s) => s.risk === 'high');
+---
+<ol class="sapi">
+  {[...highest, ...high].map((s) => (
+    <li class:list={['sapi__item', `sapi__item--${s.risk}`]}>
+      <strong>{s.name}</strong>
+      <span class="sapi__risk">{label[s.risk]}</span>
+    </li>
+  ))}
+</ol>
+<p class="sapi-note">
+  官方點名所有服務網頁請求的安裝。mod_php 以外的項目，官方沒有再分第二名、第三名；PHP-FPM 已確認可經應用層路徑 RCE，不要降級看待。控制台、廠商設備或 Windows 軟體內建的 <code>php.exe</code>、<code>php-cgi.exe</code> 也要盤點。
+</p>
+
+<style>
+  .sapi { list-style: none; margin: 1rem 0; padding: 0; display: grid; gap: 8px; }
+  .sapi__item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+    padding: 10px 14px;
+    border-left: 6px solid var(--line-dev);
+    background: #fff;
+  }
+  .sapi__item--highest { border-left-color: var(--alert); }
+  .sapi__risk { font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .sapi__item--highest .sapi__risk { color: var(--alert); font-weight: 700; }
+  .sapi-note { font-size: 0.9375rem; color: var(--floor-ink-soft); }
+</style>

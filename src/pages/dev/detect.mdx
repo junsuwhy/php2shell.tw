@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/DevDoc.astro
+title: 偵測與應變
+description: PHP2Shell 的偵測訊號、懷疑失守時的事件應變清單，以及日誌保全的做法。
+lede: 下面的訊號都不足以單獨證明遭到利用；完全沒看到，也不代表沒事。調查視窗從 2026-10-17 起算。
+checked: "2026-10-22"
+sources:
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: Huntress：PHP2Shell leaked critical PHP vulnerabilities
+    url: https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
+  - title: AWS：Amazon threat intelligence identifies PHP2Shell exploitation prior to public disclosure in MadPot
+    url: https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
+  - title: Corelight：PHP2Shell detection before disclosure
+    url: https://corelight.com/blog/php2shell-detection-before-disclosure
+  - title: itnotetk：PHP webshell 與 RCE 偵測強化
+    url: https://www.itnotetk.com/2026/10/22/php-webshell-rce-detection-hardening/
+  - title: 數位發展部資通安全署新聞稿
+    url: https://moda.gov.tw/ACS/press/news/press/21134
+  - title: 英國 NCSC：Critical security issue affecting PHP
+    url: https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
+next:
+  - href: /dev/
+    label: 回總覽，確認每台主機都已修補
+  - href: /basic/ask-your-vendor/
+    label: 主機在廠商手上？用這份訊息問他們
+---
+
+## 為什麼從 10 月 17 日查起
+
+Amazon 的蜜罐 MadPot 在 2026-10-17 就看到利用嘗試，比公開早四天。AWS 寫明不要假設公開日就是最早的利用日。修補發布當下（2026-10-21 14:00 UTC，台灣時間 22:00）基金會說還沒看到可運作的公開 exploit，但 AWS 稱當天 02:00 UTC（台灣時間 10:00）起已看到多份 PoC。不要用「公告當時說沒有」把查日誌延到下週。
+
+Wiz 提醒：應用層的存取日誌可能幾乎是空的，因為漏洞發生在應用程式碼之前。
+
+## 偵測訊號
+
+值得對一下的現象：
+
+- 異常的 multipart 請求之後，緊接著 memory-limit 錯誤或連續的 HTTP 500。
+- 回應裡出現異常巨大、或格式不像正常 session id 的 `PHPSESSID` cookie。
+- 無法解釋的 worker 崩潰或重啟。
+- PHP 相關父行程（`php-fpm`、`php-cgi`、`php-cgi.exe`、`httpd`、`apache2`）衍生出 `sh`、`bash`、`cmd`、`powershell`、`python`、`perl`、`curl`、`wget`、`nc`、`certutil.exe` 等子行程。
+- 指令列出現 `/dev/tcp`、`mkfifo`。
+- 網頁伺服器行程在執行 `whoami`、`id`、`uname`。
+- 網站根目錄或上傳目錄新增 PHP 檔，或出現新的排程、新的系統帳號。
+
+Huntress 說，RCE 得手之後最常見的樣子，就是 PHP 工作行程生出不該有的子行程。他們建議行程監控先用**觀察模式**，不要一上線就自動砍行程。
+
+網路層：Corelight 公開了 Zeek 與 Suricata 的偵測規則，用途包含可疑的 HTTP 活動與從回應標頭辨識受影響版本，需要能檢查 HTTP 內容。規則內容本站不轉述，請到其官方儲存庫取得。
+
+## 日誌保全
+
+- 先**保留**再處理：網頁伺服器日誌、PHP 與 PHP-FPM 日誌、系統行程紀錄、檔案的時間戳。
+- 確認日誌輪替不會在調查期間把 10 月 17 日以後的紀錄刪掉；必要時先複製一份到別處。
+- 對可疑檔案做人工確認，不要自動刪除（itnotetk）。自動刪檔會毀證據，也可能刪到正常的快取。可以搭配檔案完整性比對。
+- 懷疑失守的主機先不要重灌。
+
+## 懷疑已經失守時
+
+1. **隔離**：把主機隔離，或至少從負載平衡拔掉，停止繼續對外提供有洞的服務。
+2. **保全**：照上一節保留日誌與檔案狀態。
+3. **並行修補**：同時修補其他還沒被隔離、仍暴露的系統，不要等鑑識做完。
+4. **盤點**：新的 PHP 檔、新帳號、新排程、異常的子行程。
+5. **輪替祕密**：密碼、API 金鑰、session 祕密與憑證。這次有讀取行程記憶體的路徑，沒有留下 webshell 不等於祕密還安全。
+6. **通報**：通知需要知道的人。台灣的機關與企業，資安署已透過資安警訊、N-ISAC、TWCERT/CC 通報，內部窗口依各單位規定。沒有把握時，找事件應變支援。
+
+AWS 公開了一些蜜罐上看到的來源 IP，其中包含共用的匿名基礎設施，適合拿來調查，不適合直接當成永久封鎖清單。本站不轉貼那些 IP。

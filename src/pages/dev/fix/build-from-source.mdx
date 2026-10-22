@@ -1,0 +1,57 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 自行編譯：7.4／8.0／8.1 官方回移植
+description: PHP 7.4、8.0、8.1 的官方最小化原始碼回移植與自行編譯注意事項；沒有官方安裝包，適合能維護建置的團隊。
+lede: 這次因為嚴重性，官方為已停止一般發布的 7.4、8.0、8.1 額外提供了最小化的原始碼回移植。沒有官方安裝包，只有原始碼。
+checked: "2026-10-22"
+sources:
+  - title: PHP.net 安全公告（2026-10-21，含 7.4／8.0／8.1 原始碼回移植）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: iThome：PHP 緊急更新
+    url: https://www.ithome.com.tw/news/179870
+  - title: cPanel 支援文章（指向 TuxCare 延長支援）
+    url: https://support.cpanel.net/hc/en-us/articles/44397389677335-Critical-PHP-Security-Release-CVE-2026-109618-and-CVE-2026-109619
+next:
+  - href: /dev/eol/
+    label: 長期來說怎麼離開舊分支
+  - href: /dev/mitigation/
+    label: 編譯好之前，先套官方暫時緩解
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+> 回移植的取得位置與套用方式，請以 PHP 官方公告的連結為準。本站沒有抄錄 patch 內容與編譯指令，也不推測檔名或版號。
+
+## 先想清楚要不要自己編
+
+自行編譯只適合**有人能長期維護建置**的團隊：之後的每一次安全修補，你都得自己再做一次。多數情況下，下面這些路比較穩：
+
+- 發行版或 LTS 廠商已回移植的套件（例如 Ubuntu Pro 的 ESM、RHEL 8 的 php:7.4 勘誤，見各平台頁）。
+- 控制台廠商的延長支援：cPanel 與 Plesk 都把舊分支指向 TuxCare。
+- 直接升級到仍受支援的 8.2 至 8.5 分支。
+
+7.3 以前（含 5.x）連原始碼回移植都沒有，見[舊版本策略](/dev/eol/)。
+
+## 1. 檢查
+
+確認網站真正在用的版本與編譯方式（自行編譯、或某個第三方套件）：
+
+<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+
+記下目前的編譯設定與啟用的擴充，重建時要維持一致；並確認網站的 PHP-FPM 或 mod_php 是同一份建置，見[我受影響嗎？](/dev/am-i-affected/)。
+
+## 2. 更新
+
+1. 從 PHP 官方公告的連結取得你所用分支（7.4、8.0 或 8.1）的回移植。
+2. 套用到**同一分支最後一個官方版本**的原始碼上，用原本的編譯設定重建。
+3. 先在測試環境跑應用的測試。php2shell.com 指出修補會加入硬性記憶體上限，超過時終止行程，而且**不執行 shutdown handler**；若程式靠 shutdown function 寫日誌或釋放鎖，行為會改變。
+4. 封裝成你們能重複部署的形式（套件或映像），不要在正式機上手動編譯。
+
+## 3. 重啟
+
+部署新建置之後，重啟所有 php-fpm、Apache 與 LiteSpeed 的 worker，確認沒有舊行程留著。
+
+## 4. 驗證
+
+- 確認正在接流量的 PHP 是新的建置（版號可能和舊建置相同，請比對建置日期或你自己的建置標記）。
+- 確認測試環境觀察到的記憶體上限行為在正式環境不會造成意外中斷。
+- 記錄這份建置的來源與套用的回移植，之後的修補才找得到。
