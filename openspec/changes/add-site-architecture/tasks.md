@@ -3,12 +3,12 @@
 ## 1. 骨架
 
 - [ ] 1.1 [persona-theming] 建立 Astro 靜態專案與共用版面骨架，以 `data-persona` 切換語意 token；臨時值只求可讀。驗證：三個身份值都能切換 token，靜態建置成功，減少動效時沒有掃描線等裝飾動畫。
-- [ ] 1.2 [persona-gateway] 建立首頁、`/basic/`、`/dev/`、`/news/`、`/about/` 與找不到頁的空路由，以及頁首切換身份入口。驗證：這些路徑都在靜態產出中，頁首可進到另外兩區。
+- [x] 1.2 [persona-gateway] 建立首頁、`/basic/`、`/dev/`、`/news/`、`/about/` 與找不到頁的空路由，以及頁首切換身份入口。驗證：這些路徑都在靜態產出中，頁首可進到另外兩區。
 
 ## 2. 內容模型
 
-- [ ] 2.1 [content-pipeline] 新增 `facts`、`timeline`、`glossary`、`outages`、`quotes` 五份 YAML，並依草案欄位驗證。驗證：合法樣本可建置；時間軸缺欄位，或重要程度超出 1–3 時，建置失敗。
-- [ ] 2.2 [content-pipeline] 以 glob 把 `docs/news` 收成 collection，schema 對齊該目錄既有的 frontmatter，不另發明必填欄位。驗證：現有一則新聞可建置；去掉必填欄位的複本使建置失敗；只多加一則合法檔案、不改程式，新聞牆就多一則。
+- [x] 2.1 [content-pipeline] 新增 `facts`、`timeline`、`glossary`、`outages`、`quotes` 五份 YAML，並依草案欄位驗證。驗證：合法樣本可建置；時間軸缺欄位，或重要程度超出 1–3 時，建置失敗。
+- [x] 2.2 [content-pipeline] 以 glob 把 `docs/news` 收成 collection，schema 對齊該目錄既有的 frontmatter，不另發明必填欄位。驗證：現有一則新聞可建置；去掉必填欄位的複本使建置失敗；只多加一則合法檔案、不改程式，新聞牆就多一則。
 - [x] 2.3 [content-pipeline] 做出 `/sources/`，來源來自新聞 collection 與知識庫引用。驗證：頁面列出已收錄新聞的網址，且建置與瀏覽都不會即時抓取外部新聞。
 
 ## 3. 首頁
