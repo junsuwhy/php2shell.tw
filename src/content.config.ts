@@ -79,4 +79,16 @@ const quotes = defineCollection({
   }),
 });
 
-export const collections = { news, timeline, glossary, outages, quotes };
+// 說法分歧：src/data/discrepancies.yaml（/news/rumors/ 並列各說法，assessment 只作對照）
+const discrepancies = defineCollection({
+  loader: file('src/data/discrepancies.yaml'),
+  schema: z.object({
+    topic: z.string(),
+    claims: z.array(z.object({ claim: z.string(), by: z.string() })).min(1),
+    assessment: z.string(),
+    sources: z.array(z.string()).default([]),
+    pending: z.boolean().default(false),
+  }),
+});
+
+export const collections = { news, timeline, glossary, outages, quotes, discrepancies };

@@ -1,8 +1,109 @@
 ---
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { parse } from 'yaml';
 import Base from '../layouts/Base.astro';
-import Stub from '../components/Stub.astro';
+import { getNews, languageLabel, newsHref, newsTitle, sourceGroup, sourceGroups } from '../lib/news';
+
+const news = await getNews();
+const groups = sourceGroups
+  .map((g) => ({ group: g, items: news.filter((n) => sourceGroup(n.data.source_type) === g) }))
+  .filter((g) => g.items.length > 0);
+
+// 知識庫 frontmatter 引用、但還沒收成新聞摘要的網址（建置時讀檔，不連外）
+const known = new Set(news.map((n) => n.data.url));
+const dir = join(process.cwd(), 'docs/knowledge');
+const extra = new Map<string, string[]>();
+for (const file of readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
+  const fm = readFileSync(join(dir, file), 'utf8').match(/^---\n([\s\S]*?)\n---/);
+  const data = fm ? (parse(fm[1]) as { title?: string; sources?: string[] }) : {};
+  for (const url of data.sources ?? []) {
+    if (known.has(url)) continue;
+    extra.set(url, [...(extra.get(url) ?? []), data.title ?? file]);
+  }
+}
+const host = (url: string) => {
+  try { return decodeURI(new URL(url).hostname.replace(/^www\./, '')); } catch { return url; }
+};
 ---
-<Base title="資料來源" persona="gateway">
-  <h1>資料來源</h1>
-  <Stub purpose="所有參考來源總表" />
+<Base title="資料來源" persona="gateway" description="php2shell.tw 引用的所有新聞、官方公告與研究報告，依來源類型分組。">
+  <article class="page">
+    <header class="page__head">
+      <h1>資料來源</h1>
+      <p>本站每個說法都要能追到下面其中一份來源。本站收錄了 <span class="num">{news.length}</span> 份來源摘要，依來源類型分組；每組內由新到舊。點「本站摘要」看我們讀到什麼，點來源名稱開原文。</p>
+      <nav aria-label="來源分類">
+        <ul class="toc">
+          {groups.map((g, i) => <li><a href={`#g${i}`}>{g.group}（{g.items.length}）</a></li>)}
+          {extra.size > 0 && <li><a href="#knowledge">知識庫另引用（{extra.size}）</a></li>}
+        </ul>
+      </nav>
+    </header>
+
+    {groups.map((g, i) => (
+      <section aria-labelledby={`g${i}`} class="group">
+        <h2 id={`g${i}`}>{g.group}</h2>
+        <ul class="list">
+          {g.items.map((n) => (
+            <li>
+              <p class="item__title">
+                <a href={n.data.url} rel="noopener">{n.data.source}</a>
+                <span class="soft">　{n.data.source_type} · {languageLabel(n.data.language)}</span>
+              </p>
+              <p>{newsTitle(n)}</p>
+              <p class="item__meta">
+                <span class="num">{n.data.published_at_taipei}</span>
+                {n.data.fetch_status === 'failed' && <span class="flag">未取得全文</span>}
+                <a href={newsHref(n)}>本站摘要</a>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    {extra.size > 0 && (
+      <section aria-labelledby="knowledge" class="group">
+        <h2 id="knowledge">知識庫另引用</h2>
+        <p class="soft">整理知識庫時參考、但還沒有單獨收成新聞摘要的網址。</p>
+        <ul class="list">
+          {[...extra].map(([url, by]) => (
+            <li>
+              <p class="item__title"><a href={url} rel="noopener">{host(url)}</a></p>
+              <p class="url">{decodeURI(url)}</p>
+              <p class="item__meta soft">引用於：{by.join('、')}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <footer class="next">
+      <h2>下一步</h2>
+      <ul>
+        <li><a href="/news/wall/">用新聞牆篩選這些來源</a></li>
+        <li><a href="/news/rumors/">來源之間說法不一致的地方</a></li>
+        <li><a href="/about/">本站的資料來源原則</a></li>
+      </ul>
+    </footer>
+  </article>
 </Base>
+
+<style>
+  .page { display: grid; gap: 32px; max-width: 52rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  .page__head { display: grid; gap: 12px; }
+  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .toc a { display: inline-block; padding: 6px 12px; background: #fff; border-radius: 999px; text-decoration: none; font-size: 0.9375rem; }
+  .group { display: grid; gap: 12px; }
+  .group h2 { font-size: 1.5rem; padding-bottom: 6px; border-bottom: 3px solid var(--graphite); }
+  .list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .list li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--graphite-rule); }
+  .item__title a { font-weight: 700; }
+  .item__meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.875rem; }
+  .soft { color: var(--floor-ink-soft); font-size: 0.875rem; }
+  .url { font-size: 0.8125rem; color: var(--floor-ink-soft); overflow-wrap: anywhere; }
+  .flag { padding: 0 6px; border: 1px solid var(--alert); border-radius: 3px; color: var(--alert); font-weight: 700; }
+  .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); }
+  .next h2 { font-size: 1.25rem; }
+  .next ul { margin: 0; padding-left: 1.2em; }
+</style>

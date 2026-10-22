@@ -1,8 +1,79 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import TimelineList from '../../components/news/TimelineList.astro';
 ---
-<Base title="時間軸" persona="news">
-  <h1>時間軸</h1>
-  <Stub purpose="完整時間軸，UTC／台灣時間切換" />
+<Base title="時間軸" persona="news" description="PHP2Shell 事件完整時間軸，從 2004 年的老問題到 2026 年 10 月全球關站，可切換 UTC 與台灣時間。">
+  <article class="page">
+    <header class="page__head">
+      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
+      <h1>時間軸</h1>
+      <p>從 2004 年的老毛病，一路到 2026 年 10 月的全球關站。有精確時刻的事件可以切換 UTC 或台灣時間（UTC+8）；來源只寫到年、月或日期的，就只寫到那裡，不幫它補時分。</p>
+    </header>
+
+    <div class="tz" data-tz-switch hidden>
+      <span id="tz-label">時間顯示</span>
+      <div role="group" aria-labelledby="tz-label">
+        <button type="button" data-tz-value="both" aria-pressed="true">兩者並列</button>
+        <button type="button" data-tz-value="tpe" aria-pressed="false">台灣時間</button>
+        <button type="button" data-tz-value="utc" aria-pressed="false">UTC</button>
+      </div>
+    </div>
+
+    <div data-tz="both" data-tz-target>
+      <TimelineList />
+    </div>
+
+    <footer class="next">
+      <h2>下一步</h2>
+      <ul>
+        <li><a href="/news/story/">想看故事版？讀前因後果</a></li>
+        <li><a href="/news/rumors/">時間說法對不上的地方，看說法打架</a></li>
+        <li><a href="/basic/check/">我自己也有網站</a></li>
+      </ul>
+    </footer>
+  </article>
 </Base>
+
+<script>
+  const KEY = 'php2shell:tz';
+  const sw = document.querySelector<HTMLElement>('[data-tz-switch]');
+  const target = document.querySelector<HTMLElement>('[data-tz-target]');
+  if (sw && target) {
+    const buttons = [...sw.querySelectorAll<HTMLButtonElement>('[data-tz-value]')];
+    const apply = (v: string) => {
+      target.dataset.tz = v;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tzValue === v)));
+      try { localStorage.setItem(KEY, v); } catch {}
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.tzValue!)));
+    let saved: string | null = null;
+    try { saved = localStorage.getItem(KEY); } catch {}
+    if (saved && buttons.some((b) => b.dataset.tzValue === saved)) apply(saved);
+    sw.hidden = false;
+  }
+</script>
+
+<style>
+  .page { display: grid; gap: 32px; max-width: 46rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  .page__head { display: grid; gap: 12px; }
+  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
+  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  .tz { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; position: sticky; top: 0; z-index: 1; padding: 10px 0; background: var(--floor); }
+  .tz[hidden] { display: none; }
+  .tz [role='group'] { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tz button {
+    min-height: 44px;
+    padding: 6px 14px;
+    border: 2px solid var(--graphite);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--floor-ink);
+    font: inherit;
+    font-size: 0.9375rem;
+    cursor: pointer;
+  }
+  .tz button[aria-pressed='true'] { background: var(--graphite); color: var(--on-graphite); }
+  .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); }
+  .next h2 { font-size: 1.25rem; }
+  .next ul { margin: 0; padding-left: 1.2em; }
+</style>

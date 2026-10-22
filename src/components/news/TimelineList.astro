@@ -1,0 +1,58 @@
+---
+// 時間軸清單；importance 3 為精華。highlightsOnly 時只列精華。
+import { getOrdered } from '../../lib/news';
+import EventTime from './EventTime.astro';
+import SourceLinks from './SourceLinks.astro';
+
+interface Props { highlightsOnly?: boolean }
+const { highlightsOnly = false } = Astro.props;
+// 依 timeline.yaml 的排列順序（資料檔本身按時間排）
+const events = (await getOrdered('timeline')).filter((e) => !highlightsOnly || e.data.importance === 3);
+---
+<ol class="tl">
+  {events.map(({ id, data: e }) => (
+    <li class:list={['tl__item', { 'tl__item--key': e.importance === 3 }]} id={id}>
+      <EventTime at={e.at} precision={e.precision} />
+      <h3 class="tl__title">
+        {e.importance === 3 && !highlightsOnly && <span class="tl__badge">精華</span>}
+        {e.title}
+      </h3>
+      <p>{e.summary}</p>
+      <SourceLinks refs={e.sources} />
+    </li>
+  ))}
+</ol>
+
+<style>
+  .tl { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .tl__item {
+    display: grid;
+    gap: 6px;
+    padding: 4px 0 24px 24px;
+    border-left: 3px solid var(--line-news);
+    position: relative;
+  }
+  .tl__item::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 9px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--floor);
+    border: 3px solid var(--line-news);
+  }
+  .tl__item--key::before { background: var(--line-news); }
+  .tl__title { font-size: 1.125rem; line-height: 1.45; }
+  .tl__badge {
+    display: inline-block;
+    margin-inline-end: 8px;
+    padding: 0 8px;
+    background: var(--line-news);
+    color: var(--on-line);
+    border-radius: 3px;
+    font-size: 0.8125rem;
+    vertical-align: 0.15em;
+  }
+</style>
