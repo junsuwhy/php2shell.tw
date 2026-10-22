@@ -1,0 +1,88 @@
+/* 全站基礎：車站導引系統。三條路線色是三種身份在全站的識別色。 */
+:root {
+  --graphite: #22262c;
+  --graphite-2: #2c3138;
+  --graphite-rule: #3d434c;
+  --on-graphite: #ffffff;
+  --on-graphite-soft: #c3c8cf;
+  --floor: #e9ebee;
+  --floor-ink: #22262c;
+  --floor-ink-soft: #4b525c;
+
+  --line-basic: #f2b705;
+  --line-dev: #2fb26b;
+  --line-news: #e0457b;
+  --on-line: #1b1e22;
+
+  --alert: #c8233a;
+  --on-alert: #ffffff;
+  --on-alert-soft: #ffe3e7;
+
+  --font-sans: 'Noto Sans TC Variable', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --font-num: 'Noto Sans TC Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+  accent-color: var(--line-basic);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--graphite) var(--floor); background: var(--graphite); }
+
+body {
+  margin: 0;
+  background: var(--floor);
+  color: var(--floor-ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+}
+
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
+p { margin: 0; text-wrap: pretty; }
+
+a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 0.08em; }
+
+::selection { background: var(--line-basic); color: var(--on-line); }
+
+:focus-visible {
+  outline: 3px solid var(--line-basic);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums lining-nums; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* 圖片位置標示（僅開發模式出現） */
+.image-slot { display: block; width: 100%; height: auto; object-fit: cover; }
+.image-slot--pending {
+  display: grid;
+  place-content: center;
+  gap: 4px;
+  padding: 12px;
+  text-align: center;
+  color: var(--on-graphite);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 10px, rgb(255 255 255 / 0.06) 10px 20px),
+    rgb(0 0 0 / 0.28);
+  outline: 2px dashed rgb(255 255 255 / 0.55);
+  outline-offset: -6px;
+}
+.image-slot__id { font-weight: 800; font-size: 0.875rem; letter-spacing: 0.04em; }
+.image-slot__meta { font-size: 0.75rem; opacity: 0.85; line-height: 1.4; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

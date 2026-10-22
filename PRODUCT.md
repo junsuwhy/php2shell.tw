@@ -43,9 +43,17 @@ Astro（靜態輸出）+ MDX + Content Collections，部署於 Cloudflare Pages�
 - 勘誤與聯絡透過站長 email（待提供）。
 - 使用 Google Analytics 4（ID 待提供，經環境變數注入）；需提供隱私說明。
 
+## Brand Commitments
+
+- 網站名稱：**php2shell.tw**（頁首、分頁標題、社群分享卡都用這個名稱）。
+- 不署名：只以「本站」自稱，不放個人或公司名稱與 logo；讀者透過站長 email 聯絡。
+- 語氣：非技術區親切、像朋友解釋；開發者區精準、直接；吃瓜區**輕鬆但不嘲諷**——可以有梗與比喻，但不嘲笑維護團隊、研究者或受影響的網站。
+
 ## Evidence on Hand
 
-- `docs/news/`：37 篇新聞與官方／研究來源摘要（含網址與發布時間）。
+- `docs/news/`：70 餘篇新聞、官方公告、政府機關與研究來源摘要（含網址與發布時間），持續增加。
+- `docs/knowledge/08-platform-advisories.md`：各 Linux 發行版、Windows、Docker、控制台、Drupal／WordPress 的官方修補資訊。
+- `src/data/`：核心事實、時間軸、名詞表、關站名單、名言的結構化資料。
 - `docs/knowledge/`：總覽、時間軸、三種受眾素材、名詞表、說法分歧、來源總表。
 - 不得杜撰：讀者見證、合作單位、統計數字、官方背書。
 

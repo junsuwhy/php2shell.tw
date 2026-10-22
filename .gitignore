@@ -23,3 +23,7 @@ npm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# impeccable 方向草圖（僅預覽用）
+public/design-preview/
+.impeccable/mocks/

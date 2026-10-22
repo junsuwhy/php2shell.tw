@@ -1,0 +1,83 @@
+# 圖片位置登記表。圖片由 Grok 依 prompt 產生後，放到 public/images/<file>，並填 provenance。
+# 檔案不存在時：開發模式顯示標示框；正式網站顯示該位置的備用樣式。
+# 共同風格（每個 prompt 都要附上）：
+#   flat vector illustration, transit-wayfinding pictogram style, bold simple shapes, no gradients,
+#   no text, no letters, no numbers, no logos, no real transit brand marks, plenty of negative space
+style: >-
+  flat vector illustration in transit wayfinding pictogram style, bold simple geometric shapes,
+  flat colors only, no gradients, no shadows, no text, no letters, no numbers, no logos,
+  no real transit company branding, generous negative space
+
+slots:
+  - id: home-concourse
+    file: home-concourse.webp
+    page: /
+    where: 首頁站名牌右側（手機版縮小置於站名下方）
+    aspect: "4/3"
+    size: 1200x900
+    alt: 車站大廳插畫，三條不同顏色的路線指示牌指向三個方向
+    palette: "#22262c 深石墨底、#f2b705 黃、#2fb26b 綠、#e0457b 粉紅、#f4f5f6 白"
+    prompt: >-
+      A calm station concourse seen from slightly above, dark graphite ground, three overhead
+      direction signs hanging in a row, each sign a solid color band (yellow, green, pink) with a
+      simple arrow shape pointing a different way, a few tiny simplified commuters walking toward them
+    status: pending
+    provenance: null
+
+  - id: exit-basic
+    file: exit-basic.webp
+    page: /
+    where: 出口 1「非技術人員」卡內
+    aspect: "1/1"
+    size: 800x800
+    alt: 一位店家老闆拿著手機查看自己的網站，旁邊有一個放大鏡
+    palette: "#f2b705 黃底、#22262c 深石墨線條、白色"
+    prompt: >-
+      Pictogram of a small shop owner holding a smartphone showing a simple website, a friendly
+      magnifying glass beside them, reassuring and calm, yellow background, graphite figure
+    status: pending
+    provenance: null
+
+  - id: exit-dev
+    file: exit-dev.webp
+    page: /
+    where: 出口 2「軟體開發人員」卡內
+    aspect: "1/1"
+    size: 800x800
+    alt: 一位工程師在伺服器機櫃前拿著扳手更新系統
+    palette: "#2fb26b 綠底、#22262c 深石墨線條、白色"
+    prompt: >-
+      Pictogram of an engineer standing beside a server rack, holding a wrench, a simple upward
+      refresh arrow above the rack, focused and competent, green background, graphite figure
+    status: pending
+    provenance: null
+
+  - id: exit-news
+    file: exit-news.webp
+    page: /
+    where: 出口 3「吃瓜群眾」卡內
+    aspect: "1/1"
+    size: 800x800
+    alt: 一個人一邊吃西瓜一邊看手機上的新聞
+    palette: "#e0457b 粉紅底、#22262c 深石墨線條、白色、西瓜紅綠"
+    prompt: >-
+      Pictogram of a relaxed person sitting and eating a slice of watermelon while reading news on a
+      phone, a few simplified newspaper sheets floating nearby, light-hearted, pink background,
+      graphite figure, the watermelon in flat red and green
+    status: pending
+    provenance: null
+
+  - id: og-default
+    file: og-default.png
+    page: 全站社群分享卡
+    where: Open Graph／LINE／FB 分享預覽
+    aspect: "1200/630"
+    size: 1200x630
+    alt: php2shell.tw 分享卡，三條路線色的出口指示牌
+    palette: "#22262c 深石墨底、黃綠粉紅三色帶、白"
+    prompt: >-
+      Wide banner of a dark graphite station wall with three large exit signs side by side, each a
+      solid color band (yellow, green, pink) with a circle badge and a simple arrow, large empty area
+      on the left for a title to be added later
+    status: pending
+    provenance: null

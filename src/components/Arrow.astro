@@ -1,0 +1,17 @@
+---
+// 導引箭頭（朝上繪製，方向由 CSS 變數 --arrow-rotate 決定）
+interface Props { class?: string }
+const { class: className } = Astro.props;
+---
+<svg class:list={['arrow', className]} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+  <path d="M24 6 L41 23 L32 23 L32 42 L16 42 L16 23 L7 23 Z" fill="currentColor" />
+</svg>
+<style>
+  .arrow {
+    width: 1em;
+    height: 1em;
+    rotate: var(--arrow-rotate, 0deg);
+    translate: var(--arrow-shift, 0 0);
+    transition: translate 420ms var(--ease-out);
+  }
+</style>

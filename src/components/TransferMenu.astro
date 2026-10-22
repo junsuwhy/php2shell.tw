@@ -1,0 +1,84 @@
+---
+// 右上角「轉乘」：任何頁面都能切換身份
+import { personas, type PersonaId } from '../data/personas';
+
+interface Props { current?: PersonaId }
+const { current } = Astro.props;
+---
+<details class="transfer">
+  <summary>
+    <span class="transfer__dots" aria-hidden="true">
+      {personas.map((p) => <i data-line={p.id}></i>)}
+    </span>
+    轉乘<span class="visually-hidden">：切換身份</span>
+  </summary>
+  <ul>
+    {personas.map((p) => (
+      <li>
+        <a href={p.href} data-line={p.id} aria-current={current === p.id ? 'page' : undefined}>
+          <span class="transfer__badge num">{p.exit}</span>
+          <span class="transfer__name">{p.name}</span>
+          <span class="transfer__line">{p.line}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>
+
+<style>
+  .transfer { position: relative; }
+  summary {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 2px solid var(--on-graphite);
+    color: var(--on-graphite);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    user-select: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .transfer[open] summary { background: var(--on-graphite); color: var(--graphite); }
+  .transfer__dots { display: inline-flex; gap: 4px; }
+  .transfer__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+  [data-line='basic'] { --c: var(--line-basic); }
+  [data-line='dev'] { --c: var(--line-dev); }
+  [data-line='news'] { --c: var(--line-news); }
+
+  ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    z-index: 20;
+    min-width: 280px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--graphite);
+    border: 2px solid var(--on-graphite);
+  }
+  li + li { border-top: 1px solid var(--graphite-rule); }
+  ul a {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--on-graphite);
+    text-decoration: none;
+    border-top: 6px solid var(--c);
+  }
+  ul a:hover, ul a[aria-current='page'] { background: var(--graphite-2); }
+  .transfer__badge {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--c); color: var(--on-line);
+    font-weight: 900; font-size: 1.125rem;
+  }
+  .transfer__name { font-weight: 800; }
+  .transfer__line { font-size: 0.8125rem; color: var(--on-graphite-soft); }
+</style>

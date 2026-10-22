@@ -1,0 +1,24 @@
+---
+// 圖片位置：有圖顯示圖；沒圖時開發模式顯示標示框，正式網站改用 fallback slot（沒有就不顯示）。
+import { getSlot } from '../lib/images';
+
+interface Props {
+  id: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const { id, class: className, loading = 'lazy' } = Astro.props;
+const slot = getSlot(id);
+const showMarker = !slot.ready && import.meta.env.DEV;
+---
+{slot.ready ? (
+  <img class:list={['image-slot', className]} src={slot.src} alt={slot.alt} loading={loading} decoding="async" style={`aspect-ratio:${slot.aspect}`} />
+) : showMarker ? (
+  <div class:list={['image-slot', 'image-slot--pending', className]} style={`aspect-ratio:${slot.aspect}`} role="img" aria-label={`待產生圖片：${slot.alt}`}>
+    <span class="image-slot__id">IMG · {slot.id}</span>
+    <span class="image-slot__meta">{slot.aspect} · {slot.where}</span>
+  </div>
+) : (
+  <slot name="fallback" />
+)}
