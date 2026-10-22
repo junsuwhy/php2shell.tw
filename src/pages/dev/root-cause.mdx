@@ -4,7 +4,7 @@ title: 成因概念
 description: PHP2Shell 兩個 CVE 的成因概念：記憶體耗盡或致命錯誤中斷時留下半初始化或過期狀態，以及三個被點名的面向。
 lede: 只講概念與影響範圍：為什麼只能更新 PHP。不寫觸發方式或可重現的流程。
 hero: dev-root-cause
-checked: "2026-10-22"
+checked: "2026-10-23"
 sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
@@ -16,6 +16,8 @@ sources:
     url: https://www.imperva.com/blog/php2shell-vulnerability-updates/
   - title: Wiz：PHP2Shell
     url: https://www.wiz.io/blog/php2shell-php-rce
+  - title: 研究團隊官網 PHP2Shell（影響範圍，不含利用鏈）
+    url: https://www.php2shell.com/
   - title: JFrog：PHP2Shell all you need to know
     url: https://research.jfrog.com/post/php2shell-all-you-need-to-know-about-cve-2026-109618-and-cve-2026-109619/
 ---
@@ -58,6 +60,8 @@ OPcache 把編譯結果放在可重複使用的共享快取。請求若在錯誤
 致命錯誤留下的回溯資訊，可能在所屬記憶體釋放後仍被當成有效狀態。PHP 8.5 的官方暫時措施是 `fatal_error_backtraces=0` 並重啟所有 worker，只擋這條已確認的路徑。
 
 ## 影響面
+
+兩類後果：未驗證的遠端執行程式，以及讀取 PHP 行程記憶體。記憶體裡可能有其他請求或伺服器的密碼、驗證 token、API 金鑰、憑證。讀取記憶體不需要先達成 RCE。不需要應用程式帳號。不限 WordPress、Drupal、Joomla，連 Hello World 也算。WAF、CDN 與主機商規則不能取代更新。判斷步驟見[我受影響嗎？](/dev/am-i-affected/)。
 
 Calif 經 Sansec 列出曾展示未授權 RCE 的應用：Magento、WordPress、Drupal、Joomla、MediaWiki、Roundcube、phpMyAdmin、Nextcloud、Laravel、Symfony、WHMCS。這份清單說明影響面，不是說其他應用就沒事。
 

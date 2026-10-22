@@ -115,3 +115,17 @@
   role: "PHP 核心開發者（電腦王阿達轉述）"
   sources:
     - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+- id: "research-sites-patched-protected"
+  quote: "跑在最新已修補 PHP 版本上的網站，受到保護。"
+  quote_original: "Sites running the latest patched PHP releases are protected."
+  speaker: "研究團隊"
+  role: "php2shell.com（本站編譯）"
+  sources:
+    - "2026-10-21-php2shell-com-research-disclosure.md"
+- id: "research-upgrade-only-remediation"
+  quote: "升級 PHP 是唯一完整的補救。"
+  quote_original: "Upgrading PHP is the only complete remediation."
+  speaker: "研究團隊"
+  role: "php2shell.com（本站編譯）"
+  sources:
+    - "2026-10-21-php2shell-com-research-disclosure.md"

@@ -1,12 +1,16 @@
 ---
 layout: ../../layouts/DevDoc.astro
 title: 暫時緩解
-description: 無法立即升級 PHP 時的官方暫時緩解，以及「不要做」清單：RLIMIT_AS／RLIMIT_DATA、ini_set()、.user.ini 等。
-lede: 官方原話：There are no complete mitigations, updating is the only safe choice. 下面每一項都只降低特定路徑的曝險，不會讓系統變安全。
-checked: "2026-10-22"
+description: 無法立即升級 PHP 時的官方暫時緩解，以及更新後要回頭檢查的強化。每一項都寫能擋什麼、擋不了什麼、副作用。
+lede: 更新才是唯一完整修補。官方原話：There are no complete mitigations, updating is the only safe choice. 下面每一項都只降低特定路徑的曝險，不會讓系統變安全。
+checked: "2026-10-23"
 sources:
   - title: PHP.net 安全公告（2026-10-21，暫時緩解原文）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: GHSA-w8hw-w9fx-j79w（CVE-2026-109618，修補說明裡的硬性門檻）
+    url: https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w
+  - title: 研究團隊官網 PHP2Shell（暫時措施與更新後強化）
+    url: https://www.php2shell.com/
   - title: JFrog：PHP2Shell all you need to know
     url: https://research.jfrog.com/post/php2shell-all-you-need-to-know-about-cve-2026-109618-and-cve-2026-109619/
   - title: Sansec：PHP2Shell
@@ -17,40 +21,111 @@ sources:
     url: https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
 ---
 
+更新才是唯一完整修補。還不能更新時，下面是 PHP 官方與研究團隊列出的暫時措施。每一項都分開寫它能擋什麼、擋不了什麼、副作用。採用前先在和正式環境相近的設定裡測過。
+
 ## 先考慮下線
 
 英國 NCSC 的建議（WordPress 官方新聞稿也引用）：不能立刻完成緩解時，考慮讓系統下線，直到可以完整處理。不直接對網際網路開放（只走 VPN 或內網）也是過渡選項之一。這些都不是修補。
 
-## 針對 CVE-2026-109618
+## 暫時措施
 
-- **`memory_limit=-1`**，並用應用程式改不掉的方式設定，例如 PHP-FPM pool 或 Apache 設定裡的 `php_admin_value`。接著檢查沒有任何 pool、目錄或應用設定把有限值寫回去。底層的配置失敗仍可能走到漏洞路徑，所以這不是把漏洞關掉。
-- **調低 `post_max_size`**：不需要上傳的站設 8M，需要上傳的設 32M；`upload_max_filesize` 要小於 `post_max_size`。
-- **在網頁伺服器或 proxy 層限制請求**：解碼後的請求大小、欄位數、multipart 的 part 數、header 數與巢狀深度。沒有可用 `Content-Length` 的請求也要涵蓋。
-- **用容器或 cgroup 的記憶體限制**當可用性邊界，最好只停掉受影響的 worker。
+### 關掉 PHP 自己的有限記憶體上限，並用 cgroup 圍住
 
-## 針對 CVE-2026-109619
+設 `memory_limit=-1`，並用應用程式改不掉的方式設定，例如 PHP-FPM pool 或 Apache 設定裡的 `php_admin_value`。接著檢查沒有任何 pool、目錄或應用設定把有限值寫回去。研究團隊建議若採用這項，搭配 Linux cgroup v2 的 `memory.max`（或同等的作業系統機制），把資源消耗留在 PHP 行程裡。官方原本的說法是用容器或 cgroup 的記憶體限制當可用性邊界，最好只停掉受影響的 worker。
 
-- **`session.upload_progress.enabled=0`，並重啟所有 worker。** 必須寫在請求開始解析前就生效的位置：php.ini、PHP-FPM pool 或伺服器設定。只擋已確認的 session 路徑，擋不了 OPcache 與 backtrace 那些變體。
-- **PHP 8.5：`fatal_error_backtraces=0`，並重啟所有 worker。** 只擋已確認的 backtrace 路徑。
-- **移除**會在初始化完成前輸出診斷訊息的無效或棄用 per-request 設定。
-- **修掉**攻擊者碰得到的致命錯誤與執行逾時，包括 callback、上傳／匯入處理與清理過程中的失敗。
+- **能擋什麼：** 一些依賴 PHP 記憶體上限處理的路徑。研究團隊的用詞是「可以防止一部分」。
+- **擋不了什麼：** 底層配置失敗仍可能走到漏洞路徑。應用程式自己的大量配置、以及跟記憶體無關的觸發，都不在這項裡。這不是把漏洞關掉。
+- **副作用：** 記憶體耗盡改由作業系統處理。worker 可能被終止，請求中斷，伺服器的穩定度與可用性下降。多執行緒的部署裡，終止一個行程也可能打斷其他執行緒上正在跑的請求。無限記憶體本身就是可用性問題，所以這只是更新前的暫時做法。
+
+### 不要用 RLIMIT 代替
+
+不要改用 RLIMIT 的兩種限制（`RLIMIT_AS`、`RLIMIT_DATA`）當成記憶體上限。PHP 官方寫明，它們本身就可能造成漏洞所需要的配置失敗。研究團隊官網複述了同一句警告。
+
+- **能擋什麼：** 不能當成緩解。它不是另一種安全的記憶體上限。
+- **擋不了什麼：** 可能走到和這次漏洞相同的失敗路徑。
+- **副作用：** 行程在作業系統層被限制後，可能製造漏洞需要的那種配置失敗，而不是避開它。
+
+### 調低 post_max_size
+
+PHP 官方的暫時數字：不需要上傳的站把 post_max_size 設為 8M，需要上傳的設 32M；`upload_max_filesize` 要小於 post_max_size。研究團隊的說法較寬：降到和應用的上傳需求相容的值，並實測正常上傳。兩句一起用：官方數字是起點，仍要對你的上傳流程測過。
+
+另外在網頁伺服器或 proxy 層限制解碼後的請求大小、欄位數、multipart 的 part 數、header 數與巢狀深度。沒有可用 `Content-Length` 的請求也要涵蓋。
+
+- **能擋什麼：** 特定來源的記憶體壓力，包括過大的請求本文。
+- **擋不了什麼：** 其他仍由呼叫者控制、可以耗盡記憶體的路徑。
+- **副作用：** 正常的大檔上傳會被拒絕。電商結帳若依賴 multipart，在網頁伺服器層擋掉這種格式會影響上傳與部分結帳（Sansec）。AWS 同樣提醒，擋之前先評估對應用的影響。
+
+### 調低 max_input_nesting_level
+
+研究團隊建議在應用允許時調低 max_input_nesting_level。這個設定名稱出現在研究團隊官網，沒有出現在 php.net 短公告。官方短公告對應的句子是：在網頁伺服器或 proxy 限制巢狀深度。不要把 ini 名稱寫成官方原句。
+
+- **能擋什麼：** 過深的輸入結構帶來的一部分記憶體壓力。
+- **擋不了什麼：** 其他記憶體耗盡路徑。
+- **副作用：** 複雜表單可能需要較高的深度，調太低會讓合法表單送不出去。改完要測那些表單。
+
+### 關掉上傳進度
+
+`session.upload_progress.enabled=0`，並重啟所有 worker。必須寫在請求開始解析前就生效的位置：php.ini、PHP-FPM pool 或伺服器設定。研究團隊的前提是應用不依賴上傳進度。
+
+- **能擋什麼：** 已確認的 session 路徑。
+- **擋不了什麼：** OPcache 與 backtrace 那些變體。官方寫這只擋已確認的 session 路徑。
+- **副作用：** 依賴上傳進度顯示的功能會停。在程式裡用 `ini_set()` 或寫進 PHP-FPM 的 `.user.ini` 都來不及，請求那時已經解析完了。
+
+### 正式環境不要把錯誤印給訪客
+
+研究團隊建議正式環境把 display_errors 設為 0 並重啟受影響的 worker，避免 PHP 錯誤輸出被遠端看見。
+
+- **能擋什麼：** 額外的一條資訊外洩（錯誤訊息出現在回應裡）。
+- **擋不了什麼：** 漏洞本身。官方寫明，用 `display_errors`、調低 `error_reporting`、或在陳述式前加 `@`，都處理不了「初始化前的診斷」。問題不在訊息被看見，而在中斷發生的時機。
+- **副作用：** 畫面上不再出現 PHP 錯誤，除錯要改看日誌。正式環境本來就應該如此。
+
+### 關掉致命錯誤 backtrace
+
+PHP 8.5：`fatal_error_backtraces=0`，並重啟所有 worker。研究團隊的用詞是「在支援這個設定的地方」。
+
+- **能擋什麼：** 已確認的 backtrace 路徑。
+- **擋不了什麼：** 同一族漏洞的其他機制。
+- **副作用：** 致命錯誤時少了這份回溯，除錯資訊變少。8.5 以外沒有這條官方暫時措施。
+
+### 讓 worker 較常換班
+
+調低 PHP-FPM 的 pm.max_requests，讓 worker 較頻繁回收。JFrog 與研究團隊都提過。
+
+- **能擋什麼：** 降低損壞狀態跨請求留下來的機會。
+- **擋不了什麼：** 不靠多次請求的機制。不是修復。
+- **副作用：** worker 更常重啟，有效能代價。
+
+### SELinux 或 AppArmor
+
+在和應用相容的前提下，用 SELinux 或 AppArmor 限制 worker 的能力，以及執行其他程式。
+
+- **能擋什麼：** 失守之後能做的事變少。它約束影響。
+- **擋不了什麼：** 不能當成已經阻止所有遠端執行或記憶體外洩。漏洞還在。
+- **副作用：** 政策若和應用需要的權限衝突，正常功能會失敗。要先在測試環境確認。
 
 ## 不要做
 
-- **不要**改用 `RLIMIT_AS` 或 `RLIMIT_DATA` 限制記憶體。官方寫明，它們本身就可能造成漏洞所需要的配置失敗。
 - **不要**以為在程式裡用 `ini_set()` 關掉 `session.upload_progress.enabled` 就生效。那時請求早就解析完了。
 - **不要**以為寫進 PHP-FPM 的 `.user.ini` 就生效，理由同上。
-- **不要**以為 `display_errors=0`、調低 `error_reporting`、或在陳述式前加 `@`，能處理「初始化前的診斷」。問題不在訊息被看見，而在中斷發生的時機。
 - **不要**把 WordPress、Drupal、Joomla、Magento 的應用更新，或應用程式的維護模式，當成這次的修補或緩解。
-- **不要**把 WAF 當成修補。Cloudflare 自 2026-10-21 03:02 UTC（台灣時間 11:02）起對含免費方案在內的客戶預設上線規則，同時寫明仍須更新 PHP，而且已看到有人變造請求試圖避開規則。
-- **不要**把降低 `pm.max_requests` 當成修復。JFrog 說讓 worker 較早回收有幫助，但有效能代價，而且只是部分有效。
-- **不要**以為 SELinux 或 AppArmor 限制了網頁行程，漏洞就不存在；那只是縮小失守後的活動範圍。
+- **不要**把 WAF、CDN 或主機商的防護規則當成修補。研究團隊寫，涵蓋範圍視廠商與路徑而定。Cloudflare 自 2026-10-21 03:02 UTC（台灣時間 11:02）起對含免費方案在內的客戶預設上線規則，同時寫明仍須更新 PHP，而且已看到有人變造請求試圖避開規則。Vercel、Akamai 也各自有規則，直接打到源站的請求可能不在範圍裡。
 
 ## 電商與上傳功能
 
 Sansec 對電商的說法：若要臨時止血，可以在網頁伺服器層處理 `multipart/form-data`（會影響上傳與部分結帳流程），或改成唯讀、靜態的維護頁。AWS 同樣提醒，擋 multipart 之前先評估對應用的影響。
 
-## 修補之後記得還原
+<h2 id="after-upgrade">更新後的強化</h2>
 
-- 把 `memory_limit` 從 `-1` 改回應用真正需要的上限；無限記憶體本身會變成可用性問題。
-- WAF 規則可以留著當另一層，但不取代版本。
+這些是裝上修補、重啟 worker 之後要做的事。它們支持應用撐住更新後的行為，不代替修補本身。行動清單的對應步驟在[現在立刻做](/dev/checklist/)。
+
+研究團隊寫，PHP 公告描述修補新增一道硬性記憶體上限：到達時終止行程，shutdown handler 不會執行。請把這當成更新後要看的營運變化，尤其是程式靠收尾函式寫日誌、放開鎖或送出收尾工作的時候。先在測試環境看過。
+
+官方短公告（php.net 那則）沒有這段營運說明。GHSA-w8hw-w9fx-j79w 相符的部分是：除了較緩和的處理，還有一道較高的門檻會立刻結束行程，使收尾程序看不到無效狀態。本頁不寫那道門檻在程式裡怎麼實作。
+
+更新之後逐項檢查：
+
+- **`memory_limit`：** 連同請求大小限制和應用預期的記憶體用量一起看。暫時設成 `-1` 的，改回應用真正需要的上限，並照 PHP 最終建議。無限記憶體本身會變成可用性問題。
+- **`post_max_size`：** 維持在設定的記憶體預算之下，同時仍要完成合法上傳。這和更新前「先降到 8M／32M」是不同階段。
+- **`max_input_nesting_level`：** 限在應用需要的深度，複雜表單要再測一次。設定名稱的出處見上面的暫時措施。
+- **expose_php 設為 0：** 可選。減少回應裡的 PHP 版號。研究團隊寫明這不是 PHP2Shell 的修補。寫法是 `expose_php=0`。
+- **WAF 規則：** 可以留著當另一層，但不取代版本。

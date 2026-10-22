@@ -59,9 +59,15 @@ PHP 是很多網站的引擎。已知伺服器端語言的網站裡，69.3% 用�
 
 **Calif** 的 Ryan Austin 參加 OpenAI 資助的 Patch the Planet。基金會說他 7 月 30 日開始看；Sansec、電腦王阿達和衛報轉述則把「找到」或「開工」寫在 8 月 1 日。8 月 11 日他回報。同一天，OpenAI 自己的人也獨立回報了同一個根。Calif 執行長 Thai Duong 拿起電話打給基金會的 Volker Dusch。
 
-Austin 後來說，他沒有用一般人拿不到的模型，也沒有秘密工具。電腦王阿達引他的話：到今天，「了解你的目標」依然管用。模型是後來才上場，幫他把一種反覆出現的失敗模式找出第二個洞。鉅亨網編譯《華爾街日報》寫，他用的是 GPT-5.6 Sol。
+Austin 後來說，他沒有用一般人拿不到的模型，也沒有秘密工具。電腦王阿達引他的話：到今天，「了解你的目標」依然管用。鉅亨網編譯《華爾街日報》則寫他用的是 GPT-5.6 Sol。這句和他的自述並陳，見差異檔，不要合成。
 
-**Wiz**（已經是 Google 旗下）晚了幾週，但是獨立的。8 月 19 日，Sagi Tzadik 等人用 Wiz Atlas、Gemini 4 Argon 和 GPT-5.6 Sol 找到第一個問題；20 日 Drupal，21 日 WordPress，24 日回報 PHP。他們有一句被轉述得很廣的自評：一個研究者一個星期做完的事，以前要一個世界級團隊做幾個月。
+研究團隊聯合官網（`news/2026-10-21-php2shell-com-research-disclosure.md`）的署名是另一套：Wiz Research 的 Sagi Tzadik、Shir Tamari、Nir Ohfeld、Tomer Schwartz；OpenAI Codex Security 的 Amy Burnett；Calif 的 Ryan A.。基金會寫的是 Ryan Austin，以及 OpenAI 同日獨立回報、沒有個人姓名。兩套名字不要互相覆蓋。
+
+同一頁自述，Wiz Research 使用 Wiz Atlas、Gemini 4 Argon、GPT-5.6-Sol，Google 的 Gemini 團隊參與發現、協調與修補驗證。Wiz 部落格把第三個模型寫成 GPT-5.6 Sol（空格）。這是研究團隊自述。不寫這些模型如何被用來發展利用方式。
+
+php2shell 是他們給示範用組合程式取的名字，後來也指整個研究。不描述那支程式的內容，也不收官網上的示範影片。
+
+**Wiz**（已經是 Google 旗下）晚了幾週，但是獨立的。8 月 19 日找到第一個問題；20 日 Drupal，21 日 WordPress，24 日回報 PHP。他們有一句被轉述得很廣的自評：一個研究者一個星期做完的事，以前要一個世界級團隊做幾個月。
 
 9 月 18 日 OpenAI 又補了更多路徑。9 月 21 日 PHP 確認 Wiz 的報告，開始協調修補。原本大家約好先別說，等修補一起上桌。這叫禁運。
 

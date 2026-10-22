@@ -22,20 +22,27 @@
       by: "BleepingComputer 轉述"
     - claim: "2004 年 PHP 5 以來全部"
       by: "Ars Technica 轉述"
-  assessment: "研究者與 Sansec：程式可回溯到 PHP 5.4.0（2012）。Imperva：被認為可回溯到 5.4.0，並非每個版本都逐一驗證。PHP 6 從未作為正式版發行。官方公告沒有發布「每一個歷史版號都已驗證」的清單。"
+    - claim: "受影響版本可追溯到 PHP 5.4，修補前幾乎每個 PHP 版本都至少中一個問題"
+      by: "研究團隊官網 php2shell.com"
+    - claim: "PHP 5.4 與之後的預設設定"
+      by: "Vercel 安全公告"
+  assessment: "「可追溯到 5.4、幾乎每個版本都中」與「5.4 與之後的預設設定」是研究團隊和 Vercel 的說法。PHP 官方公告與 GHSA 列出的是各受支援分支低於修補版（8.2.35、8.3.36、8.4.27、8.5.12），並另為 7.4、8.0、8.1 提供最小化原始碼回移植。官方沒有「自 5.4 起每一個版號都已驗證」的清單。本站版本矩陣維持官方說法。研究者與 Sansec 另寫程式可回溯到 PHP 5.4.0（2012）；Imperva 提醒並非每個版本都逐一驗證。PHP 6 從未作為正式版發行。"
   sources:
     - "2026-10-21-0335-watchtowr-php2shell-faq.md"
     - "2026-10-21-0456-bleepingcomputer-php-warns-admins.md"
     - "2026-10-21-1012-arstechnica-php-maintainers-prepare.md"
     - "2026-10-21-sansec-php2shell-critical-rce.md"
     - "2026-10-21-2147-imperva-php2shell-oom-wrong-moment.md"
+    - "2026-10-21-php2shell-com-research-disclosure.md"
+    - "2026-10-21-vercel-php2shell-security-bulletin.md"
+    - "2026-10-21-2200-php-net-security-advisory.md"
   pending: false
 - id: "every-version-decade"
   topic: "「過去十年每一版都中」"
   claims:
     - claim: "過去十年發布的每個 PHP 版本，至少受其中一個漏洞影響"
       by: "Wiz"
-  assessment: "與「回溯到 2012 年的 5.4.0」時間長度不同。這是 Wiz 的研究結論；Imperva 提醒沒有逐版驗證。引用時兩句一起看，不要寫成官方已驗證的完整版本表。"
+  assessment: "與「回溯到 2012 年的 5.4.0」時間長度不同。這是 Wiz 的研究結論；Imperva 提醒沒有逐版驗證。研究團隊官網的「幾乎每個版本」比「過去十年」更寬，見「從哪一版開始有問題」。引用時一起看，不要寫成官方已驗證的完整版本表。"
   sources:
     - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
     - "2026-10-21-2147-imperva-php2shell-oom-wrong-moment.md"
@@ -142,12 +149,15 @@
 - id: "openai-reporter-name"
   topic: "OpenAI 回報者姓名"
   claims:
-    - claim: "Codex Security 的 Amy Burnett"
-      by: "本站整理時查到的說法；本站收錄的新聞摘要沒有這個人名"
-  assessment: "基金會只確認「OpenAI 於 8/11 獨立回報同一根因」。引用姓名時要註明，本站收錄的新聞裡還沒有出現。"
+    - claim: "OpenAI Codex Security 的 Amy Burnett"
+      by: "研究團隊官網 php2shell.com"
+    - claim: "OpenAI 的人同日獨立回報，公告沒有寫個人姓名"
+      by: "PHP 基金會"
+  assessment: "姓名以研究團隊官網為來源，不是 PHP 官方公告的用詞。基金會只確認「OpenAI 於 8/11 獨立回報同一根因」。不要把 Amy Burnett 寫成官方公告點名的人。"
   sources:
+    - "2026-10-21-php2shell-com-research-disclosure.md"
     - "2026-10-21-php-foundation-security-release-strengthening.md"
-  pending: true
+  pending: false
 - id: "root-cause"
   topic: "成因"
   claims:
@@ -163,11 +173,15 @@
   claims:
     - claim: "LCFR 是攻擊鏈開發者"
       by: "本站整理時查到指向 Tenable 的說法"
-  assessment: "蕃新聞有引 Tenable，沒有寫到 LCFR；本站收錄的 Tenable 常見問題摘要也沒有這個名字。基金會與原始研究點名的是 Calif（Ryan Austin）、OpenAI、Wiz。LCFR 是否另有角色待查證，不要寫進發現者名單。"
+    - claim: "Calif 署名 Ryan A.，連結到 x.com/lcfr_hax"
+      by: "研究團隊官網 php2shell.com"
+  assessment: "蕃新聞有引 Tenable，沒有寫到 LCFR；本站收錄的 Tenable 常見問題摘要也沒有這個名字。研究團隊官網把 Calif 寫成 Ryan A.，並連到 x.com/lcfr_hax，但沒有寫「LCFR 是攻擊鏈開發者」，也沒有寫這個人就是基金會與既有新聞裡的 Ryan Austin。不要把帳號代號寫進發現者名單取代 Ryan A.，也不要和 Ryan Austin 合併成同一人。"
   sources:
     - "2026-10-22-1115-yam-php2shell-devcore.md"
     - "2026-10-21-tenable-php2shell-faq.md"
     - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-21-php2shell-com-research-disclosure.md"
+    - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
   pending: true
 - id: "cve-org-status"
   topic: "cve.org 狀態"
@@ -211,6 +225,8 @@
   claims:
     - claim: "70%、七成，甚至「七成的網際網路」"
       by: "Wiz 標題與 CTWANT、香港01、AFR 等多家媒體"
+    - claim: "PHP powers approximately 70% of websites（沒有「已知伺服器端語言」的限定）"
+      by: "研究團隊官網 php2shell.com"
     - claim: "69%"
       by: "NBC"
   assessment: "W3Techs 的原句是：已知伺服器端語言的網站有 69.3% 使用 PHP。香港經濟日報保留了「已知伺服器端語言」這個限定。不要寫成全世界七成的網站，或七成的網際網路。"
@@ -221,6 +237,7 @@
     - "2026-10-22-0405-afr-websites-go-dark-ai-discovered-bug.md"
     - "2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md"
     - "2026-10-22-1010-hket-php-security-vulnerability.md"
+    - "2026-10-21-php2shell-com-research-disclosure.md"
   pending: false
 - id: "host-counts"
   topic: "有多少主機"
@@ -320,10 +337,46 @@
   claims:
     - claim: "PHP2Shell、php2shell、PHP4Shell"
       by: "ICSDA 記兩種叫法；Wiz 說他們把攻擊腳本命名為 php2shell"
-  assessment: "新聞與官方公告都用 PHP2Shell 指這兩個 CVE，PHP4Shell 只是別名。Huntress 的 John Hammond 說「2shell」慣例通常指一個請求就能拿到 shell；Imperva 則說真正走到遠端執行的複雜度高。命名習慣不是官方的攻擊難度評分。"
+    - claim: "php2shell 是示範用組合程式的名字，PHP2Shell 也指這整個研究"
+      by: "研究團隊官網 php2shell.com"
+  assessment: "新聞與官方公告都用 PHP2Shell 指這兩個 CVE，PHP4Shell 只是別名。研究團隊官網補充：php2shell 先是他們給示範用組合程式取的名字，後來也指整個研究。本站不描述那支程式的內容。Huntress 的 John Hammond 說「2shell」慣例通常指一個請求就能拿到 shell；Imperva 則說真正走到遠端執行的複雜度高。命名習慣不是官方的攻擊難度評分。"
   sources:
     - "2026-10-21-1357-icsda-php2shell-patch-released.md"
     - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
     - "2026-10-20-huntress-rapid-response-php2shell.md"
     - "2026-10-21-2147-imperva-php2shell-oom-wrong-moment.md"
+    - "2026-10-21-php2shell-com-research-disclosure.md"
   pending: false
+- id: "calif-display-name"
+  topic: "Calif 發現者怎麼署名"
+  claims:
+    - claim: "Ryan Austin"
+      by: "Calif 文章作者欄、PHP 基金會相關整理、鉅亨網"
+    - claim: "Ryan A."
+      by: "研究團隊官網 php2shell.com"
+  assessment: "兩邊沒有在同一句寫成同一個人。故事頁兩套名字並陳，不用官網的縮寫覆蓋既有的 Ryan Austin，也不把 Ryan Austin 寫回官網署名裡。"
+  sources:
+    - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md"
+    - "2026-10-21-php2shell-com-research-disclosure.md"
+  pending: true
+- id: "ai-model-attribution"
+  topic: "研究用了哪些 AI 模型、算在誰頭上"
+  claims:
+    - claim: "Ryan Austin 在 GPT-5.6 Sol 協助下發現這些漏洞"
+      by: "鉅亨網編譯《華爾街日報》"
+    - claim: "沒有用特殊工具，也沒有用一般人拿不到的模型"
+      by: "Calif 的 Ryan Austin 自述（該文與電腦王阿達）"
+    - claim: "Wiz Research 使用 Wiz Atlas、Gemini 4 Argon、GPT-5.6-Sol；Gemini 團隊參與"
+      by: "研究團隊官網自述"
+    - claim: "Wiz 使用 Wiz Atlas、Gemini 4 Argon、GPT-5.6 Sol（空格，沒有連字號）"
+      by: "Wiz 部落格"
+  assessment: "模型清單以各家自述為準，不要合成成「三組人都用同一批模型」。官網把三個模型算在 Wiz Research，並寫 Gemini 團隊參與；Wiz 部落格的第三個名字少一個連字號。鉅亨網把 GPT-5.6 Sol 寫在 Ryan Austin 身上，和他本人「沒有用一般人拿不到的模型」並陳。本站不寫這些模型如何被用來發展利用方式。"
+  sources:
+    - "2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md"
+    - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+    - "2026-10-21-php2shell-com-research-disclosure.md"
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+  pending: true

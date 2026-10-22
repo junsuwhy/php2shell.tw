@@ -286,6 +286,25 @@
     - "2026-10-21-php-foundation-security-release-strengthening.md"
   tags: ["官方", "修補"]
   importance: 3
+- id: "php2shell-com-published-2026-10-21"
+  at: "2026-10-21"
+  precision: "date-only"
+  title: "研究團隊聯合官網公開"
+  summary: "Wiz Research、OpenAI Codex Security、Calif 的聯合揭露頁 php2shell.com 於 10 月 21 日公開。頁面沒有發布鐘點。同日 Wiz 部落格（13:59:59 UTC，台灣 21:59）已連結此站，所以公開不晚於那個時刻，但不把部落格時間當成官網的發布鐘點。頁面上的示範影片不收。"
+  sources:
+    - "2026-10-21-php2shell-com-research-disclosure.md"
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+  tags: ["原始研究", "協調揭露"]
+  importance: 2
+- id: "corelight-detections-2026-10-21"
+  at: "2026-10-21"
+  precision: "date-only"
+  title: "Corelight 在協調揭露當天公開網路偵測"
+  summary: "Corelight 寫道，Zeek 與 Suricata 偵測是在協調揭露之前就做好，並在揭露當天與修補一起公開，供修補優先順序使用。頁面只標 10 月 21 日，沒有鐘點。這不是另一個「公開早於 14:00 UTC」的時刻。規則內容不轉述。"
+  sources:
+    - "2026-10-21-corelight-php2shell-detections.md"
+  tags: ["偵測", "協調揭露"]
+  importance: 2
 - id: "aws-widespread-exploitation-2026-10-21"
   at: "2026-10-21T14:00:00Z"
   precision: "approximate"

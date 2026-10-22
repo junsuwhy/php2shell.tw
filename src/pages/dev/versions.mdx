@@ -3,7 +3,7 @@ layout: ../../layouts/DevDoc.astro
 title: 版本矩陣與受影響 SAPI
 description: PHP2Shell 的官方修補版本、受影響 SAPI 風險排序，以及命令列 php 要不要算進盤點。
 lede: 官方點名所有服務網頁請求的安裝，Apache mod_php 最高。命令列的 php 沒有被保證絕對無關。
-checked: "2026-10-22"
+checked: "2026-10-23"
 sources:
   - title: PHP.net 安全公告：Critical remote code execution vulnerabilities, update now（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
@@ -15,6 +15,8 @@ sources:
     url: https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/
   - title: ICSDA：PHP2Shell 修補已釋出（繁中應變整理）
     url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
+  - title: 研究團隊官網 PHP2Shell（「幾乎每個版本」是他們的說法）
+    url: https://www.php2shell.com/
 ---
 import VersionMatrix from '../../components/dev/VersionMatrix.astro';
 import SapiRisk from '../../components/dev/SapiRisk.astro';
@@ -22,6 +24,8 @@ import SapiRisk from '../../components/dev/SapiRisk.astro';
 ## 版本矩陣
 
 <VersionMatrix />
+
+研究團隊官網另說，受影響版本可追溯到 PHP 5.4，修補前幾乎每個 PHP 版本都至少中一個問題。**這是研究團隊說法。** 上表是 PHP 官方仍在發布修補的分支。官方沒有「自 5.4 起每一個版號都已驗證」的清單，也另為 7.4、8.0、8.1 提供最小化原始碼回移植。不要用那句話改這張表。對照見[說法打架](/news/rumors/#affected-since)。
 
 <h2 id="sapi">受影響 SAPI 風險排序</h2>
 

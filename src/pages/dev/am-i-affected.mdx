@@ -21,8 +21,24 @@ sources:
     url: https://github.com/openai/php2shell-checker
   - title: OpenAI 官方 X 貼文（2026-10-21 16:35 UTC）
     url: https://x.com/OpenAI/status/2112945805686604033
+  - title: 研究團隊官網 PHP2Shell（影響範圍）
+    url: https://www.php2shell.com/
+  - title: Vercel：php2shell security bulletin
+    url: https://vercel.com/kb/bulletin/php2shell-security-bulletin
 ---
 import CommandBlock from '../../components/dev/CommandBlock.astro';
+
+## 這次能造成什麼
+
+兩類後果都在 PHP 本身，不在某一套網站程式。研究團隊的說法如下；成因用詞以 PHP 官方為準，見[成因概念](/dev/root-cause/)。
+
+- **未驗證就能執行程式。** 沒有帳號的人，有機會在受影響的伺服器上執行程式。個別變體的條件不同，這句說的是已示範的影響，不是每一種部署都同一條路。
+- **讀取 PHP 行程記憶體。** 裡面可能有其他請求或這台伺服器的密碼、驗證 token、API 金鑰、憑證。這件事不需要先達成遠端執行程式，所以「沒有被植入程式」不等於祕密還在。
+- **不限 WordPress、Drupal、Joomla。** 那三個是示範時用的代表。連最簡單的 Hello World，只要跑在受影響的 PHP 上，也算。常見軟體還包括 Moodle、Nextcloud、Laravel、Symfony、MediaWiki。
+- **不需要應用程式帳號。** 已示範的遠端執行與記憶體外洩都沒有先登入。
+- **WAF、CDN、主機商規則不能取代更新。** 這些是更新前的暫時層，涵蓋範圍視廠商與路徑而定。直接打到源站的請求，可能根本不經過那層規則。
+
+研究團隊另說受影響版本可追溯到 PHP 5.4，修補前幾乎每個版本都至少中一個。這是研究團隊說法，不是官方逐版清單。對照時用[版本矩陣](/dev/versions/)。
 
 ## 先問：它會不會被網頁請求碰到？
 

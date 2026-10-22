@@ -117,8 +117,8 @@
   term: "WAF"
   aliases: ["waf", "Web Application Firewall"]
   plain: "站在餐廳門口幫忙擋可疑點菜單的過濾器；多一層看守，不能取代把主廚換掉。"
-  note: "Web Application Firewall。Cloudflare 自 2026-10-21 03:02 UTC 對免費與付費客戶預設上線規則，仍必須更新 PHP。已看到有人變造請求試圖避開規則。"
-  see: ["RCE"]
+  note: "Web Application Firewall。Cloudflare 自 2026-10-21 03:02 UTC 對免費與付費客戶預設上線規則，仍必須更新 PHP。已看到有人變造請求試圖避開規則。研究團隊寫，WAF、CDN 或主機商規則不能取代更新。"
+  see: ["RCE", "CDN"]
 - id: "embargo"
   term: "禁運"
   aliases: ["embargo", "Embargo"]
@@ -207,8 +207,68 @@
   term: "cgroup"
   aliases: ["cgroups", "control group"]
   plain: "Linux 用來規定一組行程最多能用多少記憶體與處理器時間的圍欄。"
-  note: "官方建議用容器或 cgroup 的記憶體限制當可用性邊界，最好只停掉受影響的 worker。不要改用 RLIMIT_AS 或 RLIMIT_DATA；官方寫明它們本身就可能造成漏洞所需要的配置失敗。"
+  note: "官方建議用容器或 cgroup 的記憶體限制當可用性邊界，最好只停掉受影響的 worker。研究團隊進一步寫：若暫時把 PHP 的 memory_limit 設成 -1，應搭配 cgroup v2 的 memory.max，把耗盡時的影響留在 PHP 行程裡。不要改用 RLIMIT。"
+  see: ["OOM", "RLIMIT"]
+- id: "rlimit"
+  term: "RLIMIT"
+  aliases: ["RLIMIT_AS", "RLIMIT_DATA", "rlimit"]
+  plain: "作業系統給一支程式的記憶體配額。這次不能拿它來代替 PHP 自己的記憶體上限。"
+  note: "RLIMIT_AS 與 RLIMIT_DATA 是行程的位址空間與資料段上限。PHP 官方寫明，拿它們代替 memory_limit 可能造成漏洞所需要的配置失敗。研究團隊官網同樣說不要這樣代替。"
+  see: ["cgroup", "OOM"]
+- id: "cdn"
+  term: "CDN"
+  aliases: ["cdn", "內容傳遞網路"]
+  plain: "幫網站擋在前面、就近送出頁面的服務。多一層看守，不能代替更新 PHP。"
+  note: "Content Delivery Network。研究團隊寫，CDN、WAF 或主機商的規則視廠商與路徑而定，不能取代更新 PHP。Vercel、Cloudflare、Akamai 都有自己的規則，直接打到源站的請求可能不在涵蓋範圍。"
+  see: ["WAF"]
+- id: "selinux"
+  term: "SELinux"
+  aliases: ["selinux"]
+  plain: "Linux 上一套規定程式最多能做哪些事的門禁。它縮小失守後的活動範圍，不是把洞補上。"
+  note: "研究團隊建議在應用容許時用 SELinux 限制 worker 的能力，以及執行其他程式。它約束影響，不能當成已阻止所有遠端執行或記憶體外洩。政策過嚴可能讓正常功能失敗。"
+  see: ["AppArmor", "worker"]
+- id: "apparmor"
+  term: "AppArmor"
+  aliases: ["apparmor"]
+  plain: "另一套 Linux 門禁，作用和 SELinux 同類：限制程式能碰什麼，不是修補本身。"
+  note: "研究團隊把 AppArmor 和 SELinux 並列。能限制 worker 的能力與執行其他程式，不能取代更新，也可能跟應用所需的權限衝突。"
+  see: ["SELinux", "worker"]
+- id: "expose-php"
+  term: "expose_php"
+  aliases: ["expose-php", "expose php"]
+  plain: "要不要在回應裡告訴別人這台主機在跑 PHP。關掉只是少露一句，不是修補。"
+  note: "設成 0 可減少 PHP 版號外洩。研究團隊把它標成更新後的可選強化，明確寫這不處理 PHP2Shell。"
+  see: ["X-Powered-By"]
+- id: "shutdown-handler"
+  term: "shutdown handler"
+  aliases: ["shutdown handlers", "收尾函式"]
+  plain: "請求或行程結束前，程式還想做的最後一件事，例如寫日誌或放開鎖。"
+  note: "研究團隊寫，修補新增的硬性記憶體上限到達時會終止行程，shutdown handler 不會執行。官方 GHSA 相符的部分是較高的那一道門檻會立刻結束行程。依賴收尾函式的應用要在更新後看過這個行為變化。"
+  see: ["OOM", "worker"]
+- id: "post-max-size"
+  term: "post_max_size"
+  aliases: ["post-max-size"]
+  plain: "一次送出的表單或上傳，PHP 願意收下的總大小。"
+  note: "暫時緩解時，PHP 官方建議不需上傳的站設 8M、需要上傳的設 32M，且 upload_max_filesize 要更小。研究團隊另說更新後仍應讓它低於記憶體預算，並實測正常上傳。調低會擋掉過大的正常上傳。"
   see: ["OOM"]
+- id: "max-input-nesting"
+  term: "max_input_nesting_level"
+  aliases: ["max-input-nesting-level"]
+  plain: "表單可以套幾層。層數愈高，PHP 要處理的結構愈深。"
+  note: "研究團隊建議降到應用真正需要的深度，複雜表單要實測。這個設定名稱出現在研究團隊頁，沒有出現在 php.net 短公告。官方短公告說的是在網頁伺服器或 proxy 限制巢狀深度。它只減少特定的記憶體壓力。"
+  see: ["post_max_size"]
+- id: "pm-max-requests"
+  term: "pm.max_requests"
+  aliases: ["pm-max-requests", "pm.max_requests"]
+  plain: "一位主廚連續服務多少桌之後就換班。換得愈勤，上一桌留下的殘局愈不容易留到很後面。"
+  note: "PHP-FPM 讓 worker 處理這麼多個請求後回收。研究團隊與 JFrog 都說調低可以降低損壞狀態跨請求留下來的機會，但有效能代價，而且不管不靠多次請求的機制。不是修補。"
+  see: ["PHP-FPM", "worker"]
+- id: "multipart"
+  term: "multipart"
+  aliases: ["multipart/form-data"]
+  plain: "瀏覽器一次送出很多塊資料的格式，上傳檔案常用它。"
+  note: "調查時可留意異常的 multipart 請求之後，緊接著 memory limit 錯誤或連續 HTTP 500。這只是調查訊號，不能單獨證明遭到利用，也不能拿來當測試請求。在網頁伺服器層擋掉這種格式會影響正常上傳與部分結帳。"
+  see: ["PHPSESSID", "OOM"]
 - id: "distro"
   term: "發行版"
   aliases: ["distro", "distribution", "Linux 發行版"]

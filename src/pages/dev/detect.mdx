@@ -3,10 +3,14 @@ layout: ../../layouts/DevDoc.astro
 title: 偵測與應變
 description: PHP2Shell 的偵測訊號、懷疑失守時的事件應變清單，以及日誌保全的做法。
 lede: 下面的訊號都不足以單獨證明遭到利用；完全沒看到，也不代表沒事。調查視窗從 2026-10-17 起算。
-checked: "2026-10-22"
+checked: "2026-10-23"
 sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: 研究團隊官網 PHP2Shell（調查訊號與限制）
+    url: https://www.php2shell.com/
+  - title: Wiz：PHP2Shell
+    url: https://www.wiz.io/blog/php2shell-php-rce
   - title: Huntress：PHP2Shell leaked critical PHP vulnerabilities
     url: https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
   - title: AWS：Amazon threat intelligence identifies PHP2Shell exploitation prior to public disclosure in MadPot
@@ -28,15 +32,15 @@ next:
 
 Amazon 的蜜罐 MadPot 在 2026-10-17 就看到利用嘗試，比公開早四天。AWS 寫明不要假設公開日就是最早的利用日。修補發布當下（2026-10-21 14:00 UTC，台灣時間 22:00）基金會說還沒看到可運作的公開 exploit，但 AWS 稱當天 02:00 UTC（台灣時間 10:00）起已看到多份 PoC。不要用「公告當時說沒有」把查日誌延到下週。
 
-Wiz 提醒：應用層的存取日誌可能幾乎是空的，因為漏洞可以在應用程式碼之前就被觸發。
+Wiz 與研究團隊都提醒：應用層的存取日誌可能幾乎是空的，因為路徑可以在應用程式碼之前就被碰到。記憶體外洩可能不執行任何惡意程式，所以只盯著「有沒有新的程式被跑起來」會漏看。
 
 ## 偵測訊號
 
-值得對一下的現象：
+研究團隊列出的調查訊號如下。它們和後面的行程、檔案訊號一樣，**不能單獨證明被入侵**；完全沒看到，也不代表沒事。不要把這些現象做成拿去對正式網站試的請求。
 
 - 異常的 multipart 請求之後，緊接著 memory-limit 錯誤或連續的 HTTP 500。
-- 回應裡出現異常巨大、或格式不像正常 session id 的 `PHPSESSID` cookie。
-- 無法解釋的 worker 崩潰或重啟。
+- 回應裡出現異常巨大、或格式不像正常 session id 的 PHPSESSID cookie。
+- 無法解釋的 PHP worker 當掉或重啟。
 - PHP 相關父行程（`php-fpm`、`php-cgi`、`php-cgi.exe`、`httpd`、`apache2`）衍生出 `sh`、`bash`、`cmd`、`powershell`、`python`、`perl`、`curl`、`wget`、`nc`、`certutil.exe` 等子行程。
 - 指令列出現 `/dev/tcp`、`mkfifo`。
 - 網頁伺服器行程在執行 `whoami`、`id`、`uname`。

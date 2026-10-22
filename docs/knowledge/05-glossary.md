@@ -51,5 +51,14 @@ sources:
 | 在野利用 | 實驗室以外，真實網路上已經有人在用這個漏洞。蜜罐看到，和客戶機器上已經失守，是兩件不同的事。 |
 | KEV | CISA 的已知被利用漏洞目錄。CVE-2024-4577 與 CVE-2019-11043 在上面；截至蕃新聞引 Tenable 整理時，這兩個新 CVE 還沒進去。 |
 | X-Powered-By | 有些網站在回應裡自報「我是 PHP 某版」。Mallory 的 59% 統計靠的就是這個標頭，沒自報的主機不會進分母。 |
-| cgroup | Linux 用來限制一組行程能用多少記憶體與 CPU 的機制。官方建議用它當「記憶體上限的邊界」，並且不要改用 `RLIMIT_AS`／`RLIMIT_DATA`。 |
+| cgroup | Linux 用來限制一組行程能用多少記憶體與 CPU 的機制。官方建議用它當「記憶體上限的邊界」。若暫時把 memory_limit 設成 -1，研究團隊建議搭配 cgroup v2 的 memory.max。不要改用 RLIMIT。 |
+| RLIMIT | 作業系統給行程的記憶體配額。`RLIMIT_AS` 與 `RLIMIT_DATA` 不能拿來代替 PHP 的 memory_limit，官方寫明它們可能造成漏洞所需要的配置失敗。 |
+| CDN | 幫網站擋在前面、就近送出內容的服務。和 WAF、主機商規則一樣，不能代替更新 PHP。 |
+| SELinux／AppArmor | Linux 上限制程式能做哪些事的門禁。能縮小失守後的活動範圍，不是修補，也可能讓正常功能失敗。 |
+| expose_php | 設成 0 可減少回應裡的 PHP 版號。研究團隊標成可選強化，不是這次的修補。 |
+| shutdown handler | 請求或行程結束前要做的收尾。研究團隊寫，硬性記憶體上限到達時行程被終止，這類收尾不會執行。 |
+| post_max_size | 一次請求 PHP 願意收下的總大小。官方暫時數字是不需上傳 8M、需要上傳 32M。 |
+| max_input_nesting_level | 輸入可以套幾層。研究團隊建議降到應用需要的深度。這個名稱不在 php.net 短公告裡；官方說的是在網頁伺服器或 proxy 限制巢狀深度。 |
+| pm.max_requests | PHP-FPM 讓 worker 處理多少請求後回收。調低有幫助也有效能代價，不是修補。 |
+| multipart | 一次送出很多塊資料的格式，上傳常用。異常的這種請求之後出現記憶體錯誤或連續 HTTP 500，只是調查訊號。 |
 | 發行版 | 把 Linux、PHP 與其他套件打包出售後維護的廠商或社群，例如 Debian、Ubuntu、RHEL。修補常常走它們的套件公告。 |

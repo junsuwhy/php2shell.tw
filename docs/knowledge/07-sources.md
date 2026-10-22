@@ -36,7 +36,7 @@ sources:
 | --- | --- | --- | --- |
 | Calif | `news/2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md` | https://calif.io/php2shell/ | 2004／2020 的歷史、Ryan Austin 對方法的自述 |
 | Wiz | `news/2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md` | https://www.wiz.io/blog/php2shell-php-rce | 三個面向的後果、記憶體讀取、8 月時間軸、AI 工具名稱 |
-| php2shell.com | Wiz 文內連結；本庫**沒有**單獨的新聞摘要 | https://www.php2shell.com/ | 修補後的硬性記憶體上限、`expose_php`、SELinux／AppArmor、`pm.max_requests`。逐條沒有收進 news，知識庫依已查證事實引用，並標成活動網站 |
+| php2shell.com | `news/2026-10-21-php2shell-com-research-disclosure.md` | https://www.php2shell.com/ | 研究團隊聯合揭露頁：影響、暫時緩解、更新後強化、調查訊號、署名與模型自述。示範影片與利用鏈不收 |
 
 ## 政府機關
 
