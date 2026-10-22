@@ -1,8 +1,121 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import BasicPage from '../../components/basic/BasicPage.astro';
+
+interface Choice { href: string; label: string; hint?: string }
+
+const q1: Choice[] = [
+  { href: '#q2', label: '我（或同事）自己登入後台管', hint: '有主機商給的帳號，或網站後台的帳號' },
+  { href: '/basic/systems/outsourced/', label: '外包廠商或資訊公司幫我管', hint: '網站有問題時，你會打給某家公司' },
+  { href: '/basic/systems/shop/#hosted', label: '我用開店平台開的網路商店', hint: '例如 Shopify 這類，付月費就能開店的平台' },
+  { href: '/basic/systems/outsourced/#unknown', label: '我不知道', hint: '沒關係，我們從找出負責人開始' },
+];
+
+const q2: Choice[] = [
+  { href: '/basic/systems/wordpress/', label: 'WordPress', hint: '左邊一排黑色選單，有「文章」「外掛」' },
+  { href: '/basic/systems/drupal/', label: 'Drupal', hint: '上方有「內容」「結構」「外觀」「報告」' },
+  { href: '/basic/systems/joomla/', label: 'Joomla', hint: '有「系統」「使用者」「選單」「元件」' },
+  { href: '/basic/systems/shop/', label: '網路商店系統', hint: 'WooCommerce、Magento 等，有商品和訂單管理' },
+  { href: '/basic/systems/cpanel/', label: 'cPanel 主機控制台', hint: '主機商給的後台，一格一格的圖示' },
+  { href: '/basic/systems/plesk/', label: 'Plesk 主機面板', hint: '主機商給的後台，左邊有「網站與網域」' },
+  { href: '/basic/systems/outsourced/#unknown', label: '都不像，或我不確定', hint: '帶你找出該問誰' },
+];
 ---
-<Base title="檢查精靈" persona="basic">
-  <h1>檢查精靈</h1>
-  <Stub purpose="回答幾個問題，找到你該看的那一頁" />
-</Base>
+<BasicPage
+  title="檢查精靈"
+  heading="我的網站該看哪一頁？"
+  description="回答兩個問題：網站是誰在管、用什麼後台，就能找到你該看的那一頁。"
+  lead="回答兩個問題，就能找到你該看的那一頁。每個選項都有去處，選「不知道」也可以。"
+  image="basic-check"
+  back={{ href: '/basic/', label: '回到非技術區首頁' }}
+  next={[
+    { href: '/basic/ask-your-vendor/', label: '直接拿訊息去問主機商或廠商', note: '想先問再說的話' },
+    { href: '/basic/faq/', label: '看常見問題' },
+  ]}
+>
+  <div class="wizard" data-wizard>
+    <section class="q" id="q1" aria-labelledby="q1-title" data-step>
+      <p class="q__no">問題 <span class="num">1</span>／<span class="num">2</span></p>
+      <h2 id="q1-title">網站平常是誰在管？</h2>
+      <ul class="choices">
+        {q1.map((c) => (
+          <li>
+            <a class="choice" href={c.href}>
+              <span class="choice__label">{c.label}</span>
+              {c.hint && <span class="choice__hint">{c.hint}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="q" id="q2" aria-labelledby="q2-title" data-step>
+      <p class="q__no">問題 <span class="num">2</span>／<span class="num">2</span></p>
+      <h2 id="q2-title" tabindex="-1">登入後台，看到的是哪一種？</h2>
+      <p>不確定的話，挑最像的那一個；每一頁都會告訴你下一步。</p>
+      <ul class="choices">
+        {q2.map((c) => (
+          <li>
+            <a class="choice" href={c.href}>
+              <span class="choice__label">{c.label}</span>
+              {c.hint && <span class="choice__hint">{c.hint}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="q__back"><a href="#q1" data-back>← 回到問題 1</a></p>
+    </section>
+  </div>
+</BasicPage>
+
+<script>
+  // 沒有 JavaScript 時，兩題都顯示、靠頁內連結跳轉；有 JavaScript 時一次只顯示一題。
+  const wizard = document.querySelector<HTMLElement>('[data-wizard]');
+  if (wizard) {
+    const steps = Array.from(wizard.querySelectorAll<HTMLElement>('[data-step]'));
+    const show = (id: string, focus: boolean) => {
+      const target = steps.find((s) => s.id === id) ?? steps[0];
+      steps.forEach((s) => { s.hidden = s !== target; });
+      if (focus) target.querySelector<HTMLElement>('h2')?.focus();
+    };
+    show(location.hash.slice(1), false);
+    wizard.addEventListener('click', (event) => {
+      const link = (event.target as HTMLElement).closest('a');
+      const href = link?.getAttribute('href') ?? '';
+      if (!href.startsWith('#')) return;
+      event.preventDefault();
+      history.pushState(null, '', href);
+      show(href.slice(1), true);
+    });
+    window.addEventListener('popstate', () => show(location.hash.slice(1), false));
+  }
+</script>
+
+<style>
+  .wizard { display: grid; gap: 32px; }
+  .q { display: grid; gap: 16px; }
+  .q__no {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--floor-ink-soft);
+  }
+  .q h2 { margin-top: 0; }
+  .q h2:focus { outline: none; }
+  .choices {
+    list-style: none;
+    padding: 0 !important;
+  }
+  .choice {
+    display: grid;
+    gap: 2px;
+    padding: 16px 20px;
+    min-height: 56px;
+    border-radius: 14px;
+    background: #fff;
+    border: 3px solid transparent;
+    text-decoration: none;
+  }
+  .choice:hover, .choice:focus-visible { border-color: var(--line-basic); }
+  .choice__label { font-weight: 800; font-size: 1.1875rem; }
+  .choice__hint { font-size: 1rem; color: var(--floor-ink-soft); }
+  .q__back { font-size: 1rem; }
+</style>
