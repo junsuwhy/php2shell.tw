@@ -38,7 +38,9 @@ export const areaNav: Record<PersonaId, AreaNavData> = {
     id: 'basic',
     label: '非技術區',
     items: [
-      { label: '總覽', href: '/basic/' },
+      { label: '首頁', href: '/basic/' },
+      { label: '先做什麼', href: '/basic/act/' },
+      { label: '發生什麼事', href: '/basic/what-happened/' },
       { label: '檢查我的網站', href: '/basic/check/' },
       {
         label: '各系統',
@@ -59,7 +61,8 @@ export const areaNav: Record<PersonaId, AreaNavData> = {
     id: 'dev',
     label: '開發者區',
     items: [
-      { label: '總覽', href: '/dev/' },
+      { label: '首頁', href: '/dev/' },
+      { label: '技術摘要', href: '/dev/overview/' },
       { label: '立刻做', href: '/dev/checklist/' },
       {
         label: '影響判斷',
@@ -111,7 +114,8 @@ export const areaNav: Record<PersonaId, AreaNavData> = {
     id: 'news',
     label: '吃瓜區',
     items: [
-      { label: '懶人包', href: '/news/' },
+      { label: '首頁', href: '/news/' },
+      { label: '懶人包', href: '/news/brief/' },
       { label: '前因後果', href: '/news/story/' },
       { label: '時間軸', href: '/news/timeline/' },
       { label: '新聞牆', href: '/news/wall/' },

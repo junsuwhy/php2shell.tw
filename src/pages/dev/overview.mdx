@@ -1,8 +1,7 @@
 ---
 layout: ../../layouts/DevDoc.astro
-title: PHP2Shell 技術總覽
+title: 技術摘要
 description: PHP2Shell（CVE-2026-109618、CVE-2026-109619）給工程師的 TL;DR，以及版本、修補、緩解該從哪一頁開始。
-hero: dev-hub
 checked: "2026-10-22"
 sources:
   - title: PHP.net 安全公告：Critical remote code execution vulnerabilities, update now（2026-10-21）
@@ -16,16 +15,16 @@ sources:
   - title: ICSDA：PHP2Shell 修補已釋出（繁中應變整理）
     url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
 next:
-  - href: /basic/
+  - href: /basic/what-happened/
     label: 要跟老闆解釋？丟這頁給他
     note: 非技術版的說明，以及該找誰、要確認什麼。
 ---
-import { facts } from '../../lib/data';
+import { facts, releaseClock } from '../../lib/data';
 
 ## TL;DR
 
 - 兩個 PHP 核心漏洞：<a href={facts.cves[0].advisory}>{facts.cves[0].id}</a>（{facts.cves[0].title}）與 <a href={facts.cves[1].advisory}>{facts.cves[1].id}</a>（{facts.cves[1].title}），官方 CVSS v4.0 都是 {facts.cves[0].cvss_v4}。
-- 官方於 2026-10-21 14:00 UTC（台灣時間 22:00）發布修補。所有服務網頁請求的 PHP 安裝都要假設有風險，Apache mod_php 最高。
+- 官方於 {releaseClock.utc} UTC（台灣時間 {releaseClock.taipeiShort}）發布修補。所有服務網頁請求的 PHP 安裝都要假設有風險，Apache mod_php 最高。
 - 漏洞可以在應用程式碼開始之前就被觸發，WordPress、Drupal 等應用本身的更新**不是**這次的修補，只能更新 PHP。
 - 官方原話：There are no complete mitigations, updating is the only safe choice. 暫時緩解只能降低特定路徑的曝險。
 - 更新之後要**重啟所有 worker**，再向正在接流量的行程確認版號。

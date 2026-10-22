@@ -42,9 +42,26 @@ test('每頁只標第一次，並在段落下方輸出註解', () => {
   assert.ok(code.indexOf('gl-note-worker') < code.indexOf('第二段'));
 });
 
+test('註解是預設收合的 details，summary 列出正文裡的名詞', () => {
+  const code = compile('第一段提到 RCE 與 worker。\n');
+  assert.match(code, /details: "details"/);
+  assert.match(code, /summary: "summary"/);
+  assert.match(code, /_components\.details/);
+  assert.match(code, /_components\.summary/);
+  assert.equal(code.includes('_components.aside'), false);
+  assert.match(code, /children: "註：RCE、worker"/);
+  assert.equal(code.includes('"open"'), false);
+  assert.match(code, /id: "gl-term-rce"/);
+  assert.match(code, /"aria-describedby": "gl-note-rce"/);
+  assert.match(code, /id: "gl-note-rce"/);
+  // summary 在註解的 dl 之前，詞的 id 仍在 dd 上。
+  assert.ok(code.indexOf('註：RCE、worker') < code.indexOf('className: "glossary-note__list"'));
+});
+
 test('別名命中時以別名標註、註解列出正式名稱', () => {
   const code = compile('這是遠端程式碼執行的問題。\n');
   assert.match(code, /children: "遠端程式碼執行（RCE）"/);
+  assert.match(code, /children: "註：遠端程式碼執行"/);
 });
 
 test('程式碼、標題、連結內不標註，也不觸發註解', () => {

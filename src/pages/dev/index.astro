@@ -1,0 +1,99 @@
+---
+import CampaignLanding from '../../components/CampaignLanding.astro';
+import { facts, releaseClock } from '../../lib/data';
+
+const ids = facts.cves.map((c) => c.id).join('、');
+const sameScore = facts.cves.every((c) => c.cvss_v4 === facts.cves[0].cvss_v4);
+const cvss = sameScore
+  ? `CVSS v4.0 ${facts.cves[0].cvss_v4}`
+  : facts.cves.map((c) => `${c.id} CVSS v4.0 ${c.cvss_v4}`).join('、');
+const platforms = [
+  { href: '/dev/fix/debian/', label: 'Debian' },
+  { href: '/dev/fix/ubuntu/', label: 'Ubuntu' },
+  { href: '/dev/fix/rhel/', label: 'RHEL' },
+  { href: '/dev/fix/alpine/', label: 'Alpine' },
+  { href: '/dev/fix/windows/', label: 'Windows' },
+  { href: '/dev/fix/macos/', label: 'macOS' },
+  { href: '/dev/fix/docker/', label: 'Docker' },
+  { href: '/dev/fix/panels/', label: '控制台' },
+];
+---
+<CampaignLanding
+  persona="dev"
+  title="更新 PHP，重啟 worker，驗證版號。"
+  description={`${ids}，${cvss}。更新到已修補版本、重啟 worker、再驗證版號。`}
+  hero="dev-hub"
+  heading="更新 PHP，重啟 worker，驗證版號。"
+  actionsLabel="修補行動"
+  actions={[
+    { href: '/dev/checklist/', label: '立刻修補', primary: true },
+    { href: '/dev/am-i-affected/', label: '我受影響嗎？' },
+    { href: '/dev/mitigation/', label: '今天還不能升級' },
+  ]}
+>
+  <p slot="sub" class="sub">
+    <span class="sub__line">{ids}，{cvss}。</span>
+    <span class="sub__line">修補於 <span class="num">{releaseClock.utc} UTC</span>／台灣 <span class="num">{releaseClock.taipeiShort}</span></span>
+  </p>
+  <ul slot="heroExtra" class="chips" aria-label="已修補版本">
+    {facts.fixed.map((item) => <li>{item.version}</li>)}
+  </ul>
+  <p slot="strip" class="platforms">
+    <span class="platforms__k">選你的平台：</span>
+    {platforms.map((item, i) => (
+      <span class="platforms__pair">
+        {i > 0 && <span aria-hidden="true">・</span>}
+        <a href={item.href}>{item.label}</a>
+      </span>
+    ))}
+  </p>
+</CampaignLanding>
+
+<style>
+  .sub { container-type: inline-size; }
+  .sub__line {
+    display: block;
+    white-space: nowrap;
+    /* 較長的那行（兩個 CVE 加 CVSS）在 17px 約 428px。窄欄用容器寬度把字縮到仍是一行。 */
+    font-size: min(1.0625rem, 3.55cqi);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .chips li {
+    padding: 2px 10px;
+    border: 2px solid var(--line-dev);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--on-line);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.15em 0;
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 16px var(--gutter) 36px;
+    font-size: 0.9375rem;
+    line-height: 2;
+    color: var(--floor-ink-soft);
+  }
+  .platforms__k { margin-right: 0.2em; font-weight: 800; }
+  .platforms__pair { white-space: nowrap; }
+  .platforms a { font-weight: 800; color: var(--floor-ink); }
+  .platforms a:focus-visible {
+    outline: 3px solid var(--line-dev);
+    outline-offset: 3px;
+  }
+</style>

@@ -125,7 +125,8 @@ const { title, description, lede, hero, checked, sources, next = [] } = Astro.pr
     border-left: 4px solid var(--alert);
     background: #fff;
   }
-  .dev-doc__body :global(.glossary-note) { background: #f4f5f6; }
+  .dev-doc__body :global(.glossary-note) { background: transparent; }
+  .dev-doc__body :global(.glossary-note[open]) { background: #f4f5f6; }
   .dev-doc__body :global(table) {
     display: block;
     overflow-x: auto;
