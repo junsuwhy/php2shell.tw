@@ -21,7 +21,7 @@ const unconfirmed = outages.filter((o) => !o.data.php_confirmed).length;
   <article class="page">
     <header class="page__head">
       <h1>全球關站名單</h1>
-      <p>修補前後，許多網站先拔插頭再說。<strong>關站多半是預防，不代表已經被駭</strong>——Mashable 說得很白：把服務關掉，是為了不要被駭。</p>
+      <p>修補前後，許多網站先拔插頭再說。<strong>關站多半是預防，不代表已經被駭</strong>。Mashable 說得很白：把服務關掉，是為了不要被駭。</p>
       <p>共 <span class="num">{outages.length}</span> 筆。其中 <span class="num">{unconfirmed}</span> 筆是「同一時間也出了狀況」，但來源沒有證實與 PHP 有關，會另外標示，請不要把它們當成已確認名單轉傳。</p>
       <nav aria-label="名單分類">
         <ul class="toc">

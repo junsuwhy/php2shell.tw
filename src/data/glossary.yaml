@@ -191,6 +191,12 @@
   plain: "美國官方的「已經有人在用」漏洞名冊；沒被寫上去，不代表這次可以慢慢來。"
   note: "CISA 的已知被利用漏洞目錄。CVE-2024-4577 與 CVE-2019-11043 已列入。截至蕃新聞引 Tenable 整理時，CVE-2026-109618 與 CVE-2026-109619 尚未列入。沒進目錄只表示那個時間點的狀態。"
   see: ["在野利用", "CVE"]
+- id: "codex"
+  term: "Codex"
+  aliases: ["codex"]
+  plain: "OpenAI 做的程式代理。這次他們附了一份技能，用來幫忙看 PHP 版號。"
+  note: "官方 X 帳號於 2026-10-21 16:35 UTC 說，不確定網站是否受影響時，可以把 Codex 指向 php2shell-checker。它只協助看版本，不代替 PHP 官方修補。"
+  see: ["X-Powered-By"]
 - id: "x-powered-by"
   term: "X-Powered-By"
   aliases: ["x-powered-by", "X-Powered-By"]

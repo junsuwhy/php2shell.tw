@@ -39,7 +39,7 @@ export const personas: Persona[] = [
     line: '粉紅線',
     name: '吃瓜群眾',
     gets: '前因後果、時間軸、新聞牆。',
-    toward: 'AI 找漏洞・資訊外洩・全球關站',
+    toward: 'AI 找漏洞・消息外洩・全球關站',
     href: '/news/',
     image: 'exit-news',
   },
