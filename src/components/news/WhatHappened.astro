@@ -38,11 +38,11 @@ const sections = [
     <ol class="sections">
       {sections.map((s) => (
         <li>
-          <a class="sec" href={s.href}>
+          <a class="sec" href={s.href} aria-labelledby={`${s.id}-label`} aria-describedby={`${s.id}-note`}>
             <ImageSlot id={s.id} class="sec__img" framed={false} />
             <span class="sec__text">
-              <span class="sec__title">{s.title}</span>
-              <span class="sec__note">{s.note}</span>
+              <span class="sec__title" id={`${s.id}-label`}>{s.title}</span>
+              <span class="sec__note" id={`${s.id}-note`}>{s.note}</span>
             </span>
           </a>
         </li>
