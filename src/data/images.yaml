@@ -154,5 +154,35 @@ slots:
       Pictogram of two friendly people talking face to face, one with a question-mark speech bubble
       and the other with a check-mark speech bubble, a relaxed atmosphere, light grey background,
       yellow bubbles, graphite figures
+
+  - id: news-hub
+    file: news-hub.webp
+    page: /news/
+    where: 吃瓜懶人包報頭右側（手機版置於標題下方）
+    aspect: "16/9"
+    size: 1280x720
+    alt: 報攤前一群人邊吃西瓜邊看報紙與手機，報紙頭條是一個大大的驚嘆號圖示
+    palette: "#e0457b 粉紅、#22262c 深石墨線條、#e9ebee 淺灰底、西瓜紅綠"
+    prompt: >-
+      A small newsstand on a light grey ground, three simplified pictogram people gathered around it,
+      one eating a slice of watermelon, one reading a folded newspaper whose front page shows only a
+      large exclamation mark shape, one looking at a phone, curious but calm mood, pink accents,
+      graphite figures, the watermelon in flat red and green
+    status: pending
+    provenance: null
+
+  - id: news-story
+    file: news-story.webp
+    page: /news/story/
+    where: 前因後果頁開頭、章節目錄上方
+    aspect: "21/9"
+    size: 1680x720
+    alt: 一條由左到右的時間線，沿途有舊電腦、放大鏡、機器人手臂、破掉的封條與關上的店門
+    palette: "#e0457b 粉紅、#22262c 深石墨、#e9ebee 淺灰底"
+    prompt: >-
+      A long horizontal timeline line running left to right on a light grey ground, with five evenly
+      spaced pictogram stops: an old beige desktop computer, a magnifying glass over a document, a
+      simple robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of
+      small shop fronts with their shutters pulled down, pink line, graphite icons
     status: pending
     provenance: null

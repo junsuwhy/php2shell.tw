@@ -1,0 +1,22 @@
+---
+// 資料檔 sources 欄位的出處列：站內摘要優先，網址開新來源。
+import { getNews, resolveSources } from '../../lib/news';
+
+interface Props { refs: string[]; label?: string }
+const { refs, label = '出處' } = Astro.props;
+const links = resolveSources(refs, await getNews());
+---
+<p class="sources">
+  <span class="sources__label">{label}</span>
+  {links.map((s, i) => (
+    <>
+      {i > 0 && <span aria-hidden="true">、</span>}
+      <a href={s.href} rel={s.internal ? undefined : 'noopener'}>{s.label}</a>
+    </>
+  ))}
+</p>
+
+<style>
+  .sources { font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .sources__label { font-weight: 700; margin-inline-end: 0.5em; }
+</style>

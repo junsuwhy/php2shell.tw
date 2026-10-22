@@ -1,8 +1,26 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Stub from '../../components/Stub.astro';
+import GlossaryDemo from './glossary/_demo.mdx';
 ---
 <Base title="名詞表" persona="dev">
   <h1>名詞表</h1>
   <Stub purpose="所有專有名詞的註解" />
+
+  <section class="glossary-demo" aria-labelledby="glossary-demo-title">
+    <h2 id="glossary-demo-title">自動標註示範</h2>
+    <p>
+      開發者區的 MDX 頁面在建置時會依名詞表自動標註：每頁只標每個詞第一次出現的位置，
+      詞加底線，註解直接放在該段落下方，手機不用懸停也讀得到。下面的示範段落用來驗證這些規則。
+    </p>
+    <GlossaryDemo />
+  </section>
 </Base>
+
+<style>
+  .glossary-demo {
+    margin-block-start: 3rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--graphite-rule);
+  }
+</style>

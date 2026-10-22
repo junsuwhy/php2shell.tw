@@ -1,0 +1,40 @@
+/* 名詞自動註解。只在實際產生註解的開發者頁載入（由外掛注入 import）。
+   顏色只用 global.css 的變數；三區視覺世界之後可整份覆寫。 */
+.glossary-term {
+  font-style: normal;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 0.1em;
+  text-decoration-color: var(--line-dev);
+  text-underline-offset: 0.22em;
+}
+
+.glossary-note {
+  margin: 0.5rem 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border-inline-start: 3px solid var(--line-dev);
+  font-size: 0.92em;
+  line-height: 1.7;
+}
+
+.glossary-note__label {
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.glossary-note__list {
+  margin: 0;
+}
+
+.glossary-note__term {
+  font-weight: 700;
+}
+
+.glossary-note__text {
+  margin: 0 0 0.5rem;
+}
+
+.glossary-note__text:last-child {
+  margin-bottom: 0;
+}

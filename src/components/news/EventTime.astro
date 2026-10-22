@@ -1,0 +1,25 @@
+---
+// 時間軸的時間：有時分時同時輸出 UTC 與台灣時間，由外層 data-tz 決定顯示哪個；只有日期就只顯示日期。
+import { eventTime } from '../../lib/news';
+
+interface Props { at: string; precision: 'exact' | 'approximate' | 'date-only' }
+const { at, precision } = Astro.props;
+const t = eventTime(at, precision);
+const approx = t.approximate ? '約 ' : '';
+---
+<time class="etime num" datetime={at}>
+  {t.hasClock ? (
+    <>
+      <span class="etime__utc">{approx}{t.utc}</span>
+      <span class="etime__tpe">{approx}{t.taipei}</span>
+    </>
+  ) : (
+    <span>{t.date}{t.approximate ? '（約略）' : `（來源只到${t.unit}）`}</span>
+  )}
+</time>
+
+<style>
+  .etime { display: inline-flex; flex-wrap: wrap; gap: 2px 12px; font-weight: 700; }
+  :global([data-tz='utc']) .etime__tpe,
+  :global([data-tz='tpe']) .etime__utc { display: none; }
+</style>

@@ -1,8 +1,121 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import ImageSlot from '../../components/ImageSlot.astro';
+import { facts } from '../../lib/data';
+
+// 文字以 docs/knowledge/04-for-onlookers.md 為準
+const versions = facts.fixed.map((f) => f.version).join('、');
+const chapters = [
+  { id: 'y2004', label: '2004', title: '一個老毛病' },
+  { id: 'y2024', label: '2024', title: '健檢看到影子，卻停在原地' },
+  { id: 'ai', label: 'AI', title: '三組人，幾乎同時摸到同一面牆' },
+  { id: 'leak', label: '外洩', title: '禁運在記者會前裂開' },
+  { id: 'outages', label: '關站', title: '全世界先拔插頭' },
+];
 ---
-<Base title="前因後果" persona="news">
-  <h1>前因後果</h1>
-  <Stub purpose="從 2004 到全球關站的完整故事" />
+<Base title="前因後果" persona="news" description="PHP2Shell 的完整故事：從 2004 年的老問題、2024 年的稽核、AI 找洞，到禁運外洩與全球關站。">
+  <article class="page">
+    <header class="page__head">
+      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
+      <h1>前因後果</h1>
+      <p class="lede">這不是某一家網站寫錯密碼。這是網路上很常見的那位「主廚」——PHP——自己的基本功出了問題，而且在修補記者會的前兩天，消息就先上了論壇。</p>
+      <ImageSlot id="news-story" />
+      <nav aria-label="章節">
+        <ol class="chapters">
+          {chapters.map((c) => <li><a href={`#${c.id}`}><span class="num">{c.label}</span>{c.title}</a></li>)}
+        </ol>
+      </nav>
+    </header>
+
+    <section id="y2004" class="chapter">
+      <p class="chapter__label num">2004</p>
+      <h2>一個老毛病</h2>
+      <p>PHP 是很多網站的引擎。已知伺服器端語言的網站裡，<span class="num">{facts.php_share.value}</span> 用它（{facts.php_share.source}）。購物車、論壇、政府網頁、wiki，常常都是它在後廚煮頁面。</p>
+      <p>這次的問題，可以想成「記憶體不夠時，事情做到一半就被叫停，後面的人卻把半成品當成品接著用」。這種味道，早就有人聞過：</p>
+      <ul>
+        <li>2004 年，PHP 安全圈的前輩 Stefan Esser 找到第一個和記憶體上限有關的遠端漏洞。他覺得太嚴重，沒有公開利用方式。</li>
+        <li>2020 年，有人在問題回報系統登記 bug #78876：一個很長的變數把記憶體吃光，暫存檔也沒清掉。當時沒有掀起波瀾。</li>
+      </ul>
+    </section>
+
+    <section id="y2024" class="chapter">
+      <p class="chapter__label num">2024</p>
+      <h2>健檢看到影子，卻停在原地</h2>
+      <p>2024 年，PHP 做了多年來第一次外部健檢：德國主權科技機構（Sovereign Tech Agency）出錢，OSTIF 張羅，Quarkslab 執行。核心開發者在修別的東西時，看見了這個記憶體耗盡問題的影子，可是當時<strong>找不到一條真的打得到的路</strong>。</p>
+      <p>接著是取捨的難題。修法有好幾套，每一套都有代價：可能弄壞舊程式、可能帶來容易被打到當機的新風險，或是要求外面一大堆擴充套件跟著改。安全團隊人少，又習慣要全員同意才動手，工作因此停擺了幾個月。</p>
+      <p>修補當天，PHP 基金會沒有迴避，直接寫：</p>
+      <blockquote>
+        <p>我們不打算裝作不是這樣：這次延誤是結構性失敗，原因既是安全團隊的決策方式，也是它缺乏資源。</p>
+        <p class="orig" lang="en">We won't pretend otherwise: the delay was a structural failure, caused by both the security team's decision process and its lack of resources.</p>
+      </blockquote>
+      <p>2026 年 5 月，基金會成立 Ecosystem Security Team，決策改成可以多數決。</p>
+    </section>
+
+    <section id="ai" class="chapter">
+      <p class="chapter__label">AI</p>
+      <h2>三組人，幾乎同時摸到同一面牆</h2>
+      <p>2026 年，AI 進到現場。基金會與 Alpha-Omega 合作，用 Anthropic 的 Claude Mythos 掃描 PHP，再用 OpenAI 的 Daybreak Red 驗證回報。自 7 月起，他們發了 15 個 CVE，也清掉一百多份無效、重複或無法重現的回報——AI 讓信箱變忙，不全是驚喜。</p>
+      <p><strong>Calif</strong> 的 Ryan Austin 參加 OpenAI 資助的 Patch the Planet。基金會說他 7 月 30 日開始看（另有說法寫 8 月 1 日，見<a href="/news/rumors/#calif-start-date">說法打架</a>）。8 月 11 日他回報，同一天 OpenAI 自己的人也獨立回報了同一個根源。Austin 後來說，他沒有用一般人拿不到的模型，也沒有秘密工具，「了解你的目標」依然管用。</p>
+      <p><strong>Wiz</strong> 晚了幾週，但是獨立發現。8 月 19 日找到第一個問題，20 日在 Drupal、21 日在 WordPress 上確認，24 日回報 PHP。他們的自評被轉述得很廣：一個研究者一個星期做完的事，以前要一個世界級團隊做好幾個月。</p>
+      <p>9 月 18 日 OpenAI 又補了更多路徑；9 月 21 日 PHP 確認 Wiz 的報告，開始協調修補。大家約好先不說，等修補一起公開，這叫「禁運」。</p>
+    </section>
+
+    <section id="leak" class="chapter">
+      <p class="chapter__label">外洩</p>
+      <h2>禁運在記者會前裂開</h2>
+      <p>原訂公開日是 10 月 22 日（確切鐘點有三種說法）。10 月 20 日下午，UTC 大約三點（台灣晚上 11 點），Hacker News 出現一篇貼文。編號是真的：{facts.cves.map((c) => c.id).join('、')}。分數是錯的：貼文寫 10.0，官方是 {facts.cves[0].cvss_v4}。貼文隨後撤下，但截圖不會跟著撤。</p>
+      <p>台灣時間 10 月 21 日凌晨 3 點 30 分，PHP 發出預告：修補提前到當天晚上 10 點（UTC 下午 2 點）。watchTowr 在預告後幾分鐘發出常見問題，向媒體確認：洞是真的。之後 Calif 誤發了一段展示影片，刪了，副本留下。</p>
+      <p>真正讓「公開那天才是第一天」這個想法破產的，是 Amazon：他們的誘餌系統 MadPot 在 <strong>10 月 17 日</strong>就看到利用嘗試，比修補公開早四天。對方怎麼知道的，Amazon 說不知道。</p>
+      <p>Cloudflare 從 10 月初就在準備防護規則，10 月 21 日上午也替免費方案預設打開。下午 3 點 41 分（台灣），Chainguard 在協調發布前先推出已含修補的映像，基金會把這寫成單方面打破禁運。</p>
+      <p>晚上 10 點，修補準時上線：{versions}。近 200 個檔案、超過一萬行程式碼。之後誘餌系統很快看到新的攻擊嘗試；同一天，Huntress 在自家客戶的機器上還沒看到。兩句話都留著——一個看的是誘餌，一個看的是真實客戶。</p>
+      <p><a href="/news/timeline/">逐時經過看時間軸</a></p>
+    </section>
+
+    <section id="outages" class="chapter">
+      <p class="chapter__label">關站</p>
+      <h2>全世界先拔插頭</h2>
+      <p>接下來是新聞畫面：荷蘭、法國、比利時、芬蘭、德國的政府網站預防性下線；美國 NSA、英國 NCSC 建議不能立刻更新的系統考慮下線；日本首相在 X 上呼籲大家確認網站有沒有用 PHP；台灣數位發展部資通安全署通知各機關與企業。民間也有論壇、遊戲、維基媒體的部分系統緊急維護。</p>
+      <p>這些多半是<strong>預防</strong>。把服務關掉，不代表已經被駭，是為了不要被駭。</p>
+      <p><a href="/news/outages/">看完整關站名單</a></p>
+    </section>
+
+    <section class="chapter chapter--note">
+      <h2>看熱鬧時，請不要做的事</h2>
+      <p>吃瓜可以，但轉傳攻擊程式、轉傳「一鍵檢測腳本」、拿別人的網站試手氣，都不在看熱鬧的範圍裡。那些東西只會讓還沒更新的學校、診所和小店家更危險。</p>
+      <p>想幫忙的版本很樸實：問出自己管的網站用的是哪一版 PHP，或把給非技術人員的問題清單轉給主機商。</p>
+    </section>
+
+    <footer class="next">
+      <h2>下一步</h2>
+      <ul>
+        <li><a href="/basic/check/">我自己也有網站</a></li>
+        <li><a href="/news/quotes/">這段期間的名言</a></li>
+        <li><a href="/news/rumors/">還沒對齊的說法</a></li>
+      </ul>
+    </footer>
+  </article>
 </Base>
+
+<style>
+  .page { display: grid; gap: 40px; max-width: 42rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  .page__head { display: grid; gap: 16px; }
+  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
+  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  .lede { font-size: 1.1875rem; }
+  .chapters { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .chapters a { display: flex; gap: 12px; align-items: baseline; text-decoration: none; }
+  .chapters a:hover { text-decoration: underline; }
+  .chapters .num { flex: 0 0 3.5em; font-weight: 900; color: var(--floor-ink-soft); }
+  .chapter { display: grid; gap: 14px; scroll-margin-top: 16px; }
+  .chapter__label { font-size: 0.9375rem; font-weight: 900; letter-spacing: 0.08em; color: var(--floor-ink-soft); }
+  .chapter h2 { font-size: 1.625rem; font-weight: 900; }
+  .chapter ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  .chapter--note { padding: 18px; background: #fff; border-left: 6px solid var(--line-news); border-radius: 4px; }
+  .chapter--note h2 { font-size: 1.25rem; }
+  blockquote { display: grid; gap: 6px; margin: 0; padding: 4px 0 4px 16px; border-left: 4px solid var(--line-news); }
+  blockquote p:first-child { font-size: 1.125rem; font-weight: 700; }
+  .orig { color: var(--floor-ink-soft); font-size: 0.9375rem; font-style: italic; }
+  .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); }
+  .next h2 { font-size: 1.25rem; }
+  .next ul { margin: 0; padding-left: 1.2em; }
+</style>
