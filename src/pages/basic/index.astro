@@ -1,6 +1,6 @@
 ---
 import BasicPage from '../../components/basic/BasicPage.astro';
-import { facts } from '../../lib/data';
+import { facts, releaseTime as r } from '../../lib/data';
 ---
 <BasicPage
   title="我的網站有事嗎？"
@@ -16,7 +16,7 @@ import { facts } from '../../lib/data';
   <h2>先記三句話</h2>
   <ol class="steps">
     <li>問題出在網站背後一套很多人共用的「廚房」，不是你的網站哪一篇文章寫錯。</li>
-    <li>修好的版本已經在台灣時間 <span class="num">2026</span> 年 <span class="num">10</span> 月 <span class="num">21</span> 日晚上 <span class="num">10</span> 點（國際標準時間下午 <span class="num">2</span> 點）推出。</li>
+    <li>修好的版本已經在台灣時間 <span class="num">{r.year}</span> 年 <span class="num">{r.month}</span> 月 <span class="num">{r.day}</span> 日{r.taipei.part} <span class="num">{r.taipei.hour}</span> 點{r.taipei.minute > 0 && <> <span class="num">{r.taipei.minute}</span> 分</>}（國際標準時間{r.utc.part} <span class="num">{r.utc.hour}</span> 點{r.utc.minute > 0 && <> <span class="num">{r.utc.minute}</span> 分</>}）推出。</li>
     <li>很多網站暫時關門，多半是預防，不代表已經被偷資料。</li>
   </ol>
 
