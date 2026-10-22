@@ -11,7 +11,6 @@ const byTerm = new Map(entries.flatMap((e) => [e.term, ...e.aliases].map((name) 
 ---
 <Base title="名詞表" description="開發者區所有專有名詞的註解；與頁面自動註解共用同一份名詞資料。" persona="dev">
   <article class="glossary">
-    <nav class="crumbs" aria-label="麵包屑"><a href="/dev/">開發者總覽</a></nav>
     <h1>名詞表</h1>
     <p class="lede">
       開發者區每一頁第一次出現下列名詞時，會在該段落下方自動加註；註解內容就是這裡的「給開發者」。共 <span class="num">{entries.length}</span> 個詞。
@@ -53,19 +52,11 @@ const byTerm = new Map(entries.flatMap((e) => [e.term, ...e.aliases].map((name) 
       <GlossaryDemo />
     </section>
 
-    <nav class="next" aria-labelledby="next-title">
-      <h2 id="next-title">下一步</h2>
-      <ul>
-        <li><a href="/dev/">回開發者總覽，挑你的平台修補頁</a></li>
-        <li><a href="/dev/root-cause/">看成因概念</a></li>
-      </ul>
-    </nav>
   </article>
 </Base>
 
 <style>
   .glossary { max-width: 46rem; margin: 0 auto; padding: 32px var(--gutter) 56px; }
-  .crumbs { font-size: 0.9375rem; color: var(--floor-ink-soft); margin-bottom: 12px; }
   h1 { font-size: clamp(1.75rem, 4vw, 2.375rem); font-weight: 900; }
   .lede { margin-top: 12px; font-size: 1.125rem; color: var(--floor-ink-soft); }
   .index ul { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -89,7 +80,6 @@ const byTerm = new Map(entries.flatMap((e) => [e.term, ...e.aliases].map((name) 
   dd { margin: 8px 0 0; }
   dd p + p { margin-top: 6px; }
   .term__plain, .term__see { font-size: 0.9375rem; color: var(--floor-ink-soft); }
-  .glossary-demo, .next { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--graphite-rule); }
-  .glossary-demo h2, .next h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; }
-  .next ul { padding-left: 1.25rem; }
+  .glossary-demo { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--graphite-rule); }
+  .glossary-demo h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; }
 </style>

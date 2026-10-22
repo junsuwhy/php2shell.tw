@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import HeroBanner from '../../components/HeroBanner.astro';
 import ImageSlot from '../../components/ImageSlot.astro';
 import NewsCard from '../../components/news/NewsCard.astro';
 import TimelineList from '../../components/news/TimelineList.astro';
@@ -19,25 +20,28 @@ const board = [
   { value: '近 200 個檔', label: '這次修補動到的檔案，程式碼超過一萬行', note: '鉅亨網編譯《華爾街日報》', href: ref('2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md') },
 ];
 const versions = facts.fixed.map((f) => f.version).join('、');
+const sections = [
+  { href: '/news/story/', id: 'news-sec-story', title: '前因後果' },
+  { href: '/news/timeline/', id: 'news-sec-timeline', title: '時間軸' },
+  { href: '/news/wall/', id: 'news-sec-wall', title: '新聞牆' },
+  { href: '/news/outages/', id: 'news-sec-outages', title: '關站名單' },
+  { href: '/news/quotes/', id: 'news-sec-quotes', title: '名言錄' },
+  { href: '/news/rumors/', id: 'news-sec-rumors', title: '說法打架' },
+];
 ---
 <Base title="PHP2Shell 吃瓜懶人包" persona="news" description="PHP2Shell 事件懶人包：一句話看懂、數字看板、最新新聞與時間軸精華。">
+  <HeroBanner id="news-hub" variant="news">
+    <h1>PHP2Shell 到底發生什麼事？</h1>
+    <p class="lede">撐起全球大量網站的 PHP，被找到兩個能讓外人遠端在伺服器上執行程式的嚴重漏洞（{facts.cves.map((c) => c.id).join('、')}，CVSS {facts.cves[0].cvss_v4}）。消息在修補前就先外洩，官方提前在台灣時間 10 月 21 日晚上 10 點推出修補（{versions}），多國政府與企業網站先關站避險。</p>
+  </HeroBanner>
   <article class="page">
-    <header class="masthead">
-      <div class="masthead__text">
-        <p class="kicker">吃瓜懶人包 · 資料更新 <span class="num">{facts.updated_at}</span></p>
-        <h1>PHP2Shell 到底發生什麼事？</h1>
-        <p class="lede">撐起全球大量網站的 PHP，被找到兩個能讓外人遠端在伺服器上執行程式的嚴重漏洞（{facts.cves.map((c) => c.id).join('、')}，CVSS {facts.cves[0].cvss_v4}）。消息在修補前就先外洩，官方提前在台灣時間 10 月 21 日晚上 10 點推出修補（{versions}），多國政府與企業網站先關站避險。</p>
-      </div>
-      <ImageSlot id="news-hub" loading="eager" />
-    </header>
-
     <nav aria-label="吃瓜區頁面" class="sections">
-      <a href="/news/story/"><strong>前因後果</strong><span>從 2004 年講到全球關站</span></a>
-      <a href="/news/timeline/"><strong>時間軸</strong><span>UTC／台灣時間對照</span></a>
-      <a href="/news/wall/"><strong>新聞牆</strong><span>{news.length} 則摘要，可篩選</span></a>
-      <a href="/news/outages/"><strong>關站名單</strong><span>誰關了、為什麼</span></a>
-      <a href="/news/quotes/"><strong>名言錄</strong><span>這幾天被轉最多的話</span></a>
-      <a href="/news/rumors/"><strong>說法打架</strong><span>各家講不一樣的地方</span></a>
+      {sections.map((s) => (
+        <a class="sec" href={s.href} aria-labelledby={`${s.id}-label`}>
+          <ImageSlot id={s.id} class="sec__img" framed={false} />
+          <span class="sec__title" id={`${s.id}-label`}>{s.title}</span>
+        </a>
+      ))}
     </nav>
 
     <section aria-labelledby="board-t" class="block">
@@ -73,7 +77,6 @@ const versions = facts.fixed.map((f) => f.version).join('、');
       <h2>下一步</h2>
       <ul>
         <li><a href="/basic/check/">我自己也有網站，要怎麼確認？</a></li>
-        <li><a href="/news/story/">花五分鐘讀完前因後果</a></li>
         <li><a href="/dev/">我是工程師，給我修補步驟</a></li>
       </ul>
     </footer>
@@ -81,17 +84,46 @@ const versions = facts.fixed.map((f) => f.version).join('、');
 </Base>
 
 <style>
-  .page { display: grid; gap: 40px; max-width: 72rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
-  .masthead { display: grid; gap: 20px; align-items: center; padding-bottom: 24px; border-bottom: 4px double var(--graphite); }
-  @media (min-width: 56rem) { .masthead { grid-template-columns: 3fr 2fr; } }
-  .masthead__text { display: grid; gap: 14px; }
-  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
+  .page { display: grid; gap: 40px; max-width: 72rem; margin: 0 auto; padding: 28px var(--gutter) 64px; }
   h1 { font-size: clamp(2.125rem, 7vw, 3.5rem); font-weight: 900; }
-  .lede { font-size: 1.1875rem; max-width: 40rem; }
-  .sections { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 10px; }
-  .sections a { display: grid; gap: 2px; padding: 12px 16px; background: #fff; border-left: 5px solid var(--line-news); border-radius: 4px; text-decoration: none; }
-  .sections a:hover strong { text-decoration: underline; }
-  .sections span { font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .lede { margin-top: 12px; font-size: 1.1875rem; max-width: 40rem; }
+  .sections { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sec {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #2a2228;
+    color: #fff;
+    text-decoration: none;
+  }
+  .sec :global(.sec__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sec__title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 36px 14px 14px;
+    background: linear-gradient(transparent, rgb(14 16 20 / 0.88) 38%, rgb(14 16 20 / 0.94) 100%);
+    font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+    font-weight: 900;
+    line-height: 1.25;
+  }
+  .sec:hover .sec__title,
+  .sec:focus-visible .sec__title { text-decoration: underline; text-underline-offset: 0.18em; }
+  .sec:hover { outline: 3px solid var(--line-news); outline-offset: 3px; }
+  .sec:focus-visible { outline: 3px solid var(--line-news); outline-offset: 3px; }
+  @media (min-width: 48rem) {
+    .sections { grid-template-columns: 1fr 1fr 1fr; }
+  }
   .block { display: grid; gap: 14px; }
   .block--narrow { max-width: 46rem; }
   .block h2, .next h2 { font-size: 1.5rem; font-weight: 900; }

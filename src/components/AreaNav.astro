@@ -1,0 +1,170 @@
+---
+// 三區共用的區域主選單。視覺用 html[data-persona] 的路線色，骨架相同。
+import type { PersonaId } from '../data/personas';
+import { areaNav, isCurrentPage, isGroup, navPath } from '../data/nav';
+
+interface Props {
+  persona: PersonaId;
+  pathname: string;
+}
+
+const { persona, pathname } = Astro.props;
+const area = areaNav[persona];
+
+function groupHasCurrent(children: { href: string }[]) {
+  return children.some((child) => navPath(child.href) === pathname);
+}
+---
+<nav class="area-nav" aria-label={`${area.label}主選單`} data-area={area.id}>
+  <details class="area-nav__drawer">
+    <summary class="area-nav__toggle">頁面選單</summary>
+    <ul class="area-nav__list">
+      {area.items.map((item) => isGroup(item) ? (
+        <li>
+          <details class="area-nav__group" data-current={groupHasCurrent(item.children) || undefined}>
+            <summary>{item.label}</summary>
+            <ul>
+              {item.children.map((child) => (
+                <li>
+                  <a href={child.href} aria-current={isCurrentPage(child.href, pathname) ? 'page' : undefined}>{child.label}</a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </li>
+      ) : (
+        <li>
+          <a href={item.href} aria-current={isCurrentPage(item.href, pathname) ? 'page' : undefined}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </details>
+</nav>
+
+<style>
+  .area-nav {
+    --nav-accent: var(--line-basic);
+    background: var(--graphite-2);
+    color: var(--on-graphite);
+    border-bottom: 4px solid var(--nav-accent);
+  }
+  :global(html[data-persona='dev']) .area-nav { --nav-accent: var(--line-dev); }
+  :global(html[data-persona='news']) .area-nav { --nav-accent: var(--line-news); }
+
+  .area-nav__toggle {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 var(--gutter);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    list-style: none;
+  }
+  .area-nav__toggle::-webkit-details-marker { display: none; }
+  .area-nav__toggle::after {
+    content: '';
+    width: 0.55em;
+    height: 0.55em;
+    margin-left: 10px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+  }
+  .area-nav__drawer[open] > .area-nav__toggle::after { transform: rotate(225deg) translateY(-2px); }
+
+  .area-nav__list,
+  .area-nav__group > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .area-nav__list > li + li { border-top: 1px solid var(--graphite-rule); }
+
+  .area-nav__list > li > a,
+  .area-nav__group > summary {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px var(--gutter);
+    color: var(--on-graphite);
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    list-style: none;
+  }
+  .area-nav__group > summary::-webkit-details-marker { display: none; }
+  .area-nav__group > summary::after {
+    content: '';
+    width: 0.45em;
+    height: 0.45em;
+    margin-left: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+  }
+  .area-nav__group[open] > summary::after { transform: rotate(225deg) translateY(-1px); }
+
+  .area-nav__group > ul a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px var(--gutter) 8px calc(var(--gutter) + 16px);
+    color: var(--on-graphite);
+    text-decoration: none;
+  }
+  .area-nav a[aria-current='page'] {
+    background: var(--nav-accent);
+    color: var(--on-line);
+    font-weight: 800;
+  }
+  .area-nav__group[data-current] > summary { box-shadow: inset 4px 0 0 var(--nav-accent); }
+
+  .area-nav a:hover,
+  .area-nav summary:hover { text-decoration: underline; text-underline-offset: 0.22em; }
+  .area-nav a:focus-visible,
+  .area-nav summary:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: -3px;
+  }
+  .area-nav a[aria-current='page']:focus-visible { outline-color: #1b1e22; }
+
+  @media (min-width: 960px) {
+    .area-nav__toggle { display: none; }
+    /* 新版瀏覽器用 content-visibility 藏起未展開的 details，只改 display 不夠。 */
+    .area-nav__drawer::details-content { content-visibility: visible; }
+    .area-nav__drawer > .area-nav__list {
+      display: flex !important;
+      flex-wrap: wrap;
+      align-items: stretch;
+      padding: 0 var(--gutter);
+      gap: 0;
+    }
+    .area-nav__list > li + li { border-top: 0; }
+    .area-nav__list > li > a,
+    .area-nav__group > summary {
+      padding: 0 14px;
+      white-space: nowrap;
+    }
+    .area-nav__group { position: relative; }
+    .area-nav__group > ul { display: none; }
+    .area-nav__group:hover::details-content,
+    .area-nav__group:focus-within::details-content,
+    .area-nav__group[open]::details-content { content-visibility: visible; }
+    .area-nav__group:hover > ul,
+    .area-nav__group:focus-within > ul,
+    .area-nav__group[open] > ul {
+      display: grid;
+      position: absolute;
+      z-index: 30;
+      top: 100%;
+      left: 0;
+      min-width: 12.5rem;
+      background: var(--graphite);
+      border: 2px solid var(--on-graphite);
+      box-shadow: 0 12px 28px rgb(0 0 0 / 0.28);
+    }
+    .area-nav__group > ul a { padding: 8px 16px; white-space: nowrap; }
+    .area-nav__group > ul a[aria-current='page'] { background: var(--nav-accent); }
+  }
+</style>

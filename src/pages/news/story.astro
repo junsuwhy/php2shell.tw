@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ImageSlot from '../../components/ImageSlot.astro';
+import HeroBanner from '../../components/HeroBanner.astro';
 import { facts } from '../../lib/data';
 
 // 文字以 docs/knowledge/04-for-onlookers.md 為準
@@ -14,12 +14,12 @@ const chapters = [
 ];
 ---
 <Base title="前因後果" persona="news" description="PHP2Shell 的完整故事：從 2004 年的老問題、2024 年的稽核、AI 找洞，到禁運外洩與全球關站。">
+  <HeroBanner id="news-story" variant="news">
+    <h1>前因後果</h1>
+    <p class="lede">PHP 自己的基本功出了問題，而且修補記者會的前兩天，消息就先上了論壇。</p>
+  </HeroBanner>
   <article class="page">
     <header class="page__head">
-      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
-      <h1>前因後果</h1>
-      <p class="lede">這不是某一家網站寫錯密碼。這是網路上很常見的那位「主廚」——PHP——自己的基本功出了問題，而且在修補記者會的前兩天，消息就先上了論壇。</p>
-      <ImageSlot id="news-story" />
       <nav aria-label="章節">
         <ol class="chapters">
           {chapters.map((c) => <li><a href={`#${c.id}`}><span class="num">{c.label}</span>{c.title}</a></li>)}
@@ -82,26 +82,23 @@ const chapters = [
     <section class="chapter chapter--note">
       <h2>看熱鬧時，請不要做的事</h2>
       <p>吃瓜可以，但轉傳攻擊程式、轉傳「一鍵檢測腳本」、拿別人的網站試手氣，都不在看熱鬧的範圍裡。那些東西只會讓還沒更新的學校、診所和小店家更危險。</p>
-      <p>想幫忙的版本很樸實：問出自己管的網站用的是哪一版 PHP，或把給非技術人員的問題清單轉給主機商。</p>
+      <p>想幫忙的版本很樸實：問出自己管的網站用的是哪一版 PHP，或請主機商用文字確認是否已經更新並重新啟動。</p>
     </section>
 
     <footer class="next">
       <h2>下一步</h2>
       <ul>
         <li><a href="/basic/check/">我自己也有網站</a></li>
-        <li><a href="/news/quotes/">這段期間的名言</a></li>
-        <li><a href="/news/rumors/">還沒對齊的說法</a></li>
       </ul>
     </footer>
   </article>
 </Base>
 
 <style>
-  .page { display: grid; gap: 40px; max-width: 42rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  .page { display: grid; gap: 40px; max-width: 42rem; margin: 0 auto; padding: 28px var(--gutter) 64px; }
   .page__head { display: grid; gap: 16px; }
-  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
   h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
-  .lede { font-size: 1.1875rem; }
+  .lede { margin-top: 12px; font-size: 1.1875rem; }
   .chapters { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
   .chapters a { display: flex; gap: 12px; align-items: baseline; text-decoration: none; }
   .chapters a:hover { text-decoration: underline; }

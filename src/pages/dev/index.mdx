@@ -1,8 +1,8 @@
 ---
 layout: ../../layouts/DevDoc.astro
 title: PHP2Shell 技術總覽
-description: PHP2Shell（CVE-2026-109618、CVE-2026-109619）給工程師的 TL;DR、版本矩陣、受影響 SAPI 排序與立即行動清單。
-lede: 給工程師、維運與資安人員。先看 TL;DR 與版本矩陣，再進你的平台頁照「檢查 → 更新 → 重啟 → 驗證」做完。
+description: PHP2Shell（CVE-2026-109618、CVE-2026-109619）給工程師的 TL;DR，以及版本、修補、緩解該從哪一頁開始。
+hero: dev-hub
 checked: "2026-10-22"
 sources:
   - title: PHP.net 安全公告：Critical remote code execution vulnerabilities, update now（2026-10-21）
@@ -16,17 +16,10 @@ sources:
   - title: ICSDA：PHP2Shell 修補已釋出（繁中應變整理）
     url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
 next:
-  - href: /dev/am-i-affected/
-    label: 判斷你的主機是否受影響
-    note: 先確認真正處理網頁請求的是哪一支 PHP。
-  - href: /dev/mitigation/
-    label: 今天沒辦法升級？看官方暫時緩解
   - href: /basic/
     label: 要跟老闆解釋？丟這頁給他
-    note: 非技術版的說明與「該找誰」。
+    note: 非技術版的說明，以及該找誰、要確認什麼。
 ---
-import VersionMatrix from '../../components/dev/VersionMatrix.astro';
-import SapiRisk from '../../components/dev/SapiRisk.astro';
 import { facts } from '../../lib/data';
 
 ## TL;DR
@@ -37,37 +30,16 @@ import { facts } from '../../lib/data';
 - 官方原話：There are no complete mitigations, updating is the only safe choice. 暫時緩解只能降低特定路徑的曝險。
 - 更新之後要**重啟所有 worker**，再向正在接流量的行程確認版號。
 
-## 版本矩陣
+## 從哪裡開始
 
-<VersionMatrix />
+<nav class="start" aria-label="從哪裡開始">
+  <ul>
+    <li><a href="/dev/am-i-affected/"><strong>是否受影響</strong><span>找出真正處理網頁請求的那一支 PHP</span></a></li>
+    <li><a href="/dev/versions/"><strong>版本矩陣與 SAPI</strong><span>修補版號，以及哪些執行方式要先更新</span></a></li>
+    <li><a href="/dev/checklist/"><strong>現在立刻做</strong><span>盤點、確認、更新、重啟、驗證、查日誌</span></a></li>
+    <li><a href="/dev/mitigation/"><strong>暫時緩解</strong><span>今天不能升級時的官方做法；更新仍是唯一安全的選擇</span></a></li>
+    <li><a href="/dev/root-cause/"><strong>成因概念</strong><span>只講概念，說明為什麼只能更新 PHP</span></a></li>
+  </ul>
+</nav>
 
-## 受影響 SAPI 風險排序
-
-<SapiRisk />
-
-命令列的 `php` 不在官方「服務網頁請求」那句的主詞裡，但官方也沒有保證命令列絕對無關。盤點時以「會不會被網頁請求碰到」為準。
-
-## 現在立刻做
-
-1. **盤點**：列出所有會回應網頁請求的 PHP，包括控制台（cPanel、Plesk）、Docker 映像、廠商設備與 Windows 軟體內建的 PHP。
-2. **確認實際版本**：`php -v` 不一定等於網站在用的 PHP-FPM 或 mod_php，見[是否受影響](/dev/am-i-affected/)。
-3. **更新**：依你的平台頁更新到已修補的版本或發行版套件。
-4. **重啟**：重啟所有 php-fpm、Apache、LiteSpeed worker；Docker 要重建映像並重新部署。
-5. **驗證**：向正在接流量的行程確認版號，滾動更新不要留下舊 worker。
-6. **查日誌**：調查視窗從 2026-10-17 起算，見[偵測與應變](/dev/detect/)。
-7. **還不能更新**：先套[官方暫時緩解](/dev/mitigation/)，並考慮暫時下線或不直接對外。
-
-## 各平台修補
-
-每頁都照同一個順序：檢查 → 更新 → 重啟 → 驗證。
-
-- 作業系統：[Debian](/dev/fix/debian/)、[Ubuntu](/dev/fix/ubuntu/)、[RHEL／Rocky／Alma](/dev/fix/rhel/)、[Alpine](/dev/fix/alpine/)、[Windows](/dev/fix/windows/)、[macOS（Homebrew）](/dev/fix/macos/)
-- 容器：[Docker／Kubernetes](/dev/fix/docker/)
-- 主機控制台：[cPanel、Plesk、DirectAdmin](/dev/fix/panels/)
-- 應用工具：[Drupal](/dev/fix/drupal/)、[WordPress](/dev/fix/wordpress/)
-- 舊分支：[自行編譯 7.4／8.0／8.1](/dev/fix/build-from-source/)、[舊版本策略](/dev/eol/)
-
-## 背景與參考
-
-- [成因概念](/dev/root-cause/)：只講概念，不講利用。
-- [名詞表](/dev/glossary/)：本區專有名詞的註解來源。
+各平台的修補頁在上方主選單。每頁都照同一個順序：檢查 → 更新 → 重啟 → 驗證。

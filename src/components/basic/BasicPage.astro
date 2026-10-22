@@ -2,6 +2,7 @@
 // 非技術區共用頁面框架：標題、導言、插圖、內文，以及固定在頁尾的「下一步」。
 // 樣式只作用在 .basic-page 之內，不新增全域樣式。
 import Base from '../../layouts/Base.astro';
+import HeroBanner from '../HeroBanner.astro';
 import ImageSlot from '../ImageSlot.astro';
 import { getSlot } from '../../lib/images';
 import NextStep, { type NextItem } from './NextStep.astro';
@@ -12,16 +13,18 @@ interface Props {
   description?: string;
   lead?: string;
   image?: string;
-  next: NextItem[];
+  next?: NextItem[];
   back?: { href: string; label: string };
 }
 
-const { title, heading = title, description, lead, image, next, back } = Astro.props;
-// 正式網站沒有圖時整個圖框不出現；開發模式顯示待產生標示。
-const showFigure = image ? getSlot(image).ready || import.meta.env.DEV : false;
+const { title, heading = title, description, lead, image, next = [], back } = Astro.props;
+const slot = image ? getSlot(image) : undefined;
+const heroId = slot?.hero ? image : undefined;
+// 非滿版圖：正式網站沒有檔案時不顯示；開發模式顯示待產生標示。
+const showFigure = Boolean(image && !heroId && slot && (slot.ready || import.meta.env.DEV));
 ---
 <Base title={title} description={description} persona="basic">
-  <article class="basic-page">
+  <HeroBanner id={heroId} variant="basic">
     <header class="basic-page__head">
       {back && (
         <p class="basic-page__back"><a href={back.href}>← {back.label}</a></p>
@@ -29,7 +32,9 @@ const showFigure = image ? getSlot(image).ready || import.meta.env.DEV : false;
       <h1>{heading}</h1>
       {lead && <p class="basic-page__lead">{lead}</p>}
     </header>
-    {image && showFigure && (
+  </HeroBanner>
+  <article class="basic-page">
+    {showFigure && image && (
       <figure class="basic-page__figure">
         <ImageSlot id={image} />
       </figure>
@@ -37,7 +42,7 @@ const showFigure = image ? getSlot(image).ready || import.meta.env.DEV : false;
     <div class="basic-page__body">
       <slot />
     </div>
-    <NextStep items={next} />
+    {next.length > 0 && <NextStep items={next} />}
   </article>
 </Base>
 
@@ -45,7 +50,7 @@ const showFigure = image ? getSlot(image).ready || import.meta.env.DEV : false;
   .basic-page {
     max-width: 44rem;
     margin: 0 auto;
-    padding: 40px var(--gutter) 64px;
+    padding: 8px var(--gutter) 64px;
     font-size: 1.1875rem;
     line-height: 1.8;
   }

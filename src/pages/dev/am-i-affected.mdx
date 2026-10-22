@@ -17,14 +17,8 @@ sources:
     url: https://support.plesk.com/hc/en-us/articles/44397729587351-Vulnerability-CVE-2026-109618-and-CVE-2026-109619-Remote-code-execution-in-PHP-shipped-with-Plesk
   - title: 英國 NCSC：Critical security issue affecting PHP
     url: https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
-next:
-  - href: /dev/
-    label: 回總覽，挑你的平台修補頁
-  - href: /dev/mitigation/
-    label: 確認受影響但今天不能升級？看暫時緩解
 ---
 import CommandBlock from '../../components/dev/CommandBlock.astro';
-import VersionMatrix from '../../components/dev/VersionMatrix.astro';
 
 ## 先問：它會不會被網頁請求碰到？
 
@@ -72,6 +66,4 @@ Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號沒有變，只有 2026-10
 
 ## 對照官方版本矩陣
 
-<VersionMatrix />
-
-隱藏版本號的網站（沒送 `X-Powered-By` 標頭）不會出現在外部掃描的統計裡。你的主機就算沒露出版本，該修還是要修。
+完整修補版號在[版本矩陣](/dev/versions/)。隱藏版本號的網站（沒送 `X-Powered-By` 標頭）不會出現在外部掃描的統計裡。你的主機就算沒露出版本，該修還是要修。

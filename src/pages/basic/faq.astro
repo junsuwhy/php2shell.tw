@@ -55,7 +55,7 @@ const faqs: Qa[] = [
     id: 'auto',
     q: '主機商會自動幫我更新嗎？',
     a: [
-      '不一定。有的會主動處理，有的要等你提出。最保險的做法，是用我們的訊息範本問一次，請對方用文字回覆版本號。',
+      '不一定。有的會主動處理，有的要等你提出。最保險的做法，是直接問一次，請對方用文字回覆版本號，並確認已經重新啟動。',
     ],
   },
   {
@@ -84,13 +84,8 @@ const faqs: Qa[] = [
 <BasicPage
   title="常見問題"
   description="手機會不會中毒？網站關掉代表被駭了嗎？要不要改密碼？用白話回答大家最常問的問題。"
-  lead="大家最常問的問題，用白話回答。點問題就能直接跳過去。"
+  lead="點問題就能直接跳過去。"
   image="basic-faq"
-  back={{ href: '/basic/', label: '回到非技術區首頁' }}
-  next={[
-    { href: '/basic/check/', label: '檢查我的網站', note: '你自己也有網站的話' },
-    { href: '/basic/ask-your-vendor/', label: '複製訊息，傳給主機商或廠商' },
-  ]}
 >
   <nav aria-label="問題列表" class="toc">
     <ul>

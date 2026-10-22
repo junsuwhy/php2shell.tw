@@ -43,7 +43,6 @@
 | `/basic/systems/plesk/` | Plesk 主機面板 |
 | `/basic/systems/shop/` | 網路商店（WooCommerce、Magento 等；並說明 Shopify 這類代管平台由平台處理） |
 | `/basic/systems/outsourced/` | 網站是外包廠商做的／不知道誰做的 |
-| `/basic/ask-your-vendor/` | 可一鍵複製的「問主機商／外包廠商」訊息範本 |
 | `/basic/faq/` | 我的手機會中毒嗎？網站關掉代表被駭了嗎？要不要改密碼？ |
 
 原則：不出現 CVE、RCE、worker、SAPI 等字；必要概念一律用比喻；每頁結尾都是「下一步做什麼」。

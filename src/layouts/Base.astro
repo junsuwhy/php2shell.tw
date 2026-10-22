@@ -2,6 +2,7 @@
 import '@fontsource-variable/noto-sans-tc';
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
+import AreaNav from '../components/AreaNav.astro';
 import TransferMenu from '../components/TransferMenu.astro';
 import { facts, site } from '../lib/data';
 import { getSlot } from '../lib/images';
@@ -49,6 +50,7 @@ const current = persona === 'gateway' ? undefined : persona;
       <a class="site-name" href="/">{site.title}</a>
       <TransferMenu current={current} />
     </header>
+    {current && <AreaNav persona={current} pathname={Astro.url.pathname} />}
     <main>
       <slot />
     </main>

@@ -10,7 +10,6 @@ const pending = items.filter((i) => i.data.pending).length;
 <Base title="說法打架" persona="news" description="PHP2Shell 事件中各家說法不一致或仍待查證的地方，並列各說法與來源。">
   <article class="page">
     <header class="page__head">
-      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
       <h1>說法打架</h1>
       <p>同一件事，不同來源講得不一樣。這頁把各家說法<strong>並排放著</strong>，再附上官方或較可信的說法當對照；對照不是裁判，其他說法不會因此被刪掉。</p>
       <p>共 <span class="num">{items.length}</span> 題，其中 <span class="num">{pending}</span> 題截至 <span class="num">{facts.updated_at}</span> 仍待查證。看到下面這些說法被講得很滿時，先別急著轉。</p>
@@ -59,7 +58,6 @@ const pending = items.filter((i) => i.data.pending).length;
     <footer class="next">
       <h2>下一步</h2>
       <ul>
-        <li><a href="/news/timeline/">把這些說法放回時間軸上看</a></li>
         <li><a href="/sources/">所有來源列表</a></li>
         <li><a href="/basic/check/">我自己也有網站</a></li>
       </ul>
@@ -70,7 +68,6 @@ const pending = items.filter((i) => i.data.pending).length;
 <style>
   .page { display: grid; gap: 32px; max-width: 60rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
   .page__head { display: grid; gap: 12px; max-width: 46rem; }
-  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
   h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
   .items { display: grid; gap: 20px; margin: 0; padding: 0; list-style: none; }
   .item { display: grid; gap: 12px; padding: 18px; background: #fff; border-radius: 4px; }

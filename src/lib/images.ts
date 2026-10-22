@@ -10,6 +10,8 @@ export interface ImageSlotDef {
   alt: string;
   prompt: string;
   status: 'pending' | 'generated';
+  /** 滿版橫幅。寬度貼齊視窗，不進內容欄。 */
+  hero?: boolean;
 }
 
 const root = process.cwd();

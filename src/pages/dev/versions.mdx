@@ -1,0 +1,30 @@
+---
+layout: ../../layouts/DevDoc.astro
+title: 版本矩陣與受影響 SAPI
+description: PHP2Shell 的官方修補版本、受影響 SAPI 風險排序，以及命令列 php 要不要算進盤點。
+lede: 官方點名所有服務網頁請求的安裝，Apache mod_php 最高。命令列的 php 沒有被保證絕對無關。
+checked: "2026-10-22"
+sources:
+  - title: PHP.net 安全公告：Critical remote code execution vulnerabilities, update now（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: GHSA-w8hw-w9fx-j79w（CVE-2026-109618）
+    url: https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w
+  - title: GHSA-6wmf-4rv5-p3rp（CVE-2026-109619）
+    url: https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+  - title: PHP 基金會：Today's PHP security release and how we're strengthening PHP security
+    url: https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/
+  - title: ICSDA：PHP2Shell 修補已釋出（繁中應變整理）
+    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
+---
+import VersionMatrix from '../../components/dev/VersionMatrix.astro';
+import SapiRisk from '../../components/dev/SapiRisk.astro';
+
+## 版本矩陣
+
+<VersionMatrix />
+
+<h2 id="sapi">受影響 SAPI 風險排序</h2>
+
+<SapiRisk />
+
+命令列的 `php` 不在官方「服務網頁請求」那句的主詞裡，但官方也沒有保證命令列絕對無關。盤點時以「會不會被網頁請求碰到」為準。

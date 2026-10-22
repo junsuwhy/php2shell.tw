@@ -1,71 +1,97 @@
-# 圖片位置登記表。圖片由 Grok 依 prompt 產生後，放到 public/images/<file>，並填 provenance。
+# 圖片位置登記表。圖片由 Grok（image_gen）依 prompt 產生後，放到 public/images/<file>，並填 provenance。
 # 檔案不存在時：開發模式顯示標示框；正式網站顯示該位置的備用樣式。
-# 共同風格（每個 prompt 都要附上）：
-#   flat vector illustration, transit-wayfinding pictogram style, bold simple shapes, no gradients,
-#   no text, no letters, no numbers, no logos, no real transit brand marks, plenty of negative space
+# hero: true 的圖片是滿版橫幅（寬度貼齊視窗），其餘放在卡片或欄位內。
+# 產圖時一律把 style 接在 prompt 後面，再加上該圖的 palette。
 style: >-
-  flat vector illustration in transit wayfinding pictogram style, bold simple geometric shapes,
-  flat colors only, no gradients, no shadows, no text, no letters, no numbers, no logos,
-  no real transit company branding, generous negative space
+  bold vibrant street-art illustration, graffiti mural and screen-printed street poster style,
+  thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and
+  spray-paint texture, slight risograph misregistration, dynamic composition, energetic and
+  confident mood, no readable text, no letters, no numbers, no logos, no brand marks,
+  no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
 slots:
+  # ── 首頁 ──────────────────────────────────────────
   - id: home-concourse
     file: home-concourse.webp
     page: /
-    where: 首頁站名牌右側（手機版縮小置於站名下方）
-    aspect: "4/3"
-    size: 1200x900
-    alt: 車站大廳插畫，三條不同顏色的路線指示牌指向三個方向
-    palette: "#22262c 深石墨底、#f2b705 黃、#2fb26b 綠、#e0457b 粉紅、#f4f5f6 白"
+    hero: true
+    where: 首頁最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭塗鴉風的車站大廳，三面黃、綠、粉紅色的大指示牌各指向不同方向
+    palette: "深石墨牆面 #22262c 為底，電光黃 #f2b705、螢光綠 #2fb26b、桃紅 #e0457b，白色高光"
     prompt: >-
-      A calm station concourse seen from slightly above, dark graphite ground, three overhead
-      direction signs hanging in a row, each sign a solid color band (yellow, green, pink) with a
-      simple arrow shape pointing a different way, a few tiny simplified commuters walking toward them
-    status: pending
-    provenance: null
+      A huge graffiti mural covering an underground station concourse wall, three giant hanging
+      direction signs in electric yellow, neon green and hot pink, each with a fat arrow pointing a
+      different way, small stylized commuters in motion below, spray-paint drips and halftone
+      shadows, wide cinematic panorama, the left third calmer and darker so a headline can sit on it
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:39:43+08:00"
+      prompt: >-
+        A huge graffiti mural covering an underground station concourse wall, three giant hanging direction signs in electric yellow, neon green and hot pink, each with a fat arrow pointing a different way, small stylized commuters in motion below, spray-paint drips and halftone shadows, wide cinematic panorama, the left third calmer and darker so a headline can sit on it, color palette: deep graphite wall #22262c as the base, electric yellow #f2b705, neon green #2fb26b, hot pink #e0457b, white highlights, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: exit-basic
     file: exit-basic.webp
     page: /
     where: 出口 1「非技術人員」卡內
     aspect: "1/1"
-    size: 800x800
-    alt: 一位店家老闆拿著手機查看自己的網站，旁邊有一個放大鏡
-    palette: "#f2b705 黃底、#22262c 深石墨線條、白色"
+    size: 1024x1024
+    alt: 街頭風插畫，小店老闆拿著手機看自己的網站，旁邊一個大放大鏡
+    palette: "電光黃 #f2b705 為底，黑色粗線條，白色與一點桃紅點綴"
     prompt: >-
-      Pictogram of a small shop owner holding a smartphone showing a simple website, a friendly
-      magnifying glass beside them, reassuring and calm, yellow background, graphite figure
-    status: pending
-    provenance: null
+      Street-poster portrait of a cheerful small shop owner in an apron holding up a smartphone that
+      shows a simple shop website made of blank blocks, a giant magnifying glass beside them,
+      sticker-bomb style shapes in the background, reassuring and upbeat
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:38:27+08:00"
+      prompt: >-
+        Street-poster portrait of a cheerful small shop owner in an apron holding up a smartphone that shows a simple shop website made of blank blocks, a giant magnifying glass beside them, sticker-bomb style shapes in the background, reassuring and upbeat, color palette: electric yellow #f2b705 as the base, thick black outlines, white and a touch of hot pink #e0457b accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: exit-dev
     file: exit-dev.webp
     page: /
     where: 出口 2「軟體開發人員」卡內
     aspect: "1/1"
-    size: 800x800
-    alt: 一位工程師在伺服器機櫃前拿著扳手更新系統
-    palette: "#2fb26b 綠底、#22262c 深石墨線條、白色"
+    size: 1024x1024
+    alt: 街頭風插畫，工程師戴著帽T站在伺服器機櫃前，手拿扳手，頭上一個更新箭頭
+    palette: "螢光綠 #2fb26b 為底，深石墨 #22262c，黑色粗線條，白色高光"
     prompt: >-
-      Pictogram of an engineer standing beside a server rack, holding a wrench, a simple upward
-      refresh arrow above the rack, focused and competent, green background, graphite figure
-    status: pending
-    provenance: null
+      Street-poster portrait of an engineer in a hoodie standing in front of a glowing server rack,
+      holding a big wrench over their shoulder, a fat circular refresh arrow spray-painted above the
+      rack, confident and competent, stencil graffiti texture
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:38:27+08:00"
+      prompt: >-
+        Street-poster portrait of an engineer in a hoodie standing in front of a glowing server rack, holding a big wrench over their shoulder, a fat circular refresh arrow spray-painted above the rack, confident and competent, stencil graffiti texture, color palette: neon green #2fb26b as the base, deep graphite #22262c, thick black outlines, white highlights, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: exit-news
     file: exit-news.webp
     page: /
     where: 出口 3「吃瓜群眾」卡內
     aspect: "1/1"
-    size: 800x800
-    alt: 一個人一邊吃西瓜一邊看手機上的新聞
-    palette: "#e0457b 粉紅底、#22262c 深石墨線條、白色、西瓜紅綠"
+    size: 1024x1024
+    alt: 街頭風插畫，一個人坐著邊吃西瓜邊滑手機看新聞，身旁飛著報紙
+    palette: "桃紅 #e0457b 為底，西瓜紅綠，黑色粗線條，白色"
     prompt: >-
-      Pictogram of a relaxed person sitting and eating a slice of watermelon while reading news on a
-      phone, a few simplified newspaper sheets floating nearby, light-hearted, pink background,
-      graphite figure, the watermelon in flat red and green
-    status: pending
-    provenance: null
+      Street-poster illustration of a relaxed person sitting on a street curb eating a big slice of
+      watermelon while scrolling news on a phone, blank newspaper sheets flying around like confetti,
+      playful and gossipy mood, pop-art halftone background
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:41:19+08:00"
+      prompt: >-
+        Street-poster illustration of a relaxed person sitting on a street curb eating a big slice of watermelon while scrolling news on a phone, blank newspaper sheets flying around like confetti, playful and gossipy mood, pop-art halftone background, color palette: hot pink #e0457b as the base, watermelon red and green, thick black outlines, white, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: og-default
     file: og-default.png
@@ -73,130 +99,306 @@ slots:
     where: Open Graph／LINE／FB 分享預覽
     aspect: "1200/630"
     size: 1200x630
-    alt: php2shell.tw 分享卡，三條路線色的出口指示牌
-    palette: "#22262c 深石墨底、黃綠粉紅三色帶、白"
+    alt: php2shell.tw 分享卡，街頭塗鴉牆上三條黃、綠、粉紅色的大箭頭
+    palette: "深石墨牆面 #22262c，電光黃 #f2b705、螢光綠 #2fb26b、桃紅 #e0457b"
     prompt: >-
-      Wide banner of a dark graphite station wall with three large exit signs side by side, each a
-      solid color band (yellow, green, pink) with a circle badge and a simple arrow, large empty area
-      on the left for a title to be added later
-    status: pending
-    provenance: null
+      Wide graffiti wall at night, three fat spray-painted arrows in electric yellow, neon green and
+      hot pink sweeping across the wall in different directions, paint drips and halftone dust,
+      large calm dark area on the left for a title to be added later
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:38:28+08:00"
+      prompt: >-
+        Wide graffiti wall at night, three fat spray-painted arrows in electric yellow, neon green and hot pink sweeping across the wall in different directions, paint drips and halftone dust, large calm dark area on the left for a title to be added later, color palette: deep graphite wall #22262c, electric yellow #f2b705, neon green #2fb26b, hot pink #e0457b, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
-  - id: dev-root-cause
-    file: dev-root-cause.webp
-    page: /dev/root-cause/
-    where: 開發者區「成因概念」頁標題下方
-    aspect: "16/9"
-    size: 1600x900
-    alt: 示意圖：工作台被迫中途清空，只收拾了一半，下一位接手的人拿起了上一位留下的零件
-    palette: "#22262c 深石墨底、#2fb26b 綠、#f4f5f6 白、少量 #c8233a 紅點綴"
-    prompt: >-
-      Conceptual pictogram of a workbench on a dark graphite background, a worker abruptly walking
-      away mid-task leaving the bench only half cleared, a second worker arriving and picking up one
-      leftover part highlighted in red, a simple warning triangle above the bench, calm and explanatory,
-      no computer code, no screens, no attack imagery
-
+  # ── 非技術區（黃線）─────────────────────────────────
   - id: basic-kitchen
     file: basic-kitchen.webp
     page: /basic/
-    where: 非技術區首頁標題下方
-    aspect: "16/9"
-    size: 1600x900
-    alt: 餐廳廚房裡的主廚正在備餐，出菜口外的客人在等餐，象徵網站背後的廚房
-    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    hero: true
+    where: 非技術區首頁最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭風插畫，熱鬧的餐廳廚房，主廚正在出菜，出菜口外客人在等，象徵網站背後的廚房
+    palette: "電光黃 #f2b705 為主，奶油白底，黑色粗線條，一點桃紅與青綠點綴"
     prompt: >-
-      Pictogram of a friendly restaurant kitchen seen from the front, a chef figure at a work counter
-      preparing a plate, a pass-through window where a simple diner figure waits, warm and reassuring,
-      light grey background, yellow accents, graphite figures
-    status: pending
-    provenance: null
+      Wide street-mural panorama of a bustling restaurant kitchen seen from the front, a chef
+      plating a dish at a steel counter, steam swirls painted as bold curls, a pass-through window
+      where a happy customer waits, warm friendly and reassuring, the left third simpler for a headline
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:39:43+08:00"
+      prompt: >-
+        Wide street-mural panorama of a bustling restaurant kitchen seen from the front, a chef plating a dish at a steel counter, steam swirls painted as bold curls, a pass-through window where a happy customer waits, warm friendly and reassuring, the left third simpler for a headline, color palette: electric yellow #f2b705 dominant, cream white background, thick black outlines, a touch of hot pink #e0457b and teal accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: basic-check
     file: basic-check.webp
     page: /basic/check/
-    where: 檢查精靈標題下方
-    aspect: "16/9"
-    size: 1600x900
-    alt: 一個人站在叉路口的指示牌前，指示牌指向幾個不同方向
-    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    hero: true
+    where: 檢查精靈最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭風插畫，一個人站在塗鴉牆前的叉路指示牌下，指示牌指向不同方向
+    palette: "電光黃 #f2b705 為主，奶油白底，黑色粗線條，青綠點綴"
     prompt: >-
-      Pictogram of a calm person standing in front of a signpost with several blank direction boards
-      pointing different ways, a simple path leading toward each board, helpful and unhurried,
-      light grey background, yellow signboards, graphite figure
-    status: pending
-    provenance: null
+      Wide street-art panorama of a calm person standing at a crossroads under a tall signpost with
+      several blank arrow boards pointing different ways, each path painted as a bold colored stripe
+      on the ground, helpful and unhurried mood, the left third simpler for a headline
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:38:28+08:00"
+      prompt: >-
+        Wide street-art panorama of a calm person standing at a crossroads under a tall signpost with several blank arrow boards pointing different ways, each path painted as a bold colored stripe on the ground, helpful and unhurried mood, the left third simpler for a headline, color palette: electric yellow #f2b705 dominant, cream white background, thick black outlines, teal accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: basic-dashboard
     file: basic-dashboard.webp
     page: /basic/systems/*
-    where: 各系統頁標題下方（七個系統頁共用）
-    aspect: "16/9"
-    size: 1600x900
-    alt: 一個人看著筆電上的網站後台，旁邊的放大鏡照著一個版本標籤
-    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    hero: true
+    where: 各系統頁最上方滿版橫幅（七個系統頁共用）
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭風插畫，一個人看著筆電上的網站後台，巨大的放大鏡照著一個標籤
+    palette: "電光黃 #f2b705 為主，奶油白底，黑色粗線條，一點桃紅"
     prompt: >-
-      Pictogram of a person sitting at a laptop showing a simple admin dashboard made of blank
-      rectangles, a large friendly magnifying glass highlighting one blank label tag on the screen,
-      calm and clear, light grey background, yellow accents, graphite figure
-    status: pending
-    provenance: null
-
-  - id: basic-message
-    file: basic-message.webp
-    page: /basic/ask-your-vendor/
-    where: 問廠商訊息頁標題下方
-    aspect: "16/9"
-    size: 1600x900
-    alt: 一個人用手機送出一則訊息，訊息飛向一棟放著主機的小房子
-    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
-    prompt: >-
-      Pictogram of a person holding a smartphone and sending a blank speech-bubble message that
-      travels along a dotted line to a small building containing a simple server rack, a second
-      blank reply bubble coming back, polite and reassuring, light grey background, yellow accents
-    status: pending
-    provenance: null
+      Wide street-poster panorama of a person sitting at a laptop showing an admin dashboard made of
+      blank rectangles, a giant magnifying glass highlighting one blank label tag that pops out of
+      the screen like a sticker, clear and calm, the left third simpler for a headline
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:39:43+08:00"
+      prompt: >-
+        Wide street-poster panorama of a person sitting at a laptop showing an admin dashboard made of blank rectangles, a giant magnifying glass highlighting one blank label tag that pops out of the screen like a sticker, clear and calm, the left third simpler for a headline, color palette: electric yellow #f2b705 dominant, cream white background, thick black outlines, a touch of hot pink #e0457b, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: basic-faq
     file: basic-faq.webp
     page: /basic/faq/
-    where: 常見問題頁標題下方
-    aspect: "16/9"
-    size: 1600x900
-    alt: 兩個人面對面聊天，頭上各有一個問號與一個打勾的對話框
-    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    hero: true
+    where: 常見問題頁最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭風插畫，兩個人面對面聊天，頭上一個問號與一個打勾的對話泡泡
+    palette: "電光黃 #f2b705 為主，奶油白底，黑色粗線條，青綠點綴"
     prompt: >-
-      Pictogram of two friendly people talking face to face, one with a question-mark speech bubble
-      and the other with a check-mark speech bubble, a relaxed atmosphere, light grey background,
-      yellow bubbles, graphite figures
+      Wide street-mural panorama of two friendly people chatting face to face in front of a
+      sticker-covered wall, one with a big question-mark speech bubble, the other with a big
+      check-mark speech bubble, relaxed and warm, the left third simpler for a headline
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:43:11+08:00"
+      prompt: >-
+        Wide street-mural panorama of two friendly people chatting face to face in front of a sticker-covered wall, one with a big question-mark speech bubble, the other with a big check-mark speech bubble, relaxed and warm, the left third simpler for a headline, color palette: electric yellow #f2b705 dominant, cream white background, thick black outlines, teal accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
+  # ── 開發者區（綠線）─────────────────────────────────
+  - id: dev-hub
+    file: dev-hub.webp
+    page: /dev/
+    hero: true
+    where: 開發者區首頁最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭塗鴉風的機房走道，一排伺服器機櫃上噴著綠色更新箭頭與盾牌
+    palette: "深石墨 #22262c 為底，螢光綠 #2fb26b 為主，霓虹青，白色高光"
+    prompt: >-
+      Wide cyberpunk graffiti panorama of a server room aisle at night, rows of racks covered in
+      neon-green spray-painted shield shapes and circular update arrows, glowing status lights,
+      a lone engineer silhouette with a wrench walking down the aisle, terminal-glow atmosphere
+      without any readable characters, the left third darker for a headline
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:43:11+08:00"
+      prompt: >-
+        Wide cyberpunk graffiti panorama of a server room aisle at night, rows of racks covered in neon-green spray-painted shield shapes and circular update arrows, glowing status lights, a lone engineer silhouette with a wrench walking down the aisle, terminal-glow atmosphere without any readable characters, the left third darker for a headline, color palette: deep graphite #22262c as the base, neon green #2fb26b dominant, neon cyan, white highlights, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  - id: dev-root-cause
+    file: dev-root-cause.webp
+    page: /dev/root-cause/
+    hero: true
+    where: 開發者區「成因概念」頁最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 示意圖：工作台被迫中途清空，只收拾了一半，下一位接手的人拿起了上一位留下的零件
+    palette: "深石墨 #22262c 為底，螢光綠 #2fb26b，白色，少量警示紅 #c8233a"
+    prompt: >-
+      Wide street-poster panorama of a workbench, one worker abruptly walking away mid-task leaving
+      the bench only half cleared, a second worker arriving and picking up one leftover part that
+      glows warning red, a fat spray-painted warning triangle above the bench, explanatory not
+      scary, no screens, no attack imagery
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:40:31+08:00"
+      prompt: >-
+        Wide street-poster panorama of a workbench, one worker abruptly walking away mid-task leaving the bench only half cleared, a second worker arriving and picking up one leftover part that glows warning red, a fat spray-painted warning triangle above the bench, explanatory not scary, no screens, no attack imagery, color palette: deep graphite #22262c as the base, neon green #2fb26b, white, a small amount of warning red #c8233a, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  # ── 吃瓜區（粉紅線）─────────────────────────────────
   - id: news-hub
     file: news-hub.webp
     page: /news/
-    where: 吃瓜懶人包報頭右側（手機版置於標題下方）
-    aspect: "16/9"
-    size: 1280x720
-    alt: 報攤前一群人邊吃西瓜邊看報紙與手機，報紙頭條是一個大大的驚嘆號圖示
-    palette: "#e0457b 粉紅、#22262c 深石墨線條、#e9ebee 淺灰底、西瓜紅綠"
+    hero: true
+    where: 吃瓜懶人包最上方滿版橫幅
+    aspect: "21/9"
+    size: 2520x1080
+    alt: 街頭風插畫，報攤前一群人邊吃西瓜邊看報紙與手機，報紙頭條是一個巨大的驚嘆號
+    palette: "桃紅 #e0457b 為主，西瓜紅綠，黑色粗線條，電光黃點綴"
     prompt: >-
-      A small newsstand on a light grey ground, three simplified pictogram people gathered around it,
-      one eating a slice of watermelon, one reading a folded newspaper whose front page shows only a
-      large exclamation mark shape, one looking at a phone, curious but calm mood, pink accents,
-      graphite figures, the watermelon in flat red and green
-    status: pending
-    provenance: null
+      Wide pop-art street-mural panorama of a busy newsstand, a crowd gathered around it, one person
+      eating a slice of watermelon, one reading a newspaper whose front page shows only a giant
+      exclamation mark shape, one filming on a phone, comic-style motion lines and halftone burst,
+      curious gossip energy, the left third simpler for a headline
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:41:20+08:00"
+      prompt: >-
+        Wide pop-art street-mural panorama of a busy newsstand, a crowd gathered around it, one person eating a slice of watermelon, one reading a newspaper whose front page shows only a giant exclamation mark shape, one filming on a phone, comic-style motion lines and halftone burst, curious gossip energy, the left third simpler for a headline, color palette: hot pink #e0457b dominant, watermelon red and green, thick black outlines, electric yellow #f2b705 accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   - id: news-story
     file: news-story.webp
     page: /news/story/
-    where: 前因後果頁開頭、章節目錄上方
+    hero: true
+    where: 前因後果頁最上方滿版橫幅
     aspect: "21/9"
-    size: 1680x720
-    alt: 一條由左到右的時間線，沿途有舊電腦、放大鏡、機器人手臂、破掉的封條與關上的店門
-    palette: "#e0457b 粉紅、#22262c 深石墨、#e9ebee 淺灰底"
+    size: 2520x1080
+    alt: 一條由左到右的時間線，沿途有舊電腦、放大鏡、機器人手臂、破掉的封條與拉下鐵門的店面
+    palette: "桃紅 #e0457b 時間線，深石墨，奶油白底，電光黃點綴"
     prompt: >-
-      A long horizontal timeline line running left to right on a light grey ground, with five evenly
-      spaced pictogram stops: an old beige desktop computer, a magnifying glass over a document, a
-      simple robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of
-      small shop fronts with their shutters pulled down, pink line, graphite icons
-    status: pending
-    provenance: null
+      Wide graffiti panorama of a thick hot-pink timeline line spray-painted left to right across a
+      wall, with five stops: an old beige desktop computer, a magnifying glass over a document, a
+      robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of shop
+      fronts with metal shutters pulled down
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:43:55+08:00"
+      prompt: >-
+        Wide graffiti panorama of a thick hot-pink timeline line spray-painted left to right across a wall, with five stops: an old beige desktop computer, a magnifying glass over a document, a robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of shop fronts with metal shutters pulled down, color palette: hot pink #e0457b timeline, deep graphite #22262c, cream white background, electric yellow #f2b705 accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  # 吃瓜區首頁六個入口按鈕（正方形，圖上不放字，標題由網頁文字疊上）
+  - id: news-sec-story
+    file: news-sec-story.webp
+    page: /news/
+    where: 吃瓜區入口按鈕「前因後果」
+    aspect: "1/1"
+    size: 1024x1024
+    alt: 一條打結又解開的粗繩，從一台舊電腦延伸到一排拉下鐵門的店面
+    palette: "桃紅 #e0457b 為底，黑色粗線條，電光黃點綴"
+    prompt: >-
+      Street-poster icon of a thick knotted rope snaking from an old beige computer on one side to a
+      row of shuttered shop fronts on the other, cause-and-effect feel, bold and graphic
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:44:31+08:00"
+      prompt: >-
+        Street-poster icon of a thick knotted rope snaking from an old beige computer on one side to a row of shuttered shop fronts on the other, cause-and-effect feel, bold and graphic, color palette: hot pink #e0457b as the base, thick black outlines, electric yellow #f2b705 accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  - id: news-sec-timeline
+    file: news-sec-timeline.webp
+    page: /news/
+    where: 吃瓜區入口按鈕「時間軸」
+    aspect: "1/1"
+    size: 1024x1024
+    alt: 一個大時鐘，時針後面拖著一條有節點的時間線
+    palette: "桃紅 #e0457b 為底，深石墨，電光黃，黑色粗線條"
+    prompt: >-
+      Street-poster icon of a big round wall clock with no numerals, its hand trailing a bold dotted
+      timeline with round milestone dots that spirals outward, sense of urgency, graffiti texture
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:42:21+08:00"
+      prompt: >-
+        Street-poster icon of a big round wall clock with no numerals, its hand trailing a bold dotted timeline with round milestone dots that spirals outward, sense of urgency, graffiti texture, color palette: hot pink #e0457b as the base, deep graphite #22262c, electric yellow #f2b705, thick black outlines, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  - id: news-sec-wall
+    file: news-sec-wall.webp
+    page: /news/
+    where: 吃瓜區入口按鈕「新聞牆」
+    aspect: "1/1"
+    size: 1024x1024
+    alt: 一面貼滿報紙與傳單的牆，紙張沒有任何文字
+    palette: "桃紅 #e0457b，奶油白紙張，黑色粗線條，螢光綠點綴"
+    prompt: >-
+      Street-poster icon of a brick wall wheat-pasted with overlapping blank newspapers and flyers,
+      torn edges, tape strips and a few pins, layered collage feel, no readable text
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:42:21+08:00"
+      prompt: >-
+        Street-poster icon of a brick wall wheat-pasted with overlapping blank newspapers and flyers, torn edges, tape strips and a few pins, layered collage feel, no readable text, color palette: hot pink #e0457b, cream white paper, thick black outlines, neon green #2fb26b accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  - id: news-sec-outages
+    file: news-sec-outages.webp
+    page: /news/
+    where: 吃瓜區入口按鈕「關站名單」
+    aspect: "1/1"
+    size: 1024x1024
+    alt: 一排拉下鐵門的店面，門上掛著空白的暫停營業牌
+    palette: "桃紅 #e0457b 為底，深石墨鐵門，電光黃，黑色粗線條"
+    prompt: >-
+      Street-poster icon of a row of three small storefronts with graffiti-covered metal shutters
+      pulled down, each with a blank hanging closed sign, moody street at dusk, bold and graphic
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:42:22+08:00"
+      prompt: >-
+        Street-poster icon of a row of three small storefronts with graffiti-covered metal shutters pulled down, each with a blank hanging closed sign, moody street at dusk, bold and graphic, color palette: hot pink #e0457b as the base, deep graphite #22262c metal shutters, electric yellow #f2b705, thick black outlines, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  - id: news-sec-quotes
+    file: news-sec-quotes.webp
+    page: /news/
+    where: 吃瓜區入口按鈕「名言錄」
+    aspect: "1/1"
+    size: 1024x1024
+    alt: 一個復古麥克風前方炸開好幾個空白的對話泡泡
+    palette: "桃紅 #e0457b 為底，電光黃，白色泡泡，黑色粗線條"
+    prompt: >-
+      Street-poster icon of a vintage microphone with several big blank comic speech bubbles bursting
+      out of it, pop-art halftone explosion behind, loud and quotable mood
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:42:21+08:00"
+      prompt: >-
+        Street-poster icon of a vintage microphone with several big blank comic speech bubbles bursting out of it, pop-art halftone explosion behind, loud and quotable mood, color palette: hot pink #e0457b as the base, electric yellow #f2b705, white speech bubbles, thick black outlines, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+
+  - id: news-sec-rumors
+    file: news-sec-rumors.webp
+    page: /news/
+    where: 吃瓜區入口按鈕「說法打架」
+    aspect: "1/1"
+    size: 1024x1024
+    alt: 兩個空白對話泡泡像拳擊手一樣互撞，中間炸出火花
+    palette: "桃紅 #e0457b 與螢光綠 #2fb26b 對撞，黑色粗線條，電光黃火花"
+    prompt: >-
+      Street-poster icon of two big blank speech bubbles wearing boxing gloves colliding head-on,
+      one pink and one green, comic impact star and sparks between them, playful conflict
+    status: generated
+    provenance:
+      tool: grok image_gen
+      model: grok-imagine-image-quality
+      generated_at: "2026-10-22T18:43:10+08:00"
+      prompt: >-
+        Street-poster icon of two big blank speech bubbles wearing boxing gloves colliding head-on, one pink and one green, comic impact star and sparks between them, playful conflict, color palette: hot pink #e0457b colliding with neon green #2fb26b, thick black outlines, electric yellow #f2b705 sparks, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
