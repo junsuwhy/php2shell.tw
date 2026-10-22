@@ -1,0 +1,57 @@
+---
+// 新聞牆與懶人包的卡片：來源、台灣時間、標題；未取得全文要標示。
+import { languageLabel, newsHref, newsTitle, sourceGroup, type NewsEntry } from '../../lib/news';
+
+interface Props { entry: NewsEntry; headingLevel?: 'h2' | 'h3' }
+const { entry, headingLevel: H = 'h3' } = Astro.props;
+const d = entry.data;
+---
+<article
+  class="card"
+  data-lang={d.language}
+  data-group={sourceGroup(d.source_type)}
+  data-tags={d.tags.join('|')}
+>
+  <p class="card__meta">
+    <span class="card__source">{d.source}</span>
+    <span class="num">{d.published_at_taipei}</span>
+  </p>
+  <H class="card__title"><a href={newsHref(entry)}>{newsTitle(entry)}</a></H>
+  <p class="card__facts">
+    <span>{d.source_type}</span>
+    <span>{languageLabel(d.language)}</span>
+    {d.fetch_status === 'failed' && <span class="card__flag">未取得全文</span>}
+  </p>
+  {d.tags.length > 0 && (
+    <ul class="card__tags" aria-label="標籤">
+      {d.tags.map((t) => <li>{t}</li>)}
+    </ul>
+  )}
+</article>
+
+<style>
+  .card {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    padding: 16px 18px 18px;
+    background: #fff;
+    border-top: 4px solid var(--line-news);
+    border-radius: 4px;
+  }
+  .card__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .card__source { font-weight: 700; color: var(--floor-ink); }
+  .card__title { font-size: 1.0625rem; line-height: 1.45; }
+  .card__title a { text-decoration: none; }
+  .card__title a:hover { text-decoration: underline; }
+  .card__facts { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.8125rem; color: var(--floor-ink-soft); }
+  .card__flag {
+    padding: 0 6px;
+    border: 1px solid var(--alert);
+    border-radius: 3px;
+    color: var(--alert);
+    font-weight: 700;
+  }
+  .card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 0.8125rem; }
+  .card__tags li { padding: 0 8px; background: var(--floor); border-radius: 999px; }
+</style>

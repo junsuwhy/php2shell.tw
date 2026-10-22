@@ -96,6 +96,7 @@
 | 名詞表 | `src/data/glossary.yaml` | YAML | 加一個詞，全站自動標註 |
 | 關站名單 | `src/data/outages.yaml` | YAML | 加一筆 |
 | 名言 | `src/data/quotes.yaml` | YAML | 加一筆 |
+| 說法分歧 | `src/data/discrepancies.yaml` | YAML | 加一題；並列各說法，官方說法只作對照（整理自 `docs/knowledge/06-discrepancies.md`）|
 | 角色頁面 | `src/content/{basic,dev,story}/*.mdx` | MDX | 編輯文章 |
 
 Astro content collection 以 glob loader 讀 `docs/news/`，用 zod schema 驗證 frontmatter；欄位缺漏時建置失敗，避免壞資料上線。
