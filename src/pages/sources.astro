@@ -23,7 +23,10 @@ for (const file of readdirSync(dir).filter((f) => f.endsWith('.md')).sort()) {
   }
 }
 const host = (url: string) => {
-  try { return decodeURI(new URL(url).hostname.replace(/^www\./, '')); } catch { return url; }
+  try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return url; }
+};
+const readable = (url: string) => {
+  try { return decodeURI(url); } catch { return url; }
 };
 ---
 <Base title="資料來源" persona="gateway" description="php2shell.tw 引用的所有新聞、官方公告與研究報告，依來源類型分組。">
@@ -69,7 +72,7 @@ const host = (url: string) => {
           {[...extra].map(([url, by]) => (
             <li>
               <p class="item__title"><a href={url} rel="noopener">{host(url)}</a></p>
-              <p class="url">{decodeURI(url)}</p>
+              <p class="url">{readable(url)}</p>
               <p class="item__meta soft">引用於：{by.join('、')}</p>
             </li>
           ))}

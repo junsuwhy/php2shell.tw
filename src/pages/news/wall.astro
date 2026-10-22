@@ -45,7 +45,7 @@ const tags = countBy(news.flatMap((n) => n.data.tags));
     </form>
 
     <div class="wall" data-wall>
-      {news.map((entry) => <NewsCard entry={entry} />)}
+      {news.map((entry) => <NewsCard entry={entry} headingLevel="h2" />)}
     </div>
     <p class="empty" data-empty hidden>沒有符合條件的新聞，換個條件試試。</p>
 

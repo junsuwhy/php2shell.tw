@@ -4,8 +4,8 @@ import { getOrdered } from '../../lib/news';
 import EventTime from './EventTime.astro';
 import SourceLinks from './SourceLinks.astro';
 
-interface Props { highlightsOnly?: boolean }
-const { highlightsOnly = false } = Astro.props;
+interface Props { highlightsOnly?: boolean; headingLevel?: 'h2' | 'h3' }
+const { highlightsOnly = false, headingLevel: H = 'h3' } = Astro.props;
 // 依 timeline.yaml 的排列順序（資料檔本身按時間排）
 const events = (await getOrdered('timeline')).filter((e) => !highlightsOnly || e.data.importance === 3);
 ---
@@ -13,10 +13,10 @@ const events = (await getOrdered('timeline')).filter((e) => !highlightsOnly || e
   {events.map(({ id, data: e }) => (
     <li class:list={['tl__item', { 'tl__item--key': e.importance === 3 }]} id={id}>
       <EventTime at={e.at} precision={e.precision} />
-      <h3 class="tl__title">
+      <H class="tl__title">
         {e.importance === 3 && !highlightsOnly && <span class="tl__badge">精華</span>}
         {e.title}
-      </h3>
+      </H>
       <p>{e.summary}</p>
       <SourceLinks refs={e.sources} />
     </li>
