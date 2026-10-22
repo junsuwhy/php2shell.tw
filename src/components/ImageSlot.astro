@@ -6,16 +6,19 @@ interface Props {
   id: string;
   class?: string;
   loading?: 'lazy' | 'eager';
+  /** 為 false 時不寫死比例，由外層控制（滿版 hero、正方形按鈕）。 */
+  framed?: boolean;
 }
 
-const { id, class: className, loading = 'lazy' } = Astro.props;
+const { id, class: className, loading = 'lazy', framed = true } = Astro.props;
 const slot = getSlot(id);
 const showMarker = !slot.ready && import.meta.env.DEV;
+const ratio = framed ? `aspect-ratio:${slot.aspect}` : undefined;
 ---
 {slot.ready ? (
-  <img class:list={['image-slot', className]} src={slot.src} alt={slot.alt} loading={loading} decoding="async" style={`aspect-ratio:${slot.aspect}`} />
+  <img class:list={['image-slot', className]} src={slot.src} alt={slot.alt} loading={loading} decoding="async" style={ratio} />
 ) : showMarker ? (
-  <div class:list={['image-slot', 'image-slot--pending', className]} style={`aspect-ratio:${slot.aspect}`} role="img" aria-label={`待產生圖片：${slot.alt}`}>
+  <div class:list={['image-slot', 'image-slot--pending', className]} style={ratio} role="img" aria-label={`待產生圖片：${slot.alt}`}>
     <span class="image-slot__id">IMG · {slot.id}</span>
     <span class="image-slot__meta">{slot.aspect} · {slot.where}</span>
   </div>

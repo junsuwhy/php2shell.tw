@@ -3,7 +3,7 @@
 // Sätteri mdast 外掛（Astro 預設的 Markdown／MDX 處理器，概念上等同 remark 外掛）。
 // 建置時讀 src/data/glossary.yaml，比對 term 與 aliases：
 // - 每頁只標註每個詞第一次出現的位置，包成 <dfn>，以 aria-describedby 指向註解。
-// - 在該段落正下方插入「註」區塊（<aside>），列出這段新出現的詞與 note；不靠懸停。
+// - 在該段落正下方插入「註」區塊（<details>，預設收合），列出這段新出現的詞與 note；不靠懸停。
 // - 略過程式碼（行內與區塊）、標題、連結、表格、HTML 與 MDX 元件內的文字。
 // - 只處理 include 判斷為開發者區的 MDX 檔；/basic/ 等其他檔案原樣輸出。
 import { readFileSync } from 'node:fs';
@@ -60,11 +60,13 @@ function noteNode(hits) {
       { type: 'emphasis', data: { hName: 'dd', hProperties: { className: ['glossary-note__text'], id: noteId(entry) } }, children: [text(entry.note)] },
     );
   }
+  // summary 用正文裡出現的寫法（例如「CVSS v4.0」而不是詞條正式名「CVSS」）。
+  const summary = `註：${hits.map((hit) => hit.text).join('、')}`;
   return {
     type: 'blockquote',
-    data: { hName: 'aside', hProperties: { className: ['glossary-note'], ariaLabel: '名詞註解' } },
+    data: { hName: 'details', hProperties: { className: ['glossary-note'] } },
     children: [
-      { type: 'paragraph', data: { hProperties: { className: ['glossary-note__label'] } }, children: [text('註')] },
+      { type: 'paragraph', data: { hName: 'summary', hProperties: { className: ['glossary-note__summary'] } }, children: [text(summary)] },
       { type: 'paragraph', data: { hName: 'dl', hProperties: { className: ['glossary-note__list'] } }, children: items },
     ],
   };

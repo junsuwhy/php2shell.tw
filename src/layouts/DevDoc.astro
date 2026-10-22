@@ -1,8 +1,9 @@
 ---
 // 開發者區文章版型：給 src/pages/dev/**/*.mdx 用（frontmatter 的 layout）。
-// 固定輸出：麵包屑、標題與導言、正文、來源與查詢日期、下一步。
+// 固定輸出：標題與導言、正文、來源與查詢日期、下一步（有寫才出現）。
 // 正文由 MDX 產生，樣式以 .dev-doc 底下的 :global() 套用，不新增全域樣式。
 import Base from './Base.astro';
+import HeroBanner from '../components/HeroBanner.astro';
 
 interface Source { title: string; url: string }
 interface Next { href: string; label: string; note?: string }
@@ -12,26 +13,28 @@ interface Props {
     title: string;
     description?: string;
     lede?: string;
+    hero?: string;
     checked: string;
     sources: Source[];
-    next: Next[];
+    next?: Next[];
   };
 }
 
-const { title, description, lede, checked, sources, next } = Astro.props.frontmatter;
-const isIndex = Astro.url.pathname === '/dev/';
+const { title, description, lede, hero, checked, sources, next = [] } = Astro.props.frontmatter;
 ---
 <Base title={title} description={description} persona="dev">
-  <article class="dev-doc">
-    {!isIndex && (
-      <nav class="crumbs" aria-label="麵包屑">
-        <a href="/dev/">開發者總覽</a>
-        {Astro.url.pathname.startsWith('/dev/fix/') && <> <span aria-hidden="true">/</span> 修補</>}
-      </nav>
-    )}
-    <h1>{title}</h1>
-    {lede && <p class="lede">{lede}</p>}
-
+  {hero ? (
+    <HeroBanner id={hero} variant="dev">
+      <h1>{title}</h1>
+      {lede && <p class="lede">{lede}</p>}
+    </HeroBanner>
+  ) : (
+    <header class="dev-title">
+      <h1>{title}</h1>
+      {lede && <p class="lede">{lede}</p>}
+    </header>
+  )}
+  <article class:list={['dev-doc', { 'dev-doc--after-hero': Boolean(hero) }]}>
     <div class="dev-doc__body">
       <slot />
     </div>
@@ -46,29 +49,54 @@ const isIndex = Astro.url.pathname === '/dev/';
       </ul>
     </section>
 
-    <nav class="next" aria-labelledby="next-title">
-      <h2 id="next-title">下一步</h2>
-      <ul>
-        {next.map((n) => (
-          <li>
-            <a href={n.href}>{n.label}</a>
-            {n.note && <span class="next__note">{n.note}</span>}
-          </li>
-        ))}
-      </ul>
-    </nav>
+    {next.length > 0 && (
+      <nav class="next" aria-labelledby="next-title">
+        <h2 id="next-title">下一步</h2>
+        <ul>
+          {next.map((n) => (
+            <li>
+              <a href={n.href}>{n.label}</a>
+              {n.note && <span class="next__note">{n.note}</span>}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
   </article>
 </Base>
 
 <style>
+  .dev-title,
   .dev-doc {
     max-width: 46rem;
     margin: 0 auto;
-    padding: 32px var(--gutter) 56px;
   }
-  .crumbs { font-size: 0.9375rem; color: var(--floor-ink-soft); margin-bottom: 12px; }
+  .dev-title { padding: 32px var(--gutter) 0; }
+  .dev-doc { padding: 8px var(--gutter) 56px; }
+  .dev-doc--after-hero { padding-top: 28px; }
   h1 { font-size: clamp(1.75rem, 4vw, 2.375rem); font-weight: 900; }
   .lede { margin-top: 12px; font-size: 1.125rem; color: var(--floor-ink-soft); }
+  :global(.start) { display: grid; gap: 12px; margin-top: 8px; }
+  :global(.start ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  :global(.start a) {
+    display: grid;
+    gap: 2px;
+    padding: 14px 16px;
+    border: 2px solid var(--graphite);
+    border-radius: 4px;
+    background: #fff;
+    text-decoration: none;
+  }
+  :global(.start a:hover),
+  :global(.start a:focus-visible) { border-color: var(--line-dev); }
+  :global(.start strong) { font-size: 1.125rem; }
+  :global(.start span) { font-size: 0.9375rem; color: var(--floor-ink-soft); }
 
   .dev-doc__body { margin-top: 28px; }
   .dev-doc__body :global(h2) {
@@ -97,7 +125,8 @@ const isIndex = Astro.url.pathname === '/dev/';
     border-left: 4px solid var(--alert);
     background: #fff;
   }
-  .dev-doc__body :global(.glossary-note) { background: #f4f5f6; }
+  .dev-doc__body :global(.glossary-note) { background: transparent; }
+  .dev-doc__body :global(.glossary-note[open]) { background: #f4f5f6; }
   .dev-doc__body :global(table) {
     display: block;
     overflow-x: auto;

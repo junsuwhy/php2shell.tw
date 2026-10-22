@@ -295,6 +295,16 @@
     - "2026-10-22-0636-aws-php2shell-exploitation-madpot.md"
   tags: ["在野利用", "PoC"]
   importance: 3
+- id: "openai-php2shell-checker-2026-10-21"
+  at: "2026-10-21T16:35:11Z"
+  precision: "exact"
+  title: "OpenAI 公開 php2shell-checker"
+  summary: "16:35:11 UTC（台灣 10 月 22 日 00:35），OpenAI 官方 X 帳號公開 php2shell-checker：不確定網站是否受影響時，把 Codex 指向 GitHub 儲存庫來檢查。工具只比對回應標頭或本機 php -v 看得到的版號，結果為 OK、VULNERABLE 或 UNKNOWN；OK 沒有獨立驗證修補是否存在。GitHub API 記錄儲存庫建立於同日 00:29:12 UTC（台灣 08:29）。只能檢查自己有權限的系統，不能代替 PHP 官方修補。"
+  sources:
+    - "2026-10-22-0035-openai-x-php2shell-checker.md"
+    - "2026-10-21-0829-openai-github-php2shell-checker.md"
+  tags: ["官方", "檢查"]
+  importance: 3
 - id: "watchtowr-honeypot-2026-10-21"
   at: "2026-10-21"
   precision: "date-only"

@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ImageSlot from '../../components/ImageSlot.astro';
+import HeroBanner from '../../components/HeroBanner.astro';
 import { facts } from '../../lib/data';
 
 // 文字以 docs/knowledge/04-for-onlookers.md 為準
@@ -8,18 +8,18 @@ const versions = facts.fixed.map((f) => f.version).join('、');
 const chapters = [
   { id: 'y2004', label: '2004', title: '一個老毛病' },
   { id: 'y2024', label: '2024', title: '健檢看到影子，卻停在原地' },
-  { id: 'ai', label: 'AI', title: '三組人，幾乎同時摸到同一面牆' },
-  { id: 'leak', label: '外洩', title: '禁運在記者會前裂開' },
-  { id: 'outages', label: '關站', title: '全世界先拔插頭' },
+  { id: 'ai', label: 'AI', title: '三組人，先後摸到同一面牆' },
+  { id: 'leak', label: '外洩', title: '禁運在預定公開前裂開' },
+  { id: 'outages', label: '關站', title: '多國網站先拔插頭' },
 ];
 ---
 <Base title="前因後果" persona="news" description="PHP2Shell 的完整故事：從 2004 年的老問題、2024 年的稽核、AI 找洞，到禁運外洩與全球關站。">
+  <HeroBanner id="news-story" variant="news">
+    <h1>前因後果</h1>
+    <p class="lede">PHP 自己的基本功出了問題，而且預定公開的前兩天，消息就先上了論壇。</p>
+  </HeroBanner>
   <article class="page">
     <header class="page__head">
-      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
-      <h1>前因後果</h1>
-      <p class="lede">這不是某一家網站寫錯密碼。這是網路上很常見的那位「主廚」——PHP——自己的基本功出了問題，而且在修補記者會的前兩天，消息就先上了論壇。</p>
-      <ImageSlot id="news-story" />
       <nav aria-label="章節">
         <ol class="chapters">
           {chapters.map((c) => <li><a href={`#${c.id}`}><span class="num">{c.label}</span>{c.title}</a></li>)}
@@ -53,7 +53,7 @@ const chapters = [
 
     <section id="ai" class="chapter">
       <p class="chapter__label">AI</p>
-      <h2>三組人，幾乎同時摸到同一面牆</h2>
+      <h2>三組人，先後摸到同一面牆</h2>
       <p>2026 年，AI 進到現場。基金會與 Alpha-Omega 合作，用 Anthropic 的 Claude Mythos 掃描 PHP，再用 OpenAI 的 Daybreak Red 驗證回報。自 7 月起，他們發了 15 個 CVE，也清掉一百多份無效、重複或無法重現的回報——AI 讓信箱變忙，不全是驚喜。</p>
       <p><strong>Calif</strong> 的 Ryan Austin 參加 OpenAI 資助的 Patch the Planet。基金會說他 7 月 30 日開始看（另有說法寫 8 月 1 日，見<a href="/news/rumors/#calif-start-date">說法打架</a>）。8 月 11 日他回報，同一天 OpenAI 自己的人也獨立回報了同一個根源。Austin 後來說，他沒有用一般人拿不到的模型，也沒有秘密工具，「了解你的目標」依然管用。</p>
       <p><strong>Wiz</strong> 晚了幾週，但是獨立發現。8 月 19 日找到第一個問題，20 日在 Drupal、21 日在 WordPress 上確認，24 日回報 PHP。他們的自評被轉述得很廣：一個研究者一個星期做完的事，以前要一個世界級團隊做好幾個月。</p>
@@ -62,19 +62,20 @@ const chapters = [
 
     <section id="leak" class="chapter">
       <p class="chapter__label">外洩</p>
-      <h2>禁運在記者會前裂開</h2>
+      <h2>禁運在預定公開前裂開</h2>
       <p>原訂公開日是 10 月 22 日（確切鐘點有三種說法）。10 月 20 日下午，UTC 大約三點（台灣晚上 11 點），Hacker News 出現一篇貼文。編號是真的：{facts.cves.map((c) => c.id).join('、')}。分數是錯的：貼文寫 10.0，官方是 {facts.cves[0].cvss_v4}。貼文隨後撤下，但截圖不會跟著撤。</p>
       <p>台灣時間 10 月 21 日凌晨 3 點 30 分，PHP 發出預告：修補提前到當天晚上 10 點（UTC 下午 2 點）。watchTowr 在預告後幾分鐘發出常見問題，向媒體確認：洞是真的。之後 Calif 誤發了一段展示影片，刪了，副本留下。</p>
-      <p>真正讓「公開那天才是第一天」這個想法破產的，是 Amazon：他們的誘餌系統 MadPot 在 <strong>10 月 17 日</strong>就看到利用嘗試，比修補公開早四天。對方怎麼知道的，Amazon 說不知道。</p>
+      <p>Amazon 的誘餌系統 MadPot 在 <strong>10 月 17 日</strong>就看到利用嘗試，比修補公開早四天。「公開那天才是第一天」不成立。對方怎麼知道的，Amazon 說不知道。</p>
       <p>Cloudflare 從 10 月初就在準備防護規則，10 月 21 日上午也替免費方案預設打開。下午 3 點 41 分（台灣），Chainguard 在協調發布前先推出已含修補的映像，基金會把這寫成單方面打破禁運。</p>
       <p>晚上 10 點，修補準時上線：{versions}。近 200 個檔案、超過一萬行程式碼。之後誘餌系統很快看到新的攻擊嘗試；同一天，Huntress 在自家客戶的機器上還沒看到。兩句話都留著——一個看的是誘餌，一個看的是真實客戶。</p>
+      <p>隔天凌晨 0 點 35 分（台灣時間），OpenAI 官方帳號在 X 上公開檢查工具 php2shell-checker，請不確定網站有沒有受影響的人到 GitHub 拿。它只比對看得到的 PHP 版號，不能代替官方修補。</p>
       <p><a href="/news/timeline/">逐時經過看時間軸</a></p>
     </section>
 
     <section id="outages" class="chapter">
       <p class="chapter__label">關站</p>
-      <h2>全世界先拔插頭</h2>
-      <p>接下來是新聞畫面：荷蘭、法國、比利時、芬蘭、德國的政府網站預防性下線；美國 NSA、英國 NCSC 建議不能立刻更新的系統考慮下線；日本首相在 X 上呼籲大家確認網站有沒有用 PHP；台灣數位發展部資通安全署通知各機關與企業。民間也有論壇、遊戲、維基媒體的部分系統緊急維護。</p>
+      <h2>多國網站先拔插頭</h2>
+      <p>荷蘭、法國、比利時、芬蘭、德國的政府網站預防性下線；美國 NSA、英國 NCSC 建議不能立刻更新的系統考慮下線；日本首相在 X 上呼籲大家確認網站有沒有用 PHP；台灣數位發展部資通安全署通知各機關與企業。民間也有論壇、遊戲、維基媒體的部分系統緊急維護。</p>
       <p>這些多半是<strong>預防</strong>。把服務關掉，不代表已經被駭，是為了不要被駭。</p>
       <p><a href="/news/outages/">看完整關站名單</a></p>
     </section>
@@ -82,26 +83,23 @@ const chapters = [
     <section class="chapter chapter--note">
       <h2>看熱鬧時，請不要做的事</h2>
       <p>吃瓜可以，但轉傳攻擊程式、轉傳「一鍵檢測腳本」、拿別人的網站試手氣，都不在看熱鬧的範圍裡。那些東西只會讓還沒更新的學校、診所和小店家更危險。</p>
-      <p>想幫忙的版本很樸實：問出自己管的網站用的是哪一版 PHP，或把給非技術人員的問題清單轉給主機商。</p>
+      <p>想幫忙的版本很樸實：問出自己管的網站用的是哪一版 PHP，或請主機商用文字確認是否已經更新並重新啟動。</p>
     </section>
 
     <footer class="next">
       <h2>下一步</h2>
       <ul>
         <li><a href="/basic/check/">我自己也有網站</a></li>
-        <li><a href="/news/quotes/">這段期間的名言</a></li>
-        <li><a href="/news/rumors/">還沒對齊的說法</a></li>
       </ul>
     </footer>
   </article>
 </Base>
 
 <style>
-  .page { display: grid; gap: 40px; max-width: 42rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  .page { display: grid; gap: 40px; max-width: 42rem; margin: 0 auto; padding: 28px var(--gutter) 64px; }
   .page__head { display: grid; gap: 16px; }
-  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
   h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
-  .lede { font-size: 1.1875rem; }
+  .lede { margin-top: 12px; font-size: 1.1875rem; }
   .chapters { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
   .chapters a { display: flex; gap: 12px; align-items: baseline; text-decoration: none; }
   .chapters a:hover { text-decoration: underline; }

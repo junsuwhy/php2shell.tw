@@ -20,9 +20,8 @@ const unconfirmed = outages.filter((o) => !o.data.php_confirmed).length;
 <Base title="全球關站名單" persona="news" description="PHP2Shell 修補前後，各國政府與民間網站預防性下線、維護或限制功能的名單，附來源與 PHP 關聯是否證實。">
   <article class="page">
     <header class="page__head">
-      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
       <h1>全球關站名單</h1>
-      <p>修補前後，許多網站先拔插頭再說。<strong>關站多半是預防，不代表已經被駭</strong>——Mashable 說得很白：把服務關掉，是為了不要被駭。</p>
+      <p>修補前後，許多網站先拔插頭再說。<strong>關站多半是預防，不代表已經被駭</strong>。Mashable 說得很白：把服務關掉，是為了不要被駭。</p>
       <p>共 <span class="num">{outages.length}</span> 筆。其中 <span class="num">{unconfirmed}</span> 筆是「同一時間也出了狀況」，但來源沒有證實與 PHP 有關，會另外標示，請不要把它們當成已確認名單轉傳。</p>
       <nav aria-label="名單分類">
         <ul class="toc">
@@ -54,8 +53,6 @@ const unconfirmed = outages.filter((o) => !o.data.php_confirmed).length;
       <h2>下一步</h2>
       <ul>
         <li><a href="/basic/check/">我自己也有網站，要不要也關？</a></li>
-        <li><a href="/news/rumors/">名單上說法不一致的（例如 4chan 是唯讀還是全關）</a></li>
-        <li><a href="/news/timeline/">照時間看事件經過</a></li>
       </ul>
     </footer>
   </article>
@@ -64,7 +61,6 @@ const unconfirmed = outages.filter((o) => !o.data.php_confirmed).length;
 <style>
   .page { display: grid; gap: 32px; max-width: 52rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
   .page__head { display: grid; gap: 12px; }
-  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
   h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
   .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
   .toc a { display: inline-block; padding: 6px 12px; background: #fff; border-radius: 999px; text-decoration: none; font-size: 0.9375rem; }

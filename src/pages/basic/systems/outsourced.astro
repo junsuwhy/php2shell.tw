@@ -5,14 +5,8 @@ import BasicPage from '../../../components/basic/BasicPage.astro';
   title="外包或不知道誰做的網站"
   heading="網站是外包的，或我不知道是誰做的"
   description="網站由外包廠商維護、或不知道是誰做的時候，怎麼找出負責人、該問什麼。"
-  lead="你不需要自己會修。你的任務是找到對的人，並拿到一句白紙黑字的回覆。"
+  lead="找到對的人，並拿到一句白紙黑字的回覆。"
   image="basic-dashboard"
-  back={{ href: '/basic/check/', label: '回到檢查精靈' }}
-  next={[
-    { href: '/basic/ask-your-vendor/#vendor', label: '複製訊息，傳給外包廠商', note: '已經找到負責人的話' },
-    { href: '/basic/ask-your-vendor/#host', label: '複製訊息，傳給主機商', note: '只找得到主機商的話' },
-    { href: '/basic/faq/', label: '看常見問題' },
-  ]}
 >
   <section class="part" id="vendor">
     <h2>網站是外包廠商做的、也由他們維護</h2>
@@ -22,7 +16,7 @@ import BasicPage from '../../../components/basic/BasicPage.astro';
       <li>如果有，更新到修補版了嗎？請給<strong>完整版本號</strong>和更新時間。</li>
       <li>更新之前那幾天，有沒有檢查過異常紀錄？</li>
     </ol>
-    <p>現成的訊息範本在<a href="/basic/ask-your-vendor/#vendor">問廠商訊息</a>那一頁，可以一鍵複製。</p>
+    <p>請他們用文字回覆，不要只口頭說「有處理」。回覆裡要有完整版本號、更新時間，以及更新之後有沒有重新啟動。</p>
     <div class="callout">
       <p>廠商說「網站程式我們更新過了」還不夠。請確認他們連<strong>主機上的 PHP</strong> 也一起更新了；如果主機是另一家公司租的，廠商要去問那家公司，或請你去問。</p>
     </div>

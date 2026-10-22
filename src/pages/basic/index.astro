@@ -1,53 +1,42 @@
 ---
-import BasicPage from '../../components/basic/BasicPage.astro';
-import { facts, releaseTime as r } from '../../lib/data';
+import CampaignLanding from '../../components/CampaignLanding.astro';
+import { releaseTime as r } from '../../lib/data';
 ---
-<BasicPage
-  title="我的網站有事嗎？"
-  description="用餐廳比喻看懂這次事件：發生什麼事、有多嚴重、為什麼很多網站關門，以及你現在要做的三件事。"
-  lead="不用懂程式也看得懂。三分鐘了解發生什麼事，以及你現在該做的三件事。"
-  image="basic-kitchen"
-  next={[
-    { href: '/basic/check/', label: '開始檢查我的網站', note: '回答兩個問題，找到你該看的那一頁' },
-    { href: '/basic/ask-your-vendor/', label: '直接拿訊息去問主機商或廠商', note: '已經知道要找誰的話' },
-    { href: '/basic/faq/', label: '看常見問題', note: '手機會不會中毒？要不要改密碼？' },
+<CampaignLanding
+  persona="basic"
+  title="很多網站背後的 PHP 出了嚴重漏洞，修好的版本已經推出。"
+  description="修好的版本已經推出。先看你現在該做什麼，或先了解發生什麼事、有多嚴重。"
+  hero="basic-kitchen"
+  heading="很多網站背後的 PHP 出了嚴重漏洞，修好的版本已經推出。"
+  actionsLabel="你可以先做的事"
+  actions={[
+    { href: '/basic/act/', label: '我有網站，現在該做什麼', primary: true },
+    { href: '/basic/what-happened/', label: '我想先了解發生什麼事、有多嚴重' },
   ]}
 >
-  <h2>先記三句話</h2>
-  <ol class="steps">
-    <li>問題出在網站背後一套很多人共用的「廚房」，不是你的網站哪一篇文章寫錯。</li>
-    <li>修好的版本已經在台灣時間 <span class="num">{r.year}</span> 年 <span class="num">{r.month}</span> 月 <span class="num">{r.day}</span> 日{r.taipei.part} <span class="num">{r.taipei.hour}</span> 點{r.taipei.minute > 0 && <> <span class="num">{r.taipei.minute}</span> 分</>}（國際標準時間{r.utc.part} <span class="num">{r.utc.hour}</span> 點{r.utc.minute > 0 && <> <span class="num">{r.utc.minute}</span> 分</>}）推出。</li>
-    <li>很多網站暫時關門，多半是預防，不代表已經被偷資料。</li>
-  </ol>
-
-  <h2>把網站想成一間餐廳</h2>
-  <p>你看得到的版面、圖片、按鈕，是餐廳的裝潢和菜單。廚房裡有一位主廚，叫做 <strong>PHP</strong>。每次有人打開網頁、按下「送出」，就像點了一道菜：主廚照著食譜做事，從冰箱拿出文章或訂單，再把做好的頁面端出去。</p>
-  <p>WordPress、購物車、學校報名表、公司官網，是不同的食譜，卻常常請同一種主廚。全世界有用這類「廚房」的網站裡，大約 <strong class="num">{facts.php_share.value}</strong> 請的是這位主廚。</p>
-  <p>這次出問題的不是哪一份食譜，而是主廚本身的基本功：忙到工作台堆滿、或做到一半出狀況時，他可能只收拾一半，就去接下一位客人。有心人可以趁這個混亂，叫主廚去做菜單上沒有的事。</p>
-
-  <h2>有多嚴重？</h2>
-  <div class="callout callout--warn">
-    <p>嚴重的情況下，外人<strong>不用帳號、不用進機房</strong>，就可能指揮你的網站主機做事：看走資料、改掉網頁、留下一扇以後還能進來的後門。</p>
-  </div>
-  <p>官方給的嚴重分數是 <strong class="num">{facts.cves[0].cvss_v4}</strong> 分（新聞裡流傳的「<span class="num">10</span> 分」是消息外流時的錯誤數字）。這已經是「請立刻處理」的等級。而且這個問題藏了很多年，從很舊的版本就存在，所以舊網站也跑不掉。</p>
-
-  <h2>為什麼全世界很多網站在關門？</h2>
-  <p>因為換主廚需要時間，而問題已經被很多人知道。修好的版本推出前一晚，消息就先流傳出去；美國、英國的資安單位都建議：<strong>來不及更新，就先暫停對外</strong>。</p>
-  <p>所以你看到網站暫停服務、論壇改成只能看，多半是店家自己先拉下鐵門。關門是為了不要被闖入，不是承認已經被闖入。</p>
-  <div class="callout">
-    <p><strong>注意：</strong>網站後台自己的「維護模式」（畫面寫「系統升級中」那種）擋不住這次的問題，因為事情發生在網站程式開始動作之前。要嘛真正更新，要嘛請主機商直接讓網站暫停對外。</p>
-  </div>
-
-  <h2>你需要做的三件事</h2>
-  <ol class="steps">
-    <li><strong>弄清楚你的網站是什麼、誰在管。</strong>是 WordPress？放在哪家主機？還是外包廠商做的？不知道也沒關係，下面的檢查精靈會幫你。</li>
-    <li><strong>請管主機的人更新「主廚」，並給你版本號。</strong>只按網站後台的「更新外掛」不夠，要更新的是背後的 PHP。對方要能說出更新後的版本號，口頭說「我們有資安防護」不算數。</li>
-    <li><strong>還沒確認前，考慮先暫停網站。</strong>如果今天拿不到「已經更新」的答覆，先讓網站暫停對外比較安全。萬一懷疑被闖入，請廠商<strong>先把紀錄留下來，不要急著整台重灌</strong>。</li>
-  </ol>
-
-  <p class="aside">要把技術細節交給你的工程師？請他看<a href="/dev/">給工程師的這一區</a>。</p>
-</BasicPage>
+  <p slot="sub">
+    台灣時間 <span class="num">{r.year}</span> 年 <span class="num">{r.month}</span> 月 <span class="num">{r.day}</span> 日<span class="keep">{r.taipei.part} <span class="num">{r.taipei.hour}</span> 點{r.taipei.minute > 0 && <> <span class="num">{r.taipei.minute}</span> 分</>}推出。</span>
+  </p>
+  <p slot="strip" class="mini">
+    <a href="/basic/faq/">常見問題</a>
+    <a href="/dev/">我是工程師 →</a>
+  </p>
+</CampaignLanding>
 
 <style>
-  .aside { color: var(--floor-ink-soft); }
+  .mini {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 22px var(--gutter) 40px;
+    font-size: 1.0625rem;
+  }
+  .keep { white-space: nowrap; }
+  .mini a { font-weight: 800; }
+  .mini a:focus-visible {
+    outline: 3px solid var(--line-basic);
+    outline-offset: 4px;
+  }
 </style>

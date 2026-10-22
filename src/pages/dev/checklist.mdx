@@ -1,0 +1,26 @@
+---
+layout: ../../layouts/DevDoc.astro
+title: 現在立刻做
+description: PHP2Shell 的七步行動清單：盤點、確認實際版本、更新、重啟、驗證、查日誌，以及還不能更新時怎麼辦。
+lede: 更新之後要重啟所有 worker，再向正在接流量的行程確認版號。
+checked: "2026-10-22"
+sources:
+  - title: PHP.net 安全公告：Critical remote code execution vulnerabilities, update now（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: GHSA-w8hw-w9fx-j79w（CVE-2026-109618）
+    url: https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w
+  - title: GHSA-6wmf-4rv5-p3rp（CVE-2026-109619）
+    url: https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+  - title: PHP 基金會：Today's PHP security release and how we're strengthening PHP security
+    url: https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/
+  - title: ICSDA：PHP2Shell 修補已釋出（繁中應變整理）
+    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
+---
+
+1. **盤點**：列出所有會回應網頁請求的 PHP，包括控制台（cPanel、Plesk）、Docker 映像、廠商設備與 Windows 軟體內建的 PHP。
+2. **確認實際版本**：`php -v` 不一定等於網站在用的 PHP-FPM 或 mod_php，見[是否受影響](/dev/am-i-affected/)。
+3. **更新**：依你的平台頁更新到已修補的版本或發行版套件。
+4. **重啟**：重啟所有 php-fpm、Apache、LiteSpeed worker；Docker 要重建映像並重新部署。
+5. **驗證**：向正在接流量的行程確認版號，滾動更新不要留下舊 worker。
+6. **查日誌**：調查視窗從 2026-10-17 起算，見[偵測與應變](/dev/detect/)。
+7. **還不能更新**：先套[官方暫時緩解](/dev/mitigation/)，並考慮暫時下線或不直接對外。

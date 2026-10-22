@@ -48,3 +48,18 @@ export const releaseTime = {
   taipei: spoken(releasedTaipei),
   utc: spoken(released),
 };
+
+const pad2 = (n: number) => String(n).padStart(2, '0');
+const clock = (d: Date) =>
+  `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())} ${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}`;
+
+const utcClock = clock(released);
+const taipeiClock = clock(releasedTaipei);
+
+/** 修補發布時間的數字寫法，給開發者區用。日期與時分都從 facts.released_at 換算。 */
+export const releaseClock = {
+  utc: utcClock,
+  taipei: taipeiClock,
+  /** 跟 UTC 同一天就只給時分，跨日就給完整時間。 */
+  taipeiShort: utcClock.slice(0, 10) === taipeiClock.slice(0, 10) ? taipeiClock.slice(11) : taipeiClock,
+};

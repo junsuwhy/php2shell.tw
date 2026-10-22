@@ -42,6 +42,13 @@
   role: "Wiz 共同創辦人（鉅亨網編譯《華爾街日報》）"
   sources:
     - "2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md"
+- id: "openai-codex-skill-check"
+  quote: "如果你在想自己的網站有沒有受到影響，我們包了一份 Codex 技能來幫忙檢查。"
+  quote_original: "If you are wondering whether your website is affected, we have packaged a Codex skill to help check."
+  speaker: "OpenAI"
+  role: "OpenAI 官方 X 帳號（本站編譯）"
+  sources:
+    - "2026-10-22-0035-openai-x-php2shell-checker.md"
 - id: "openai-far-reaching"
   quote: "這是近期記憶中影響最深遠的漏洞之一；AI 已經能找出可能對整個網際網路規模產生影響的安全漏洞。"
   speaker: "OpenAI"

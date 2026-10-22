@@ -4,7 +4,7 @@
 
 ## 目標
 
-完成 `/basic/` 底下所有頁面：`/basic/`、`check`、`systems/*`（wordpress、drupal、joomla、cpanel、plesk、shop、outsourced）、`ask-your-vendor`、`faq`。
+完成 `/basic/` 底下所有頁面：`/basic/`、`check`、`systems/*`（wordpress、drupal、joomla、cpanel、plesk、shop、outsourced）、`faq`。不提供可複製的問廠商訊息；該找誰、要確認什麼，寫在各系統頁。
 
 ## 素材
 
@@ -16,6 +16,6 @@
 - 語氣親切、像朋友解釋；每頁只講一件事；每頁結尾是「下一步做什麼」。
 - `/basic/check/`：檢查精靈，用幾個問題（網站是誰做的？放在哪裡？用什麼系統？）導向對應的系統頁；不需要 JS 也能用（例如每個選項是連結），有 JS 時可以更順。任何路徑都不能是死路，「不知道」也要有去處。
 - 系統頁：怎麼在後台看到 PHP 版本（WordPress「網站健康狀態」、Drupal「狀態報告」、Joomla「系統資訊」、cPanel、Plesk 的位置），看到的版本要怎麼對照「安全版本」（讀 facts.yaml），以及該找誰。WordPress 頁要寫明「只更新 WordPress 本身不夠」。商店頁說明 Shopify 這類代管平台由平台處理。
-- `/basic/ask-your-vendor/`：可一鍵複製的訊息範本（給主機商、給外包廠商各一份），複製按鈕不依賴 hover。
+- 不提供可逐字複製的問廠商訊息。各系統頁用一般說明寫該找誰、要確認哪幾件事（版本號、是否已更新、是否已重新啟動）。
 - FAQ 至少包含：手機會不會中毒？網站關掉代表被駭了嗎？要不要改密碼？
 - 每頁可放一張插圖：在 images.yaml 登記 slot（風格沿用檔頭的 style），頁面用 ImageSlot。

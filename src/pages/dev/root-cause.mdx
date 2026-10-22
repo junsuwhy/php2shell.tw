@@ -2,7 +2,8 @@
 layout: ../../layouts/DevDoc.astro
 title: 成因概念
 description: PHP2Shell 兩個 CVE 的成因概念：記憶體耗盡或致命錯誤中斷時留下半初始化或過期狀態，以及三個被點名的面向。
-lede: 只講到概念與影響範圍，讓你知道為什麼只能更新 PHP。本頁不寫觸發方式、記憶體利用手法或任何可重現的流程。
+lede: 只講概念與影響範圍：為什麼只能更新 PHP。不寫觸發方式或可重現的流程。
+hero: dev-root-cause
 checked: "2026-10-22"
 sources:
   - title: PHP.net 安全公告（2026-10-21）
@@ -17,21 +18,13 @@ sources:
     url: https://www.wiz.io/blog/php2shell-php-rce
   - title: JFrog：PHP2Shell all you need to know
     url: https://research.jfrog.com/post/php2shell-all-you-need-to-know-about-cve-2026-109618-and-cve-2026-109619/
-next:
-  - href: /dev/am-i-affected/
-    label: 判斷你的主機是否受影響
-  - href: /dev/mitigation/
-    label: 看官方暫時緩解，以及為什麼它們不完整
 ---
-import ImageSlot from '../../components/ImageSlot.astro';
-
-<ImageSlot id="dev-root-cause" />
 
 ## 一句話
 
 PHP 處理網頁請求時，若在記憶體不足或致命錯誤的當下被迫立刻中斷（研究者稱為 bailout），可能留下**只初始化一半**或**已經過期**的內部狀態。之後的清理或下一個請求，可能把這份殘留當成有效資料。
 
-兩個 CVE 是同一類失敗的兩個面孔：
+兩個 CVE 是同一類失敗：
 
 | CVE | 官方名稱 | 官方在說什麼 |
 | --- | --- | --- |

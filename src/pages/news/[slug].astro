@@ -19,7 +19,6 @@ const precisionNote = { exact: '原文標到時分', approximate: '時刻為約�
 <Base title={title} persona="news" description={`${d.source}：${title}（本站摘要與原文連結）`}>
   <article class="page">
     <header class="page__head">
-      <p class="kicker"><a href="/news/wall/">新聞牆</a></p>
       <h1>{title}</h1>
       {d.title_zh && <p class="orig" lang={d.language}>{d.title}</p>}
       <dl class="meta">
@@ -62,8 +61,6 @@ const precisionNote = { exact: '原文標到時分', approximate: '時刻為約�
     <footer class="next">
       <h2>下一步</h2>
       <ul>
-        <li><a href="/news/wall/">回新聞牆看其他報導</a></li>
-        <li><a href="/news/rumors/">各家說法不一致的地方</a></li>
         <li><a href="/basic/check/">我自己也有網站</a></li>
       </ul>
     </footer>
@@ -73,7 +70,6 @@ const precisionNote = { exact: '原文標到時分', approximate: '時刻為約�
 <style>
   .page { display: grid; gap: 28px; max-width: 46rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
   .page__head { display: grid; gap: 12px; }
-  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
   h1 { font-size: clamp(1.625rem, 5vw, 2.25rem); font-weight: 900; line-height: 1.3; }
   .orig { color: var(--floor-ink-soft); }
   .meta { display: grid; gap: 4px; margin: 0; font-size: 0.9375rem; }

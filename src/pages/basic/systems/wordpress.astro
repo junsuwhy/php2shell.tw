@@ -8,11 +8,6 @@ import SafeVersions from '../../../components/basic/SafeVersions.astro';
   description="WordPress 網站怎麼在後台看到 PHP 版本、怎麼對照安全版本、該找誰處理。只更新 WordPress 本身不夠。"
   lead="先講最重要的一句：這次只按 WordPress 的「更新」不夠。"
   image="basic-dashboard"
-  back={{ href: '/basic/check/', label: '回到檢查精靈' }}
-  next={[
-    { href: '/basic/ask-your-vendor/', label: '複製訊息，請主機商或廠商更新', note: '附上你看到的版本號' },
-    { href: '/basic/faq/', label: '看常見問題', note: '要不要改密碼？網站要不要先關？' },
-  ]}
 >
   <div class="callout callout--warn">
     <p><strong>只更新 WordPress 本身、外掛、佈景主題，修不好這次的問題。</strong>WordPress 是食譜，這次要換的是廚房裡的主廚 PHP。WordPress 官方也說明，不會為這件事發布 WordPress 更新。</p>

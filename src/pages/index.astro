@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Arrow from '../components/Arrow.astro';
+import HeroBanner from '../components/HeroBanner.astro';
 import ImageSlot from '../components/ImageSlot.astro';
 import { facts, site } from '../lib/data';
 import { personas } from '../data/personas';
@@ -16,7 +17,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
 }).format(new Date(facts.released_at));
 ---
 <Base title={site.title} persona="gateway" description="PHP2Shell（CVE-2026-109618、CVE-2026-109619）事件，依你的身份說清楚：網站老闆、工程師、吃瓜群眾各有出口。">
-  <section class="station" aria-labelledby="station-title">
+  <HeroBanner id="home-concourse" variant="home">
     <div class="station__text">
       <h1 id="station-title">{facts.name} 事件</h1>
       <p class="station__direction">請依你的身份，選擇出口</p>
@@ -26,8 +27,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
         <div><dt>本站更新</dt><dd class="num">{facts.updated_at}</dd></div>
       </dl>
     </div>
-    <ImageSlot id="home-concourse" class="station__art" loading="eager" />
-  </section>
+  </HeroBanner>
 
   <p class="last-ride" hidden data-last-ride>
     <span>上次搭乘</span>
@@ -40,7 +40,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
         <span class="exit__badge num" aria-hidden="true">{p.exit}</span>
         <span class="exit__head">
           <span class="exit__name">{p.name}</span>
-          <span class="exit__situation">{p.situation}</span>
         </span>
         <span class="exit__gets">{p.gets}</span>
         <ImageSlot id={p.image} class="exit__art" />
@@ -59,7 +58,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
       ))}
     </ul>
     <p class="notice__more">
-      8.1 以前的版本官方已不再發布更新，請盡快升級。不確定自己用哪一版？從上面你的出口進去，我們一步一步帶你查。
+      8.1 以前的版本官方已不再發布更新，請盡快升級。不確定自己用哪一版？從上面你的出口進去查。
     </p>
     <p class="notice__ticket">
       來源：<a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a>
@@ -92,18 +91,9 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   [data-line='dev'] { --c: var(--line-dev); }
   [data-line='news'] { --c: var(--line-news); }
 
-  /* 站名牌 */
-  .station {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 34%);
-    align-items: end;
-    gap: 32px var(--gutter);
-    padding: clamp(28px, 5vw, 56px) var(--gutter) clamp(28px, 4vw, 44px);
-    background: var(--graphite);
-    color: var(--on-graphite);
-    border-top: 1px solid var(--graphite-rule);
-  }
-  .station h1 {
+  /* 站名牌（字在 HeroBanner 裡；沒圖時整塊仍是深色） */
+  .station__text h1,
+  h1 {
     font-size: clamp(2.5rem, 6.4vw, 5.25rem);
     font-weight: 900;
     letter-spacing: 0.01em;
@@ -127,8 +117,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   .station__meta div { display: flex; gap: 10px; }
   .station__meta dt { color: var(--on-graphite-soft); }
   .station__meta dd { margin: 0; font-weight: 700; }
-  .station :global(.station__art) { align-self: stretch; max-height: 340px; }
-
   /* 回訪 */
   .last-ride {
     display: flex;
@@ -198,9 +186,8 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     font-size: clamp(1.75rem, 3vw, 2.375rem);
     font-weight: 900;
   }
-  .exit__head { grid-area: head; display: grid; gap: 4px; }
+  .exit__head { grid-area: head; display: grid; }
   .exit__name { font-size: clamp(1.75rem, 2.9vw, 2.5rem); font-weight: 900; line-height: 1.15; }
-  .exit__situation { font-size: 1.0625rem; color: var(--on-graphite-soft); }
   .exit__gets { grid-area: gets; font-size: 1.1875rem; font-weight: 700; line-height: 1.55; }
   .exit :global(.exit__art) { grid-area: art; max-width: 220px; justify-self: start; border-radius: 4px; }
   .exit__toward {
@@ -264,8 +251,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   .notice__ticket a { color: var(--on-alert); font-weight: 700; }
 
   @media (max-width: 860px) {
-    .station { grid-template-columns: 1fr; }
-    .station :global(.station__art) { max-height: 220px; order: 2; }
     .exits { grid-template-columns: 1fr; }
     .exit + .exit { border-left: 0; border-top-width: 14px; }
     .exit {
