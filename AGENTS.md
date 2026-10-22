@@ -6,13 +6,13 @@
 
 php2shell.tw 是一個以**繁體中文（台灣用語）**深入淺出說明 **PHP2Shell 事件**（CVE-2026-109618、CVE-2026-109619，2026-10-21 修補的 PHP 核心重大漏洞）的網站。
 
-訪客進站先選身份，進入三個風格完全不同的知識庫：
+訪客進站先選身份（兩種），首頁下方另有「事件始末」：
 
 | 角色 | 路由 | 風格 | 目標 |
 |---|---|---|---|
 | 非技術人員 | `/basic/` | 明亮、親切、大字 | 看懂嚴重性、確認自己的網站有沒有事、知道要找誰做什麼 |
 | 軟體開發人員 | `/dev/` | geek／hacker、終端機感 | 技術成因、各平台修補步驟、緩解、偵測 |
-| 吃瓜群眾 | `/news/` | 新聞牆／八卦專題 | 前因後果、時間軸、新聞牆、名言、關站名單 |
+| （事件始末，非身份選項）| 首頁 `/#what-happened`、`/news/*` | 新聞牆／專題 | 懶人包、前因後果、時間軸、新聞牆、關鍵發言、關站紀錄 |
 
 完整架構見 [docs/architecture.md](docs/architecture.md)；產品定位見 [PRODUCT.md](PRODUCT.md)。
 
@@ -45,7 +45,7 @@ PRODUCT.md        產品背景（impeccable 設計流程讀取）
 DESIGN.md         視覺系統（由 impeccable 產生後才會存在）
 src/content.config.ts  內容 schema（news、timeline、glossary、outages、quotes、discrepancies）
 src/data/         facts.yaml（核心事實）、site.yaml（站台設定）、timeline/glossary/outages/quotes/discrepancies.yaml
-src/pages/        路由；/basic/ /dev/ /news/ 三區，對應 docs/architecture.md
+src/pages/        路由；/basic/ /dev/ 兩個身份區＋/news/ 事件始末子頁，對應 docs/architecture.md
 src/layouts/      Base.astro（以 data-persona 切換三種視覺世界）
 ```
 

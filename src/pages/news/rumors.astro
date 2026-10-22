@@ -7,10 +7,10 @@ import { facts } from '../../lib/data';
 const items = await getOrdered('discrepancies');
 const pending = items.filter((i) => i.data.pending).length;
 ---
-<Base title="說法打架" persona="news" description="PHP2Shell 事件中各家說法不一致或仍待查證的地方，並列各說法與來源。">
+<Base title="常見誤傳與說法不一" persona="news" description="PHP2Shell 事件中各家說法不一致或仍待查證的地方，並列各說法與來源。">
   <article class="page">
     <header class="page__head">
-      <h1>說法打架</h1>
+      <h1>常見誤傳與說法不一</h1>
       <p>同一件事，不同來源講得不一樣。這頁把各家說法<strong>並排放著</strong>，再附上官方或較可信的說法當對照；對照不是裁判，其他說法不會因此被刪掉。</p>
       <p>共 <span class="num">{items.length}</span> 題，其中 <span class="num">{pending}</span> 題截至 <span class="num">{facts.updated_at}</span> 仍待查證。看到下面這些說法被講得很滿時，先別急著轉。</p>
     </header>

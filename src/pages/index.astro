@@ -5,6 +5,7 @@ import HeroBanner from '../components/HeroBanner.astro';
 import ImageSlot from '../components/ImageSlot.astro';
 import { facts, site } from '../lib/data';
 import { personas } from '../data/personas';
+import WhatHappened from '../components/news/WhatHappened.astro';
 
 const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   timeZone: 'Asia/Taipei',
@@ -16,11 +17,12 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   hour12: false,
 }).format(new Date(facts.released_at));
 ---
-<Base title={site.title} persona="gateway" description="PHP2Shell（CVE-2026-109618、CVE-2026-109619）事件，依你的身份說清楚：網站老闆、工程師、吃瓜群眾各有出口。">
+<Base title={site.title} persona="gateway" description="PHP2Shell（CVE-2026-109618、CVE-2026-109619）事件說明：網站老闆、工程師各有入口，另附事件始末、懶人包與時間軸。">
   <HeroBanner id="home-concourse" variant="home">
     <div class="station__text">
       <h1 id="station-title">{facts.name} 事件</h1>
-      <p class="station__direction">請依你的身份，選擇出口</p>
+      <p class="station__direction">你是哪一種人？選一個入口</p>
+      <p class="station__hint">兩個入口只是依身份分開說明，都在這個網站裡，不用換站。只想知道發生什麼事，往下捲。</p>
       <dl class="station__meta">
         <div><dt>漏洞編號</dt><dd class="num">{facts.cves.map((c) => c.id).join('　')}</dd></div>
         <div><dt>嚴重程度</dt><dd><span class="num">CVSS {facts.cves[0].cvss_v4}</span>（重大）</dd></div>
@@ -30,8 +32,8 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   </HeroBanner>
 
   <p class="last-ride" hidden data-last-ride>
-    <span>上次搭乘</span>
-    <a href="#" data-last-ride-link></a>
+    <span>上次看的是</span>
+    <a data-last-ride-link></a>
   </p>
 
   <nav class="exits" aria-label="選擇身份">
@@ -43,7 +45,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
         </span>
         <span class="exit__gets">{p.gets}</span>
         <ImageSlot id={p.image} class="exit__art" />
-        <span class="exit__toward"><span class="exit__toward-label">往</span>{p.toward}</span>
+        <span class="exit__toward"><span class="exit__toward-label">內含</span>{p.toward}</span>
         <Arrow class="exit__arrow" />
         <span class="visually-hidden">（出口 {p.exit}，{p.line}）</span>
       </a>
@@ -51,27 +53,33 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   </nav>
 
   <section class="notice" aria-labelledby="notice-title">
-    <h2 id="notice-title">旅客注意：有用 PHP 的網站，請立即更新</h2>
+    <h2 id="notice-title">重要：有用 PHP 的網站，請立即更新</h2>
     <ul class="notice__versions" aria-label="已修補版本">
       {facts.fixed.map((f) => (
-        <li><span class="notice__branch num">{f.branch} 系列</span><span class="notice__version num">{f.version}</span></li>
+        <li>
+          <a href="/dev/versions/" aria-label={`${f.branch} 系列已修補版本 ${f.version}：看版本對照與怎麼升級`}>
+            <span class="notice__branch num">{f.branch} 系列</span><span class="notice__version num">{f.version}</span>
+          </a>
+        </li>
       ))}
     </ul>
     <p class="notice__more">
-      8.1 以前的版本官方已不再發布更新，請盡快升級。不確定自己用哪一版？從上面你的出口進去查。
+      8.1 以前的版本官方已不再發布更新，請盡快升級。點版本號可看版本對照與怎麼升級。<br />
+      不知道自己的網站有沒有用 PHP？不用自己判斷：請管網站的人或主機商確認；用 Shopify 這類開店平台的，由平台負責更新。不懂技術的話，<a href="/basic/check/">從檢查精靈開始</a>。
     </p>
     <p class="notice__ticket">
       來源：<a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a>
       <span class="num">{releasedTaipei}</span>（台灣時間）發布
     </p>
   </section>
+
+  <WhatHappened />
 </Base>
 
 <script>
   const names: Record<string, { name: string; href: string; line: string }> = {
     basic: { name: '非技術人員', href: '/basic/', line: '黃線' },
     dev: { name: '軟體開發人員', href: '/dev/', line: '綠線' },
-    news: { name: '吃瓜群眾', href: '/news/', line: '粉紅線' },
   };
   let last: string | null = null;
   try { last = localStorage.getItem('php2shell:persona'); } catch {}
@@ -89,7 +97,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
 <style>
   [data-line='basic'] { --c: var(--line-basic); }
   [data-line='dev'] { --c: var(--line-dev); }
-  [data-line='news'] { --c: var(--line-news); }
 
   /* 站名牌（字在 HeroBanner 裡；沒圖時整塊仍是深色） */
   .station__text h1,
@@ -105,6 +112,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     font-weight: 700;
     color: var(--on-graphite);
   }
+  .station__hint { margin-top: 8px; max-width: 40rem; color: var(--on-graphite-soft); }
   .station__meta {
     display: flex;
     flex-wrap: wrap;
@@ -132,10 +140,10 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   .last-ride[hidden] { display: none; }
   .last-ride a { color: var(--on-graphite); font-weight: 800; }
 
-  /* 出口：一整面連續的導引牌，三格以分隔線相接 */
+  /* 出口：一整面連續的導引牌，兩格以分隔線相接 */
   .exits {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     background: var(--graphite);
   }
   .exit {
@@ -200,7 +208,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     font-size: 0.9375rem;
     color: var(--on-graphite-soft);
   }
-  .exit__toward-label { font-weight: 900; color: var(--c); font-size: 1.0625rem; }
+  .exit__toward-label { flex: none; white-space: nowrap; font-weight: 900; color: var(--c); font-size: 1.0625rem; }
   .exit :global(.exit__arrow) {
     grid-area: arrow;
     justify-self: end;
@@ -209,10 +217,9 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     color: var(--c);
   }
   .exit[data-line='basic'] { --arrow-rotate: -45deg; }
-  .exit[data-line='dev'] { --arrow-rotate: 0deg; }
-  .exit[data-line='news'] { --arrow-rotate: 45deg; }
+  .exit[data-line='dev'] { --arrow-rotate: 45deg; }
 
-  /* 旅客注意 */
+  /* 立即更新公告 */
   .notice {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -231,13 +238,18 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     padding: 0;
     list-style: none;
   }
-  .notice__versions li {
+  .notice__versions a {
     display: grid;
+    text-decoration: none;
     min-width: 132px;
     padding: 10px 16px 12px;
     background: var(--on-alert);
     color: var(--alert);
   }
+  .notice__versions a:hover .notice__version,
+  .notice__versions a:focus-visible .notice__version { text-decoration: underline; }
+  .notice__versions a:focus-visible { outline-color: var(--on-alert); }
+  .notice__more a { color: var(--on-alert); font-weight: 700; }
   .notice__branch { font-size: 0.8125rem; font-weight: 700; color: #7a1222; }
   .notice__version { font-size: 1.875rem; font-weight: 900; line-height: 1.1; }
   .notice__more { max-width: 62ch; color: var(--on-alert); }

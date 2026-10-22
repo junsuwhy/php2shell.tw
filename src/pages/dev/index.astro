@@ -35,8 +35,8 @@ const platforms = [
     <span class="sub__line">{ids}，{cvss}。</span>
     <span class="sub__line">修補於 <span class="num">{releaseClock.utc} UTC</span>／台灣 <span class="num">{releaseClock.taipeiShort}</span></span>
   </p>
-  <ul slot="heroExtra" class="chips" aria-label="已修補版本">
-    {facts.fixed.map((item) => <li>{item.version}</li>)}
+  <ul slot="heroExtra" class="chips" aria-label="已修補版本（點選看版本矩陣）">
+    {facts.fixed.map((item) => <li class="chip"><a class="chip-link" href="/dev/versions/">{item.version}</a></li>)}
   </ul>
   <p slot="strip" class="platforms">
     <span class="platforms__k">選你的平台：</span>
@@ -47,6 +47,7 @@ const platforms = [
       </span>
     ))}
   </p>
+  <p slot="strip" class="terms">看不懂 worker、SAPI、控制台？內文的專有名詞都有註解，也可以先翻<a href="/dev/glossary/">名詞表</a>。</p>
 </CampaignLanding>
 
 <style>
@@ -92,6 +93,20 @@ const platforms = [
   .platforms__k { margin-right: 0.2em; font-weight: 800; }
   .platforms__pair { white-space: nowrap; }
   .platforms a { font-weight: 800; color: var(--floor-ink); }
+  /* HeroBanner 把 hero 內的連結都改白字；版號在白底膠囊上，要壓回深字 */
+  .chips .chip > a.chip-link:link,
+  .chips .chip > a.chip-link:visited { color: var(--on-line); text-decoration: none; }
+  .chips .chip > a.chip-link:hover,
+  .chips .chip > a.chip-link:focus-visible { text-decoration: underline; }
+  .terms {
+    max-width: 52rem;
+    margin: -24px auto 0;
+    padding: 0 var(--gutter) 36px;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--floor-ink-soft);
+  }
+  .terms a { font-weight: 800; color: var(--floor-ink); }
   .platforms a:focus-visible {
     outline: 3px solid var(--line-dev);
     outline-offset: 3px;

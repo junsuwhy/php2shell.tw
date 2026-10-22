@@ -6,7 +6,7 @@ import AreaNav from '../components/AreaNav.astro';
 import TransferMenu from '../components/TransferMenu.astro';
 import { facts, site } from '../lib/data';
 import { getSlot } from '../lib/images';
-import type { PersonaId } from '../data/personas';
+import { personas, type PersonaId } from '../data/personas';
 
 export type Persona = 'gateway' | PersonaId;
 
@@ -21,6 +21,8 @@ const fullTitle = title === site.title ? title : `${title}｜${site.title}`;
 const og = getSlot('og-default');
 const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
 const current = persona === 'gateway' ? undefined : persona;
+// 只記住首頁有入口的身份，給首頁「上次看的是」用
+const remember = personas.some((p) => p.id === current) ? current : undefined;
 ---
 <!doctype html>
 <html lang={site.lang} data-persona={persona}>
@@ -38,9 +40,9 @@ const current = persona === 'gateway' ? undefined : persona;
     <meta name="theme-color" content="#22262c" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {current && (
-      <script is:inline define:vars={{ current }}>
-        try { localStorage.setItem('php2shell:persona', current); } catch {}
+    {remember && (
+      <script is:inline define:vars={{ remember }}>
+        try { localStorage.setItem('php2shell:persona', remember); } catch {}
       </script>
     )}
     <Analytics />
