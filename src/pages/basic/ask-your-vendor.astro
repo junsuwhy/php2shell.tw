@@ -1,13 +1,13 @@
 ---
 import BasicPage from '../../components/basic/BasicPage.astro';
 import CopyBlock from '../../components/basic/CopyBlock.astro';
-import { facts } from '../../lib/data';
+import { facts, releaseTime as r } from '../../lib/data';
 
 const safe = facts.fixed.map((f) => f.version).join('、');
 
 const hostText = `您好，
 
-我們的網站「（請填網址）」放在貴公司的主機上。看到 ${facts.name} 這次 PHP 的重大安全問題（官方已在 2026 年 10 月 21 日推出修補），想請您協助確認以下幾點，並用文字回覆：
+我們的網站「（請填網址）」放在貴公司的主機上。看到 ${facts.name} 這次 PHP 的重大安全問題（官方已在 ${r.year} 年 ${r.month} 月 ${r.day} 日推出修補），想請您協助確認以下幾點，並用文字回覆：
 
 1. 我們網站目前實際使用的 PHP 完整版本號是多少？（例如 8.3.36 這樣的三段數字）
 2. 是否已經更新到修補版（${safe} 或更新）？如果是貴公司自行修補的版本，請提供更新紀錄或公告連結。
