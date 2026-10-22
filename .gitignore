@@ -27,3 +27,6 @@ Thumbs.db
 # impeccable 方向草圖（僅預覽用）
 public/design-preview/
 .impeccable/mocks/
+
+# 代理工作用的 git worktree
+.claude/worktrees/
