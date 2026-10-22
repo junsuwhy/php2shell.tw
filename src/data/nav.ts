@@ -112,16 +112,16 @@ export const areaNav: Record<PersonaId, AreaNavData> = {
   },
   news: {
     id: 'news',
-    label: '吃瓜區',
+    label: '事件始末',
     items: [
-      { label: '首頁', href: '/news/' },
+      { label: '事件始末', href: '/#what-happened' },
       { label: '懶人包', href: '/news/brief/' },
       { label: '前因後果', href: '/news/story/' },
       { label: '時間軸', href: '/news/timeline/' },
       { label: '新聞牆', href: '/news/wall/' },
-      { label: '關站名單', href: '/news/outages/' },
-      { label: '名言錄', href: '/news/quotes/' },
-      { label: '說法打架', href: '/news/rumors/' },
+      { label: '關站紀錄', href: '/news/outages/' },
+      { label: '關鍵發言', href: '/news/quotes/' },
+      { label: '常見誤傳', href: '/news/rumors/' },
     ],
   },
 };

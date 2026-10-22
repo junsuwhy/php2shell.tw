@@ -76,7 +76,7 @@ slots:
   - id: exit-news
     file: exit-news.webp
     page: /
-    where: 出口 3「吃瓜群眾」卡內
+    where: （目前未使用）原首頁出口 3「吃瓜群眾」卡內，該身份已移除
     aspect: "1/1"
     size: 1024x1024
     alt: 街頭風插畫，一個人坐著邊吃西瓜邊滑手機看新聞，身旁飛著報紙
@@ -248,7 +248,7 @@ slots:
     file: news-hub.webp
     page: /news/
     hero: true
-    where: 吃瓜懶人包最上方滿版橫幅
+    where: （目前未使用）原 /news/ 首頁橫幅，該頁已併入首頁事件始末
     aspect: "21/9"
     size: 2520x1080
     alt: 街頭風插畫，報攤前一群人邊吃西瓜邊看報紙與手機，報紙頭條是一個巨大的驚嘆號
@@ -288,11 +288,11 @@ slots:
       prompt: >-
         Wide graffiti panorama of a thick hot-pink timeline line spray-painted left to right across a wall, with five stops: an old beige desktop computer, a magnifying glass over a document, a robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of shop fronts with metal shutters pulled down, color palette: hot pink #e0457b timeline, deep graphite #22262c, cream white background, electric yellow #f2b705 accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
-  # 吃瓜區首頁六個入口按鈕（正方形，圖上不放字，標題由網頁文字疊上）
+  # 首頁「事件始末」六個入口按鈕（圖上不放字，標題由網頁文字疊上）
   - id: news-sec-story
     file: news-sec-story.webp
-    page: /news/
-    where: 吃瓜區入口按鈕「前因後果」
+    page: /
+    where: 首頁事件始末入口按鈕「前因後果」
     aspect: "1/1"
     size: 1024x1024
     alt: 一條打結又解開的粗繩，從一台舊電腦延伸到一排拉下鐵門的店面
@@ -310,8 +310,8 @@ slots:
 
   - id: news-sec-timeline
     file: news-sec-timeline.webp
-    page: /news/
-    where: 吃瓜區入口按鈕「時間軸」
+    page: /
+    where: 首頁事件始末入口按鈕「時間軸」
     aspect: "1/1"
     size: 1024x1024
     alt: 一個大時鐘，時針後面拖著一條有節點的時間線
@@ -329,8 +329,8 @@ slots:
 
   - id: news-sec-wall
     file: news-sec-wall.webp
-    page: /news/
-    where: 吃瓜區入口按鈕「新聞牆」
+    page: /
+    where: 首頁事件始末入口按鈕「新聞牆」
     aspect: "1/1"
     size: 1024x1024
     alt: 一面貼滿報紙與傳單的牆，紙張沒有任何文字
@@ -348,8 +348,8 @@ slots:
 
   - id: news-sec-outages
     file: news-sec-outages.webp
-    page: /news/
-    where: 吃瓜區入口按鈕「關站名單」
+    page: /
+    where: 首頁事件始末入口按鈕「預防性關站紀錄」
     aspect: "1/1"
     size: 1024x1024
     alt: 一排拉下鐵門的店面，門上掛著空白的暫停營業牌
@@ -367,8 +367,8 @@ slots:
 
   - id: news-sec-quotes
     file: news-sec-quotes.webp
-    page: /news/
-    where: 吃瓜區入口按鈕「名言錄」
+    page: /
+    where: 首頁事件始末入口按鈕「關鍵發言」
     aspect: "1/1"
     size: 1024x1024
     alt: 一個復古麥克風前方炸開好幾個空白的對話泡泡
@@ -386,8 +386,8 @@ slots:
 
   - id: news-sec-rumors
     file: news-sec-rumors.webp
-    page: /news/
-    where: 吃瓜區入口按鈕「說法打架」
+    page: /
+    where: 首頁事件始末入口按鈕「常見誤傳與說法不一」
     aspect: "1/1"
     size: 1024x1024
     alt: 兩個空白對話泡泡像拳擊手一樣互撞，中間炸出火花

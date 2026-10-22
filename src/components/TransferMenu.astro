@@ -1,5 +1,5 @@
 ---
-// 右上角「轉乘」：任何頁面都能切換身份
+// 右上角「切換身份」：任何頁面都能換到另一個入口，或回首頁看事件始末
 import { personas, type PersonaId } from '../data/personas';
 
 interface Props { current?: PersonaId }
@@ -10,7 +10,7 @@ const { current } = Astro.props;
     <span class="transfer__dots" aria-hidden="true">
       {personas.map((p) => <i data-line={p.id}></i>)}
     </span>
-    轉乘<span class="visually-hidden">：切換身份</span>
+    切換身份
   </summary>
   <ul>
     {personas.map((p) => (
@@ -22,6 +22,13 @@ const { current } = Astro.props;
         </a>
       </li>
     ))}
+    <li>
+      <a href="/#what-happened" data-line="story" aria-current={current === 'news' ? 'page' : undefined}>
+        <span class="transfer__badge" aria-hidden="true">?</span>
+        <span class="transfer__name">事件始末</span>
+        <span class="transfer__line">懶人包・時間軸</span>
+      </a>
+    </li>
   </ul>
 </details>
 
@@ -38,6 +45,7 @@ const { current } = Astro.props;
     color: var(--on-graphite);
     font-weight: 800;
     letter-spacing: 0.08em;
+    white-space: nowrap;
     cursor: pointer;
     user-select: none;
   }
@@ -47,7 +55,7 @@ const { current } = Astro.props;
   .transfer__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
   [data-line='basic'] { --c: var(--line-basic); }
   [data-line='dev'] { --c: var(--line-dev); }
-  [data-line='news'] { --c: var(--line-news); }
+  [data-line='story'] { --c: var(--on-graphite-soft); }
 
   ul {
     position: absolute;
