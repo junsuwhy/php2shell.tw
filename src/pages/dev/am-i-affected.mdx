@@ -1,0 +1,77 @@
+---
+layout: ../../layouts/DevDoc.astro
+title: 我受影響嗎？
+description: 判斷主機是否受 PHP2Shell 影響：php -v 與實際 FPM／mod_php 版本可能不同、發行版回移植版號怎麼讀、容器映像要分開看。
+lede: 重點只有一個：找出「真正處理網頁請求的那一支 PHP」，再對它確認版本。
+checked: "2026-10-22"
+sources:
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: ICSDA：PHP2Shell 修補已釋出
+    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
+  - title: Ubuntu USN-8948-1
+    url: https://ubuntu.com/security/notices/USN-8948-1
+  - title: Debian 安全追蹤：DSA-6574-1
+    url: https://security-tracker.debian.org/tracker/DSA-6574-1
+  - title: Plesk：Remote code execution in PHP shipped with Plesk
+    url: https://support.plesk.com/hc/en-us/articles/44397729587351-Vulnerability-CVE-2026-109618-and-CVE-2026-109619-Remote-code-execution-in-PHP-shipped-with-Plesk
+  - title: 英國 NCSC：Critical security issue affecting PHP
+    url: https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
+next:
+  - href: /dev/
+    label: 回總覽，挑你的平台修補頁
+  - href: /dev/mitigation/
+    label: 確認受影響但今天不能升級？看暫時緩解
+---
+import CommandBlock from '../../components/dev/CommandBlock.astro';
+import VersionMatrix from '../../components/dev/VersionMatrix.astro';
+
+## 先問：它會不會被網頁請求碰到？
+
+官方把風險對象寫成「服務網頁請求的安裝」：Apache mod_php、PHP-FPM、php-cgi、FrankenPHP、LiteSpeed。英國 NCSC 的用詞更寬，說任何版本都可能受影響。本站沒有看到官方保證命令列的 PHP 絕對無關，所以盤點時以「會不會被網頁請求碰到」為準。
+
+別漏掉表面上沒寫 PHP 的東西：主機控制台、廠商設備、Windows 軟體內建的 `php.exe`、`php-cgi.exe`。
+
+## `php -v` 不一定是網站在用的那一支
+
+`php -v` 印的是你在 shell 裡叫到的那支執行檔。網站用的 PHP-FPM pool 或 Apache 模組可以是另一支，版號不同並不稀奇（ICSDA）。
+
+<CommandBlock label="命令列 PHP 的版本（只是起點）" code={`php -v`} />
+
+接著逐一對上真正處理請求的那一支：
+
+- **PHP-FPM**：看 pool 設定指向哪一支 `php-fpm` 執行檔，再對那一支執行 `-v`。
+- **Apache mod_php**：確認 Apache 是否載入 `php_module`，並看該模組對應的版號，而不是只看 PATH 上的 `php`。
+- **主機控制台**：cPanel、Plesk 顯示的版本，要和上面兩支對得起來；對不上時，以真正處理請求的那支為準。
+
+<CommandBlock label="列出 Apache 已載入的模組，找 php_module" code={`apachectl -M`} />
+
+控制台通常各版本裝在不同目錄。Plesk 官方文章的檢查例子是直接呼叫該版本的執行檔：
+
+<CommandBlock label="Plesk 官方檢查例子（8.3）" code={`/opt/plesk/php/8.3/bin/php -v`} />
+
+Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號沒有變，只有 2026-10-21 建置的才含修補，所以要一併看 `built:` 那一行的建置日期。
+
+需要一個只給管理員看的檢查頁時，印出 `PHP_VERSION` 與 `PHP_SAPI` 即可，用完立刻從文件根目錄移除。不要把 `phpinfo()` 長時間留在公開網址。
+
+## 發行版的版號怎麼讀
+
+發行版通常不升級大版本，而是把安全修補**回移植**到自己的套件。版號會是發行版自己的編號，比 php.net 的修補版號「小」也可能已經修好。官方查詢日 2026-10-22 讀到的例子：
+
+| 發行版 | 套件 | 已修補的套件版 | 對照 php.net |
+| --- | --- | --- | --- |
+| Ubuntu 24.04 LTS | php8.3 | 8.3.6-0ubuntu0.24.04.13 | 數字看起來比 8.3.36 舊，但 USN 列為已修補 |
+| Ubuntu 22.04 LTS | php8.1 | 8.1.2-1ubuntu2.28 | 8.1 沒有新的官方安裝包，Ubuntu 自行回移植 |
+| Debian trixie | php8.4 | 8.4.27-1~deb13u1 | 追蹤頁上 8.4.24-1~deb13u1 仍列為有漏洞 |
+
+規則：**以該發行版的安全公告或追蹤頁為準**，看已安裝的套件版本是否等於或新於公告上的修補版，不要只拿版號跟 php.net 比大小。
+
+## 容器映像要分開看
+
+主機上 `apt upgrade` 不會換掉映像裡的 PHP。要進到**正在接流量的容器**裡確認版本，不要只看建置機或舊的本機映像。詳見 [Docker／Kubernetes](/dev/fix/docker/)。
+
+## 對照官方版本矩陣
+
+<VersionMatrix />
+
+隱藏版本號的網站（沒送 `X-Powered-By` 標頭）不會出現在外部掃描的統計裡。你的主機就算沒露出版本，該修還是要修。

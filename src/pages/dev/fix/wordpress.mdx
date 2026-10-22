@@ -1,0 +1,50 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：WordPress 站台
+description: WordPress 站台面對 PHP2Shell：用 Site Health 與 WP-CLI 確認 PHP 版本，WordPress 官方說明不需要也不計劃更新 WordPress。
+lede: WordPress 官方說得很清楚：這次不是 WordPress 的問題，沒有、也不打算出 WordPress 更新。要修的是 PHP。
+checked: "2026-10-22"
+sources:
+  - title: WordPress.org：Critical PHP security release（2026-10-21）
+    url: https://wordpress.org/news/2026/10/critical-php-security-release/
+  - title: WP-CLI 官方文件：wp cli info
+    url: https://developer.wordpress.org/cli/commands/cli/info/
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+next:
+  - href: /dev/am-i-affected/
+    label: 自己管主機？先確認真正處理請求的 PHP
+  - href: /dev/fix/panels/
+    label: 用 cPanel、Plesk？看控制台頁
+  - href: /basic/systems/wordpress/
+    label: 要給網站負責人看的非技術版
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+> No WordPress update is required or planned for these issues.（WordPress.org 新聞稿）
+
+## 1. 檢查
+
+**Site Health（網頁介面）**：WordPress 官方寫的查看路徑是「工具 → 網站健康狀態 → 資訊 → 伺服器」（Tools > Site Health > Info > Server）。這裡看到的是網頁請求那一側實際使用的 PHP 版本。主機控制台也可能看得到。
+
+**WP-CLI**：官方文件的 `wp cli info` 會印出環境細節，其中包含 PHP 版本。
+
+<CommandBlock label="WP-CLI 官方：印出環境資訊" code={`wp cli info`} />
+
+注意：WP-CLI 是在命令列執行的，它回報的是**命令列 PHP**，可能和網站的 PHP-FPM 或 mod_php 不同。兩者對不上時以 Site Health 為準，並見[我受影響嗎？](/dev/am-i-affected/)。
+
+## 2. 更新
+
+- 更新 PHP 本身，照你的作業系統、控制台或 [Docker](/dev/fix/docker/) 平台頁做。WordPress 核心、外掛、佈景主題的更新**不是**這次的修補。
+- 代管或虛擬主機：請主機商更新到已修補的版本。
+- WordPress 新聞稿提醒：PHP 8.2 以前的分支不再從 PHP 專案收到安全更新。自行管理主機且停在更舊版本時，應考慮先把網站下線，再準備升級；見[舊版本策略](/dev/eol/)。
+
+## 3. 重啟
+
+PHP 更新後重啟所有 php-fpm 與網頁伺服器的 worker；代管主機請主機商確認已重啟。
+
+## 4. 驗證
+
+- 重新整理 Site Health 的「伺服器」區段，確認 PHP 版本已達修補版。
+- 多站或多環境時每一個都要看。
+- 查日誌與可疑檔案，見[偵測與應變](/dev/detect/)。

@@ -1,0 +1,61 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：Debian
+description: Debian 上修補 PHP2Shell：DSA-6574-1、DLA-4848-1 的修補套件版、Sury 套件庫、重啟與驗證。
+lede: 依 Debian 安全追蹤頁的修補版本更新 PHP 套件，重啟所有 worker，再向正在接流量的行程確認版本。
+checked: "2026-10-22"
+sources:
+  - title: Debian 安全追蹤：DSA-6574-1（php8.4）
+    url: https://security-tracker.debian.org/tracker/DSA-6574-1
+  - title: Debian 安全追蹤：DLA-4848-1（php8.2）
+    url: https://security-tracker.debian.org/tracker/DLA-4848-1
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: ICSDA：PHP2Shell 修補已釋出
+    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
+next:
+  - href: /dev/detect/
+    label: 修完了，接著查日誌與偵測訊號
+  - href: /dev/mitigation/
+    label: 套件還沒到？先套官方暫時緩解
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+> 本站在 2026-10-22 查詢時，debian.org 的 DSA／DLA 公告郵件被驗證頁擋住，沒有讀到官方「請升級」那一句正文。下面的版號來自安全追蹤頁；Debian 官方的升級指令**待查證**，本站不代寫。
+
+## 1. 檢查
+
+先找出網站真正在用的 PHP 分支與套件，見[我受影響嗎？](/dev/am-i-affected/)。命令列的版本只是起點：
+
+<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+
+再拿已安裝的套件版本對照安全追蹤頁：
+
+| 公告 | 套件 | 發行版 | 修補版（security） | 追蹤頁仍列為有漏洞 |
+| --- | --- | --- | --- | --- |
+| DSA-6574-1 | php8.4 | trixie | 8.4.27-1~deb13u1 | 8.4.24-1~deb13u1 |
+| DLA-4848-1 | php8.2 | bookworm | 8.2.35-1~deb12u1 | 8.2.32-1~deb12u1 |
+
+php8.3 的 DSA：查詢當下未找到官方資訊，待查證。
+
+### Sury 套件庫
+
+不少主機用 Ondřej Surý 維護的第三方 Sury 套件庫裝較新的 PHP 分支。那是 Debian 官方以外的套件來源，上面的 DSA／DLA 不涵蓋它。本站查詢時**沒有找到** Sury 針對這兩個 CVE 的公告，狀態待查證：請直接到該套件庫確認是否已發布含修補的套件；確認不了，就改用 Debian 官方套件或自行編譯。
+
+## 2. 更新
+
+依你的套件來源，把 PHP 相關套件更新到上表的修補版或更新版：
+
+- **Debian 官方套件**：從 security 套件庫取得 DSA／DLA 列出的版本。DSA 正文未讀到，官方指令待查證。
+- **Sury**：確認該庫已出修補版之後才更新；沒有就不要以為已經修好。
+- **8.1 以前**：見[舊版本策略](/dev/eol/)。
+
+## 3. 重啟
+
+裝好套件之後，**重啟所有** php-fpm 與 Apache 服務（用 mod_php 時是 Apache），讓每一支 worker 都換成新的程式。服務名稱依你安裝的套件而定。只 reload 一部分、或滾動更新留下舊 worker，等於還沒修完。
+
+## 4. 驗證
+
+- 再查一次已安裝的套件版本，確認等於或新於上表的修補版。
+- 向正在接流量的那一支 PHP 確認版本（PHP-FPM 執行檔的 `-v`、Apache 載入的模組），不只看命令列。
+- 若緩解期間把 `memory_limit` 設成 `-1`，修補後改回應用真正需要的上限。

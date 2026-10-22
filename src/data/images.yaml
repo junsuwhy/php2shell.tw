@@ -82,6 +82,20 @@ slots:
     status: pending
     provenance: null
 
+  - id: dev-root-cause
+    file: dev-root-cause.webp
+    page: /dev/root-cause/
+    where: 開發者區「成因概念」頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 示意圖：工作台被迫中途清空，只收拾了一半，下一位接手的人拿起了上一位留下的零件
+    palette: "#22262c 深石墨底、#2fb26b 綠、#f4f5f6 白、少量 #c8233a 紅點綴"
+    prompt: >-
+      Conceptual pictogram of a workbench on a dark graphite background, a worker abruptly walking
+      away mid-task leaving the bench only half cleared, a second worker arriving and picking up one
+      leftover part highlighted in red, a simple warning triangle above the bench, calm and explanatory,
+      no computer code, no screens, no attack imagery
+
   - id: basic-kitchen
     file: basic-kitchen.webp
     page: /basic/

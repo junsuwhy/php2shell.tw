@@ -1,26 +1,95 @@
 ---
+// /dev/glossary/：直接讀 src/data/glossary.yaml（glossary collection），與 MDX 自動註解是同一份資料。
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import { termId } from '../../plugins/glossary/index.mjs';
 import GlossaryDemo from './glossary/_demo.mdx';
----
-<Base title="名詞表" persona="dev">
-  <h1>名詞表</h1>
-  <Stub purpose="所有專有名詞的註解" />
 
-  <section class="glossary-demo" aria-labelledby="glossary-demo-title">
-    <h2 id="glossary-demo-title">自動標註示範</h2>
-    <p>
-      開發者區的 MDX 頁面在建置時會依名詞表自動標註：每頁只標每個詞第一次出現的位置，
-      詞加底線，註解直接放在該段落下方，手機不用懸停也讀得到。下面的示範段落用來驗證這些規則。
+const entries = (await getCollection('glossary')).map((e) => ({ id: e.id, ...e.data }));
+const anchor = (e: { id: string }) => termId(e).replace(/^gl-term-/, 'term-');
+const byTerm = new Map(entries.flatMap((e) => [e.term, ...e.aliases].map((name) => [name.toLowerCase(), e])));
+---
+<Base title="名詞表" description="開發者區所有專有名詞的註解；與頁面自動註解共用同一份名詞資料。" persona="dev">
+  <article class="glossary">
+    <nav class="crumbs" aria-label="麵包屑"><a href="/dev/">開發者總覽</a></nav>
+    <h1>名詞表</h1>
+    <p class="lede">
+      開發者區每一頁第一次出現下列名詞時，會在該段落下方自動加註；註解內容就是這裡的「給開發者」。共 <span class="num">{entries.length}</span> 個詞。
     </p>
-    <GlossaryDemo />
-  </section>
+
+    <nav class="index" aria-label="名詞索引">
+      <ul>
+        {entries.map((e) => <li><a href={`#${anchor(e)}`}>{e.term}</a></li>)}
+      </ul>
+    </nav>
+
+    <dl class="terms">
+      {entries.map((e) => (
+        <div class="term" id={anchor(e)}>
+          <dt>
+            <span class="term__name">{e.term}</span>
+            {e.aliases.length > 0 && <span class="term__aliases">又稱：{e.aliases.join('、')}</span>}
+          </dt>
+          <dd>
+            <p><strong>給開發者：</strong>{e.note}</p>
+            <p class="term__plain"><strong>白話：</strong>{e.plain}</p>
+            {e.see.length > 0 && (
+              <p class="term__see">相關：{e.see.map((name, i) => {
+                const target = byTerm.get(name.toLowerCase());
+                return <>{i > 0 && '、'}{target ? <a href={`#${anchor(target)}`}>{name}</a> : name}</>;
+              })}</p>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+
+    <section class="glossary-demo" aria-labelledby="glossary-demo-title">
+      <h2 id="glossary-demo-title">自動標註示範</h2>
+      <p>
+        開發者區的 MDX 頁面在建置時會依名詞表自動標註：每頁只標每個詞第一次出現的位置，
+        詞加底線，註解直接放在該段落下方，手機不用懸停也讀得到。下面的示範段落用來驗證這些規則。
+      </p>
+      <GlossaryDemo />
+    </section>
+
+    <nav class="next" aria-labelledby="next-title">
+      <h2 id="next-title">下一步</h2>
+      <ul>
+        <li><a href="/dev/">回開發者總覽，挑你的平台修補頁</a></li>
+        <li><a href="/dev/root-cause/">看成因概念</a></li>
+      </ul>
+    </nav>
+  </article>
 </Base>
 
 <style>
-  .glossary-demo {
-    margin-block-start: 3rem;
-    padding-block-start: 1.5rem;
-    border-block-start: 1px solid var(--graphite-rule);
+  .glossary { max-width: 46rem; margin: 0 auto; padding: 32px var(--gutter) 56px; }
+  .crumbs { font-size: 0.9375rem; color: var(--floor-ink-soft); margin-bottom: 12px; }
+  h1 { font-size: clamp(1.75rem, 4vw, 2.375rem); font-weight: 900; }
+  .lede { margin-top: 12px; font-size: 1.125rem; color: var(--floor-ink-soft); }
+  .index ul { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .index a {
+    display: inline-block;
+    padding: 6px 10px;
+    min-height: 44px;
+    line-height: 32px;
+    border: 1px solid var(--graphite-rule);
+    border-radius: 4px;
+    background: #fff;
+    text-decoration: none;
+    font-size: 0.9375rem;
   }
+  .terms { margin: 32px 0 0; }
+  .term { padding: 16px 0; border-top: 1px solid #c9cdd3; scroll-margin-top: 16px; }
+  .term:target { background: #fff; outline: 3px solid var(--line-dev); outline-offset: 4px; }
+  dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .term__name { font-size: 1.25rem; font-weight: 800; }
+  .term__aliases { font-size: 0.875rem; color: var(--floor-ink-soft); }
+  dd { margin: 8px 0 0; }
+  dd p + p { margin-top: 6px; }
+  .term__plain, .term__see { font-size: 0.9375rem; color: var(--floor-ink-soft); }
+  .glossary-demo, .next { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--graphite-rule); }
+  .glossary-demo h2, .next h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; }
+  .next ul { padding-left: 1.25rem; }
 </style>

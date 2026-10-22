@@ -1,0 +1,58 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：Docker／Kubernetes
+description: 容器環境修補 PHP2Shell：用已修補的官方 PHP 映像重建、釘版本、重新部署，以及 Kubernetes 上確認沒有舊 Pod。
+lede: 主機上更新套件不會換掉映像裡的 PHP。容器要重建映像、重新部署，再到正在接流量的容器裡確認。
+checked: "2026-10-22"
+sources:
+  - title: Docker Hub 官方 PHP 映像標籤（8.5.12）
+    url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.5.12
+  - title: Docker Hub 官方 PHP 映像標籤（8.4.27）
+    url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.4.27
+  - title: Docker Hub 官方 PHP 映像標籤（8.3.36）
+    url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.3.36
+  - title: Docker Hub 官方 PHP 映像標籤（8.2.35）
+    url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.2.35
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: ICSDA：PHP2Shell 修補已釋出（Docker 要重建映像）
+    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
+next:
+  - href: /dev/detect/
+    label: 部署完了，接著查日誌與偵測訊號
+  - href: /dev/fix/alpine/
+    label: 自建 Alpine 基底？看 Alpine 頁
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+import { facts } from '../../../lib/data';
+
+> Docker Hub 的標籤 API 沒有升級指令。下面的映像版本來自官方 `library/php` 標籤；建置與部署指令依你自己的流程，本站不代寫。
+
+## 1. 檢查
+
+- 列出所有用到 PHP 的映像：官方 `php` 映像、以它為基底的自建映像、第三方應用映像（例如 WordPress、Drupal 官方映像）、廠商提供的映像。
+- 在**正在接流量的容器**裡確認版本，不要只看建置機或本機的舊映像：
+
+<CommandBlock label="在執行中的容器裡執行" code={`php -v`} />
+
+## 2. 更新：重建映像
+
+查詢時，官方 `library/php` 已有以下正式 tag：{facts.fixed.map((f) => f.version).join('、')}。變體包含 cli、apache、fpm、alpine、bookworm、trixie，以及對應的 ZTS。
+
+- 把 Dockerfile 的基底改成已修補的版本，**釘到完整版號**（例如 {facts.fixed[1].version} 的對應變體），不要只寫 `latest` 或只寫分支號，才知道實際跑的是哪一版。
+- 8.5.12 與 8.4.27 的查詢結果同時列出 RC1 tag，那不是這次的正式發行版，不要選到。
+- 重建時拉取最新的基底映像，不要用到快取裡的舊層。
+- 第三方應用映像：等上游重建並發布含修補 PHP 的版本，再更新你的 tag。
+
+抽查各版第一筆映像的推送時間：8.5.12 為 2026-10-21 23:26 UTC（台灣時間 10-22 07:26），8.4.27 為 23:31 UTC，8.3.36 為 23:28 UTC，8.2.35 為 23:27 UTC。這不是每一個 tag 的推送時間。
+
+## 3. 重啟：重新部署
+
+- 以新映像重新部署所有服務。只重建、沒有部署，跑著的還是舊容器。
+- **Kubernetes**：更新 Deployment 等工作負載的映像版本並完成滾動更新；確認舊的 ReplicaSet 已縮到零，沒有還在接流量的舊 Pod。
+- 確認編排檔、Helm values 或 CI 沒有把舊 tag 拉回來。
+
+## 4. 驗證
+
+- 在正在接流量的容器（每一種服務、每一個叢集）裡再跑一次 `php -v`，確認達到修補版。
+- 核對執行中容器的映像版本，確認都是新建置的那一版。

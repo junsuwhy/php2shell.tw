@@ -1,0 +1,52 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：Drupal 站台
+description: Drupal 站台面對 PHP2Shell：用狀態報告與 drush 確認網站實際的 PHP 版本、composer 平台需求、代管平台該聯絡誰。
+lede: Drupal 本身沒有要更新。要修的是底下的 PHP；這頁幫你從 Drupal 這一側確認它跑在哪一版，以及該找誰更新。
+checked: "2026-10-22"
+sources:
+  - title: Drupal PSA-2026-10-20（本站查詢時遇驗證頁，未讀到正文）
+    url: https://www.drupal.org/psa-2026-10-20
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: Wiz：PHP2Shell（含 Drupal 上的展示）
+    url: https://www.wiz.io/blog/php2shell-php-rce
+next:
+  - href: /dev/am-i-affected/
+    label: 自己管主機？先確認真正處理請求的 PHP
+  - href: /dev/fix/panels/
+    label: 用 cPanel、Plesk？看控制台頁
+  - href: /basic/systems/drupal/
+    label: 要給網站負責人看的非技術版
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+> 本站查詢 Drupal 官方 PSA 時被驗證頁擋住，沒有讀到正文。修補後的 PHP 版號、drush 指令與狀態報告的官方說法：**未找到官方資訊，待查證**。下面只寫不依賴該 PSA 的做法，不採用論壇上的 drush 範例。
+
+## 1. 檢查
+
+**狀態報告（網頁介面）**：以管理員登入，到後台的「報告 → 狀態報告」，其中列有網站實際使用的 PHP 版本。這是網頁請求那一側看到的版本，比命令列可靠。（此頁面的官方說明文字待查證。）
+
+**drush**：drush 是在命令列執行的，它回報的是**命令列 PHP** 的版本，可能和網站的 PHP-FPM 或 mod_php 不同。drush 的確切指令本站未取得官方文件，待查證。命令列版本可以先用：
+
+<CommandBlock label="命令列 PHP 的版本（不一定等於網站的 PHP）" code={`php -v`} />
+
+以狀態報告為準；兩者對不上時，見[我受影響嗎？](/dev/am-i-affected/)。
+
+**代管平台**：Acquia、Pantheon 等 Drupal 代管平台由平台管理 PHP 執行環境。這些平台針對這次的公告本站未取得，待查證；請直接向平台支援詢問「我的環境跑哪一版 PHP、是否已含 2026-10-21 的修補、何時重啟」。
+
+## 2. 更新
+
+- **自管主機**：更新 PHP 本身，照你的作業系統或控制台平台頁做。Drupal 核心或模組的更新**不是**這次的修補。
+- **代管平台**：由平台更新；若平台讓你選 PHP 版本，選已修補的分支。
+- **composer 平台需求**：composer.json 裡的 PHP 版本需求（以及 `config.platform` 的設定）只影響相依套件怎麼解析，不會改變伺服器實際跑的 PHP。只是套修補版（同一分支內）不需要動它；若趁這次換到新的 PHP 分支，先確認專案宣告的 PHP 需求與相依套件支援新分支，再部署。
+
+## 3. 重啟
+
+PHP 更新後要重啟所有 php-fpm 與網頁伺服器的 worker。代管平台由平台處理，請對方確認已經重啟。
+
+## 4. 驗證
+
+- 重新整理狀態報告，確認 PHP 版本已達修補版。
+- 有多個環境（正式、測試、預覽）時，每一個都要看。
+- 自管主機另向正在接流量的 PHP 確認版本，並查日誌，見[偵測與應變](/dev/detect/)。

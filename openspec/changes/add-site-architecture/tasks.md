@@ -25,16 +25,16 @@
 - [ ] 4.4 [basic-guide] 撰寫 cPanel 與 Plesk 系統頁，頁尾都是下一步。驗證：cPanel 頁說明在哪看或切換 PHP 版本，以及何時找主機商；Plesk 頁說明主機面板上的下一步。
 - [ ] 4.5 [basic-guide] 撰寫商店與外包系統頁，頁尾都是下一步。驗證：商店頁含 WooCommerce、Magento，並說明 Shopify 這類代管平台由平台處理；外包頁含不知道誰做的。
 - [ ] 4.6 [basic-guide] 做可一次複製的問廠商訊息，以及 FAQ 三題。驗證：複製不靠懸停；頁面有「手機會不會中毒」「關掉是否代表被駭」「要不要改密碼」；答案沒有禁用術語，也不附攻擊做法。
-- [ ] 4.7 [dev-guide] 撰寫 `/dev/`：TL;DR、版本矩陣、受影響 SAPI 風險排序、「現在立刻做」。驗證：版本矩陣只讀 `facts`；頁面沒有攻擊步驟、exploit 或 payload。
-- [ ] 4.8 [dev-guide] 撰寫成因頁與「是否受影響」頁。驗證：成因只含 OOM bailout 的半初始化或過期狀態，以及 session upload-progress、OPcache、fatal error backtrace，且不寫利用；另一頁說明 `php -v` 可能不同於 FPM 或 mod_php，並含回移植版號與容器映像。
-- [ ] 4.9 [dev-guide] 撰寫 Debian 與 Ubuntu 修補頁，順序為檢查、更新、重啟、驗證，指令可一次複製。驗證：兩頁都有這四段；Debian 含 Sury，Ubuntu 含 ondrej PPA；沒有攻擊內容。
-- [ ] 4.10 [dev-guide] 撰寫 RHEL 家族與 Alpine 修補頁，同樣四段，指令可一次複製。驗證：RHEL 頁含 Rocky、Alma，以及 remi 當天沒有更新時的處理；沒有攻擊內容。
-- [ ] 4.11 [dev-guide] 撰寫 Windows 與 Docker 修補頁，同樣四段，指令可一次複製。驗證：Windows 含官方 binary 與 IIS、XAMPP 等內建 php-cgi.exe；Docker 含重建映像、釘版本、重新部署與 Kubernetes；沒有攻擊內容。
-- [ ] 4.12 [dev-guide] 撰寫 macOS 與控制台修補頁，同樣四段，指令可一次複製。驗證：macOS 為 Homebrew 開發機；控制台含 cPanel 的 EA-PHP、Plesk、DirectAdmin；沒有攻擊內容。
-- [ ] 4.13 [dev-guide] 撰寫 Drupal 與 WordPress 工具頁，同樣四段，指令可一次複製。驗證：Drupal 含 drush、狀態報告、composer 平台需求與代管平台；WordPress 含 WP-CLI 與 Site Health；沒有攻擊內容。
-- [ ] 4.14 [dev-guide] 撰寫自行編譯頁，同樣四段。驗證：內容限 7.4、8.0、8.1 的官方最小回移植與編譯注意事項；沒有攻擊內容。
-- [ ] 4.15 [dev-guide] 撰寫緩解頁與偵測頁。驗證：緩解頁含官方暫時做法，以及不要做的 RLIMIT_AS、RLIMIT_DATA、ini_set、.user.ini；偵測頁含訊號、應變清單與日誌保全；沒有攻擊內容。
-- [ ] 4.16 [dev-guide] 撰寫舊版策略頁與 `/dev/glossary/`。驗證：舊版頁說明小於等於 8.1 的策略；名詞表讀 `glossary`，與全站標註是同一份。
+- [x] 4.7 [dev-guide] 撰寫 `/dev/`：TL;DR、版本矩陣、受影響 SAPI 風險排序、「現在立刻做」。驗證：版本矩陣只讀 `facts`；頁面沒有攻擊步驟、exploit 或 payload。
+- [x] 4.8 [dev-guide] 撰寫成因頁與「是否受影響」頁。驗證：成因只含 OOM bailout 的半初始化或過期狀態，以及 session upload-progress、OPcache、fatal error backtrace，且不寫利用；另一頁說明 `php -v` 可能不同於 FPM 或 mod_php，並含回移植版號與容器映像。
+- [x] 4.9 [dev-guide] 撰寫 Debian 與 Ubuntu 修補頁，順序為檢查、更新、重啟、驗證，指令可一次複製。驗證：兩頁都有這四段；Debian 含 Sury，Ubuntu 含 ondrej PPA；沒有攻擊內容。
+- [x] 4.10 [dev-guide] 撰寫 RHEL 家族與 Alpine 修補頁，同樣四段，指令可一次複製。驗證：RHEL 頁含 Rocky、Alma，以及 remi 當天沒有更新時的處理；沒有攻擊內容。
+- [x] 4.11 [dev-guide] 撰寫 Windows 與 Docker 修補頁，同樣四段，指令可一次複製。驗證：Windows 含官方 binary 與 IIS、XAMPP 等內建 php-cgi.exe；Docker 含重建映像、釘版本、重新部署與 Kubernetes；沒有攻擊內容。
+- [x] 4.12 [dev-guide] 撰寫 macOS 與控制台修補頁，同樣四段，指令可一次複製。驗證：macOS 為 Homebrew 開發機；控制台含 cPanel 的 EA-PHP、Plesk、DirectAdmin；沒有攻擊內容。
+- [x] 4.13 [dev-guide] 撰寫 Drupal 與 WordPress 工具頁，同樣四段，指令可一次複製。驗證：Drupal 含 drush、狀態報告、composer 平台需求與代管平台；WordPress 含 WP-CLI 與 Site Health；沒有攻擊內容。
+- [x] 4.14 [dev-guide] 撰寫自行編譯頁，同樣四段。驗證：內容限 7.4、8.0、8.1 的官方最小回移植與編譯注意事項；沒有攻擊內容。
+- [x] 4.15 [dev-guide] 撰寫緩解頁與偵測頁。驗證：緩解頁含官方暫時做法，以及不要做的 RLIMIT_AS、RLIMIT_DATA、ini_set、.user.ini；偵測頁含訊號、應變清單與日誌保全；沒有攻擊內容。
+- [x] 4.16 [dev-guide] 撰寫舊版策略頁與 `/dev/glossary/`。驗證：舊版頁說明小於等於 8.1 的策略；名詞表讀 `glossary`，與全站標註是同一份。
 - [ ] 4.17 [onlooker-hub] 撰寫 `/news/` 懶人包與 `/news/story/`。驗證：懶人包有一句話、數字看板、最新五則，且時間軸精華只列出標記要出現的事件；故事依序含 2004、2024、AI、外洩、全球關站。
 - [ ] 4.18 [onlooker-hub] 做完整時間軸，可切換 UTC 與台灣時間。驗證：同一事件可對照 UTC 與台灣時間；精度只有日期的事件不出現補上的時分。
 - [ ] 4.19 [onlooker-hub] 做新聞牆篩選與單則摘要頁。驗證：可依語言、來源類型、標籤篩選；單則頁有摘要與原文連結。

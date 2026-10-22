@@ -1,0 +1,52 @@
+---
+layout: ../../../layouts/DevDoc.astro
+title: 修補：Alpine
+description: Alpine Linux 修補 PHP2Shell：edge community 套件頁上的 php85、php84、php83 修補版本與注意事項。
+lede: Alpine 的 PHP 套件以分支命名（php85、php84⋯⋯）。下面只列官方套件頁查得到的版本。
+checked: "2026-10-22"
+sources:
+  - title: Alpine 套件頁：php85（edge／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php85
+  - title: Alpine 套件頁：php84（edge／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php84
+  - title: Alpine 套件頁：php83（edge／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php83
+  - title: PHP.net 安全公告（2026-10-21）
+    url: https://www.php.net/archive/2026.php#2026-10-21-5
+next:
+  - href: /dev/fix/docker/
+    label: 用的是 Alpine 基底的 Docker 映像？看 Docker 頁
+  - href: /dev/detect/
+    label: 修完了，接著查日誌與偵測訊號
+---
+import CommandBlock from '../../../components/dev/CommandBlock.astro';
+
+> 套件頁沒有寫 `apk` 指令；其他分支、其他架構與 Alpine 漏洞追蹤頁，本站查詢時都未找到官方資訊。本站不代寫指令，以下狀態待查證的部分照實標出。
+
+## 1. 檢查
+
+<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+
+對照 edge／community／x86_64 套件頁（2026-10-22 查詢）：
+
+| 套件 | 修補版 |
+| --- | --- |
+| php85 | 8.5.12-r0（build time 2026-10-21 18:17:49，頁面未標時區） |
+| php84 | 8.4.27-r0 |
+| php83 | 8.3.36-r0 |
+| php82 | edge 的套件頁為 404，待查證 |
+
+用穩定分支（非 edge）或其他架構的主機：未找到官方資訊，待查證，請到你所用分支的套件頁確認版本。
+
+## 2. 更新
+
+把 PHP 套件更新到上表或你所用分支套件頁上的修補版。Alpine 常用在容器：如果 PHP 跑在 Alpine 基底的映像裡，要**重建映像**，不是在執行中的容器裡更新，見 [Docker／Kubernetes](/dev/fix/docker/)。
+
+## 3. 重啟
+
+重啟所有 php-fpm 與網頁伺服器服務，讓每一支 worker 都換成新程式；容器則以新映像重新部署。
+
+## 4. 驗證
+
+- 在正在接流量的主機或容器裡確認版本達到修補版。
+- 確認編排檔或部署腳本沒有把舊映像拉回來。
