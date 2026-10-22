@@ -95,5 +95,108 @@ slots:
       away mid-task leaving the bench only half cleared, a second worker arriving and picking up one
       leftover part highlighted in red, a simple warning triangle above the bench, calm and explanatory,
       no computer code, no screens, no attack imagery
+
+  - id: basic-kitchen
+    file: basic-kitchen.webp
+    page: /basic/
+    where: 非技術區首頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 餐廳廚房裡的主廚正在備餐，出菜口外的客人在等餐，象徵網站背後的廚房
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a friendly restaurant kitchen seen from the front, a chef figure at a work counter
+      preparing a plate, a pass-through window where a simple diner figure waits, warm and reassuring,
+      light grey background, yellow accents, graphite figures
+    status: pending
+    provenance: null
+
+  - id: basic-check
+    file: basic-check.webp
+    page: /basic/check/
+    where: 檢查精靈標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 一個人站在叉路口的指示牌前，指示牌指向幾個不同方向
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a calm person standing in front of a signpost with several blank direction boards
+      pointing different ways, a simple path leading toward each board, helpful and unhurried,
+      light grey background, yellow signboards, graphite figure
+    status: pending
+    provenance: null
+
+  - id: basic-dashboard
+    file: basic-dashboard.webp
+    page: /basic/systems/*
+    where: 各系統頁標題下方（七個系統頁共用）
+    aspect: "16/9"
+    size: 1600x900
+    alt: 一個人看著筆電上的網站後台，旁邊的放大鏡照著一個版本標籤
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a person sitting at a laptop showing a simple admin dashboard made of blank
+      rectangles, a large friendly magnifying glass highlighting one blank label tag on the screen,
+      calm and clear, light grey background, yellow accents, graphite figure
+    status: pending
+    provenance: null
+
+  - id: basic-message
+    file: basic-message.webp
+    page: /basic/ask-your-vendor/
+    where: 問廠商訊息頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 一個人用手機送出一則訊息，訊息飛向一棟放著主機的小房子
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a person holding a smartphone and sending a blank speech-bubble message that
+      travels along a dotted line to a small building containing a simple server rack, a second
+      blank reply bubble coming back, polite and reassuring, light grey background, yellow accents
+    status: pending
+    provenance: null
+
+  - id: basic-faq
+    file: basic-faq.webp
+    page: /basic/faq/
+    where: 常見問題頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 兩個人面對面聊天，頭上各有一個問號與一個打勾的對話框
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of two friendly people talking face to face, one with a question-mark speech bubble
+      and the other with a check-mark speech bubble, a relaxed atmosphere, light grey background,
+      yellow bubbles, graphite figures
+
+  - id: news-hub
+    file: news-hub.webp
+    page: /news/
+    where: 吃瓜懶人包報頭右側（手機版置於標題下方）
+    aspect: "16/9"
+    size: 1280x720
+    alt: 報攤前一群人邊吃西瓜邊看報紙與手機，報紙頭條是一個大大的驚嘆號圖示
+    palette: "#e0457b 粉紅、#22262c 深石墨線條、#e9ebee 淺灰底、西瓜紅綠"
+    prompt: >-
+      A small newsstand on a light grey ground, three simplified pictogram people gathered around it,
+      one eating a slice of watermelon, one reading a folded newspaper whose front page shows only a
+      large exclamation mark shape, one looking at a phone, curious but calm mood, pink accents,
+      graphite figures, the watermelon in flat red and green
+    status: pending
+    provenance: null
+
+  - id: news-story
+    file: news-story.webp
+    page: /news/story/
+    where: 前因後果頁開頭、章節目錄上方
+    aspect: "21/9"
+    size: 1680x720
+    alt: 一條由左到右的時間線，沿途有舊電腦、放大鏡、機器人手臂、破掉的封條與關上的店門
+    palette: "#e0457b 粉紅、#22262c 深石墨、#e9ebee 淺灰底"
+    prompt: >-
+      A long horizontal timeline line running left to right on a light grey ground, with five evenly
+      spaced pictogram stops: an old beige desktop computer, a magnifying glass over a document, a
+      simple robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of
+      small shop fronts with their shutters pulled down, pink line, graphite icons
     status: pending
     provenance: null

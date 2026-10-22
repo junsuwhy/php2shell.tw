@@ -1,8 +1,83 @@
 ---
+import { getOrdered } from '../../lib/news';
 import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import SourceLinks from '../../components/news/SourceLinks.astro';
+
+const kinds = [
+  ['government', '政府與公共服務'],
+  ['company', '企業與服務'],
+  ['community', '社群與非營利'],
+  ['game', '遊戲'],
+  ['media', '媒體'],
+  ['other', '其他'],
+] as const;
+const outages = await getOrdered('outages');
+const sections = kinds
+  .map(([kind, label]) => ({ kind, label, items: outages.filter((o) => o.data.kind === kind) }))
+  .filter((s) => s.items.length > 0);
+const unconfirmed = outages.filter((o) => !o.data.php_confirmed).length;
 ---
-<Base title="全球關站名單" persona="news">
-  <h1>全球關站名單</h1>
-  <Stub purpose="哪些網站因此暫停服務" />
+<Base title="全球關站名單" persona="news" description="PHP2Shell 修補前後，各國政府與民間網站預防性下線、維護或限制功能的名單，附來源與 PHP 關聯是否證實。">
+  <article class="page">
+    <header class="page__head">
+      <p class="kicker"><a href="/news/">吃瓜懶人包</a></p>
+      <h1>全球關站名單</h1>
+      <p>修補前後，許多網站先拔插頭再說。<strong>關站多半是預防，不代表已經被駭</strong>——Mashable 說得很白：把服務關掉，是為了不要被駭。</p>
+      <p>共 <span class="num">{outages.length}</span> 筆。其中 <span class="num">{unconfirmed}</span> 筆是「同一時間也出了狀況」，但來源沒有證實與 PHP 有關，會另外標示，請不要把它們當成已確認名單轉傳。</p>
+      <nav aria-label="名單分類">
+        <ul class="toc">
+          {sections.map((s) => <li><a href={`#${s.kind}`}>{s.label}（{s.items.length}）</a></li>)}
+        </ul>
+      </nav>
+    </header>
+
+    {sections.map((s) => (
+      <section class="group" aria-labelledby={s.kind}>
+        <h2 id={s.kind}>{s.label}</h2>
+        <ul class="list">
+          {s.items.map(({ id, data: o }) => (
+            <li class:list={['item', { 'item--unconfirmed': !o.php_confirmed }]} id={id}>
+              <div class="item__head">
+                <h3>{o.name}</h3>
+                <span class="item__region">{o.region}</span>
+              </div>
+              {!o.php_confirmed && <p class="item__flag">與 PHP 的關聯未證實</p>}
+              <p>{o.action}</p>
+              <SourceLinks refs={o.sources} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <footer class="next">
+      <h2>下一步</h2>
+      <ul>
+        <li><a href="/basic/check/">我自己也有網站，要不要也關？</a></li>
+        <li><a href="/news/rumors/">名單上說法不一致的（例如 4chan 是唯讀還是全關）</a></li>
+        <li><a href="/news/timeline/">照時間看事件經過</a></li>
+      </ul>
+    </footer>
+  </article>
 </Base>
+
+<style>
+  .page { display: grid; gap: 32px; max-width: 52rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  .page__head { display: grid; gap: 12px; }
+  .kicker { font-size: 0.9375rem; font-weight: 700; color: var(--floor-ink-soft); }
+  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .toc a { display: inline-block; padding: 6px 12px; background: #fff; border-radius: 999px; text-decoration: none; font-size: 0.9375rem; }
+  .group { display: grid; gap: 12px; }
+  .group h2 { font-size: 1.5rem; padding-bottom: 6px; border-bottom: 3px solid var(--line-news); }
+  .list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .item { display: grid; gap: 6px; padding: 14px 16px; background: #fff; border-radius: 4px; }
+  .item--unconfirmed { background: transparent; border: 2px dashed var(--graphite-rule); }
+  .item__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .item__head h3 { font-size: 1.125rem; }
+  .item__region { font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .item__flag { justify-self: start; padding: 0 8px; border: 1px solid var(--alert); border-radius: 3px; color: var(--alert); font-size: 0.875rem; font-weight: 700; }
+  .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); }
+  .next h2 { font-size: 1.25rem; }
+  .next ul { margin: 0; padding-left: 1.2em; }
+</style>

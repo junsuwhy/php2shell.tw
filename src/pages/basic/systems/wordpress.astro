@@ -1,8 +1,43 @@
 ---
-import Base from '../../../layouts/Base.astro';
-import Stub from '../../../components/Stub.astro';
+import BasicPage from '../../../components/basic/BasicPage.astro';
+import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
-<Base title="WordPress 網站" persona="basic">
-  <h1>WordPress 網站</h1>
-  <Stub purpose="在後台看 PHP 版本、該找誰處理" />
-</Base>
+<BasicPage
+  title="WordPress 網站"
+  heading="我的網站是 WordPress"
+  description="WordPress 網站怎麼在後台看到 PHP 版本、怎麼對照安全版本、該找誰處理。只更新 WordPress 本身不夠。"
+  lead="先講最重要的一句：這次只按 WordPress 的「更新」不夠。"
+  image="basic-dashboard"
+  back={{ href: '/basic/check/', label: '回到檢查精靈' }}
+  next={[
+    { href: '/basic/ask-your-vendor/', label: '複製訊息，請主機商或廠商更新', note: '附上你看到的版本號' },
+    { href: '/basic/faq/', label: '看常見問題', note: '要不要改密碼？網站要不要先關？' },
+  ]}
+>
+  <div class="callout callout--warn">
+    <p><strong>只更新 WordPress 本身、外掛、佈景主題，修不好這次的問題。</strong>WordPress 是食譜，這次要換的是廚房裡的主廚 PHP。WordPress 官方也說明，不會為這件事發布 WordPress 更新。</p>
+  </div>
+
+  <h2>在後台看 PHP 版本</h2>
+  <p>你需要能登入 WordPress 後台，而且是「管理員」身分。</p>
+  <ol class="steps">
+    <li>登入 WordPress 後台。</li>
+    <li>左邊選單點 <span class="path">工具</span>，再點 <span class="path">網站健康狀態</span>。</li>
+    <li>上方切到 <span class="path">資訊</span> 分頁。</li>
+    <li>展開 <span class="path">伺服器</span> 這一段，找「PHP 版本」那一列，把數字抄下來。</li>
+  </ol>
+  <p>選單是英文的話，依序是 <span class="path">Tools</span> → <span class="path">Site Health</span> → <span class="path">Info</span> → <span class="path">Server</span>。看不到「工具」選單，通常是帳號權限不夠，請找當初給你帳號的人，或直接看下面的「該找誰」。</p>
+
+  <SafeVersions />
+
+  <h2>該找誰？</h2>
+  <ul>
+    <li><strong>網站放在虛擬主機（每月付費給主機商）：</strong>找主機商。主廚是他們在管，你多半沒辦法自己換。</li>
+    <li><strong>網站是外包廠商做的、也是他們在維護：</strong>找外包廠商。</li>
+    <li><strong>公司有自己的資訊人員：</strong>把這頁和<a href="/dev/fix/wordpress/">給工程師的 WordPress 頁</a>轉給他。</li>
+  </ul>
+  <p>對方回覆時，請他寫出<strong>更新後的版本號</strong>，並確認「更新之後已經重新啟動」。只回「我們有防護」不算數。</p>
+
+  <h2>還沒拿到答覆前</h2>
+  <p>WordPress 的「維護模式」外掛擋不住這次的問題，因為事情發生在 WordPress 開始動作之前。如果今天拿不到「已經更新」的答覆，請主機商或廠商<strong>直接讓網站暫停對外</strong>，比較安全。</p>
+</BasicPage>
