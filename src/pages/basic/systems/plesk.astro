@@ -1,8 +1,39 @@
 ---
-import Base from '../../../layouts/Base.astro';
-import Stub from '../../../components/Stub.astro';
+import BasicPage from '../../../components/basic/BasicPage.astro';
+import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
-<Base title="Plesk 主機面板" persona="basic">
-  <h1>Plesk 主機面板</h1>
-  <Stub purpose="在哪看與切換 PHP 版本、何時找主機商" />
-</Base>
+<BasicPage
+  title="Plesk 主機面板"
+  heading="我用 Plesk 主機面板"
+  description="用 Plesk 主機面板的人，在哪裡看 PHP 版本、Plesk 官方建議怎麼做，以及該找誰。"
+  lead="Plesk 官方的建議很簡單：把 Plesk 更新到最新。這件事通常由主機商或管主機的人來做。"
+  image="basic-dashboard"
+  back={{ href: '/basic/check/', label: '回到檢查精靈' }}
+  next={[
+    { href: '/basic/ask-your-vendor/#host', label: '複製訊息，請主機商確認', note: '問他們 Plesk 是否已經更新' },
+    { href: '/basic/faq/', label: '看常見問題' },
+  ]}
+>
+  <div class="callout">
+    <p>Plesk 像是整棟餐廳大樓的管理處，主廚由管理處派駐。Plesk 已經準備好修好的主廚，<strong>只要管理處把 Plesk 更新到最新，就會換上</strong>。</p>
+  </div>
+
+  <h2>在哪裡看 PHP 版本</h2>
+  <ol class="steps">
+    <li>登入 Plesk。</li>
+    <li>左邊點 <span class="path">網站與網域</span>（英文是 Websites &amp; Domains）。</li>
+    <li>找到你的網域，點 <span class="path">PHP</span> 或 <span class="path">PHP 設定</span>。</li>
+    <li>畫面上方會寫目前用的 PHP 版本。</li>
+  </ol>
+  <p>不同主機商的 Plesk 畫面可能略有不同。找不到的話，直接問主機商。</p>
+
+  <SafeVersions />
+  <p>補充：Plesk 有些舊系列（例如 <span class="num">8.1</span>、<span class="num">8.0</span>、<span class="num">7.4</span>）修好之後<strong>版號看起來沒變</strong>，只能從更新日期分辨。所以看到這些系列，更要請主機商用文字確認。</p>
+
+  <h2>該找誰？</h2>
+  <ul>
+    <li><strong>你是租用主機的客戶（主機商給你 Plesk 帳號）：</strong>找主機商，請他們確認 Plesk 已更新到最新，並回覆完整版本號。</li>
+    <li><strong>你們自己有一台主機、由資訊人員或外包廠商管理：</strong>請他們今天就把 Plesk 更新到最新，並把<a href="/dev/fix/panels/">給工程師的控制台頁</a>轉給他們。</li>
+  </ul>
+  <p>拿不到明確答覆前，請考慮先讓網站暫停對外。</p>
+</BasicPage>

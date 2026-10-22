@@ -1,8 +1,43 @@
 ---
-import Base from '../../../layouts/Base.astro';
-import Stub from '../../../components/Stub.astro';
+import BasicPage from '../../../components/basic/BasicPage.astro';
+import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
-<Base title="Joomla 網站" persona="basic">
-  <h1>Joomla 網站</h1>
-  <Stub purpose="在系統資訊看 PHP 版本、該找誰處理" />
-</Base>
+<BasicPage
+  title="Joomla 網站"
+  heading="我的網站是 Joomla"
+  description="Joomla 網站怎麼在後台的「系統資訊」看到 PHP 版本、怎麼對照安全版本、該找誰處理。"
+  lead="從後台的「系統資訊」就能看到版本，再對照下面的表格。"
+  image="basic-dashboard"
+  back={{ href: '/basic/check/', label: '回到檢查精靈' }}
+  next={[
+    { href: '/basic/ask-your-vendor/', label: '複製訊息，請主機商或廠商更新', note: '附上你看到的版本號' },
+    { href: '/basic/faq/', label: '看常見問題' },
+  ]}
+>
+  <div class="callout">
+    <p>Joomla 是食譜，PHP 是廚房裡的主廚。這次要換的是主廚，所以<strong>只更新 Joomla 或它的擴充套件，修不好這次的問題</strong>。</p>
+  </div>
+
+  <h2>在後台看 PHP 版本</h2>
+  <p>你需要能登入 Joomla 管理後台，並且有管理權限。</p>
+  <ol class="steps">
+    <li>登入 Joomla 管理後台。</li>
+    <li>左邊選單點 <span class="path">系統</span>。</li>
+    <li>在「資訊」區塊點 <span class="path">系統資訊</span>。</li>
+    <li>在「系統資訊」分頁找「PHP 版本」那一列，把數字抄下來。</li>
+  </ol>
+  <p>選單是英文的話，依序是 <span class="path">System</span> → <span class="path">System Information</span>。不同版本的 Joomla 選單位置可能略有不同，找「系統資訊」這幾個字就對了。</p>
+
+  <SafeVersions />
+
+  <h2>該找誰？</h2>
+  <ul>
+    <li><strong>網站放在虛擬主機：</strong>找主機商，請他們更新主廚。</li>
+    <li><strong>網站是外包廠商做的：</strong>找外包廠商，請他們確認主機也一起更新了。</li>
+    <li><strong>有自己的資訊人員：</strong>把這頁和<a href="/dev/">給工程師的這一區</a>轉給他。</li>
+  </ul>
+  <p>請對方用文字回覆<strong>更新後的版本號</strong>，並確認「更新之後已經重新啟動」。</p>
+
+  <h2>還沒拿到答覆前</h2>
+  <p>Joomla 後台的「網站離線」設定擋不住這次的問題，因為事情發生在 Joomla 開始動作之前。拿不到答覆的話，請主機商或廠商讓網站暫停對外。</p>
+</BasicPage>

@@ -1,0 +1,69 @@
+---
+// 「安全版本」對照表：只讀 facts.yaml，改那裡這裡就跟著變。
+import { facts } from '../../lib/data';
+---
+<section class="safe" aria-labelledby="safe-title">
+  <h2 id="safe-title">看到的版本，怎麼對照？</h2>
+  <p>
+    版本號通常長得像「8.3.36」。先看<strong>前兩段</strong>（例如 8.3）找到你的那一列，再看最後一段的數字有沒有<strong>大於或等於</strong>右邊。
+  </p>
+  <table>
+    <caption class="visually-hidden">各系列的安全版本</caption>
+    <thead>
+      <tr><th scope="col">你看到的開頭</th><th scope="col">安全版本（這個或更新）</th></tr>
+    </thead>
+    <tbody>
+      {facts.fixed.map((f) => (
+        <tr>
+          <th scope="row" class="num">{f.branch}</th>
+          <td>
+            <span class="num safe__ver">{f.version}</span>
+            {f.eol && <span class="safe__note">這個系列官方只照顧到 <span class="num">{f.eol}</span>，之後要再升級</span>}
+          </td>
+        </tr>
+      ))}
+      <tr>
+        <th scope="row" class="num">{facts.source_backports.join('、')}</th>
+        <td>官方沒有出現成的更新版，要請主機商或廠商另外處理，或升級到上面的系列</td>
+      </tr>
+      <tr>
+        <th scope="row">{facts.unpatched}</th>
+        <td><strong>沒有修補</strong>。只能升級；升級前建議先暫停網站對外</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="safe__aside">
+    數字比較舊，不一定代表沒修好：有些主機商會把修補「移植」到舊版本上，像是把新的安全零件裝進舊型號的車，型號不變、零件是新的。所以最準的做法，是請主機商用文字回覆「已經修補、已經重新啟動」。
+  </p>
+</section>
+
+<style>
+  .safe { display: grid; gap: 16px; }
+  h2 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    font-size: 1.0625rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--floor);
+    vertical-align: top;
+  }
+  thead th {
+    background: var(--line-basic);
+    color: var(--on-line);
+    font-weight: 800;
+    font-size: 0.9375rem;
+  }
+  tbody th { font-weight: 800; white-space: nowrap; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  .safe__ver { font-weight: 900; font-size: 1.25rem; }
+  .safe__note { display: block; font-size: 0.9375rem; color: var(--floor-ink-soft); }
+  .safe__aside { color: var(--floor-ink-soft); }
+</style>

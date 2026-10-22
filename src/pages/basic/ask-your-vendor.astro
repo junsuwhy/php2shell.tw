@@ -1,8 +1,70 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Stub from '../../components/Stub.astro';
+import BasicPage from '../../components/basic/BasicPage.astro';
+import CopyBlock from '../../components/basic/CopyBlock.astro';
+import { facts } from '../../lib/data';
+
+const safe = facts.fixed.map((f) => f.version).join('、');
+
+const hostText = `您好，
+
+我們的網站「（請填網址）」放在貴公司的主機上。看到 ${facts.name} 這次 PHP 的重大安全問題（官方已在 2026 年 10 月 21 日推出修補），想請您協助確認以下幾點，並用文字回覆：
+
+1. 我們網站目前實際使用的 PHP 完整版本號是多少？（例如 8.3.36 這樣的三段數字）
+2. 是否已經更新到修補版（${safe} 或更新）？如果是貴公司自行修補的版本，請提供更新紀錄或公告連結。
+3. 更新之後，相關服務是否已經重新啟動？
+4. 如果我們的網站用的是 ${facts.source_backports.join('、')} 或更舊的版本，貴公司的處理方式和時程是什麼？
+5. 從 2026 年 10 月 17 日到現在，主機的紀錄裡有沒有發現異常？如果有疑慮，請先保留紀錄、不要直接重灌，並通知我們。
+6. 我們的備份是否包含網站檔案和資料庫，並且存放在另一個地方？
+
+如果今天還無法完成更新，請告訴我們預計完成的時間，以及是否建議先讓網站暫停對外。
+
+謝謝您。`;
+
+const vendorText = `您好，
+
+想請您協助確認我們網站的狀況。這次 ${facts.name} 是 PHP 本身的重大安全問題，只更新網站程式或外掛不夠，需要更新主機上的 PHP。請您用文字回覆以下幾點：
+
+1. 我們的網站（包含官網、舊的活動網站、報名系統、後台）有哪些用到 PHP？
+2. 這些網站放在哪裡？主機是貴公司管理，還是另一家主機商？
+3. 每一個用到 PHP 的網站，目前的 PHP 完整版本號是多少？是否已經更新到修補版（${safe} 或更新）？
+4. 更新之後，相關服務是否已經重新啟動？
+5. 從 2026 年 10 月 17 日到現在，有沒有檢查過異常紀錄？如果有疑慮，請先保留紀錄、不要直接重灌，並通知我們。
+6. 如果有網站暫時無法更新，是否建議先讓它暫停對外？預計什麼時候可以完成？
+
+謝謝您。`;
 ---
-<Base title="問主機商／外包廠商" persona="basic">
-  <h1>問主機商／外包廠商</h1>
-  <Stub purpose="可一鍵複製的訊息範本" />
-</Base>
+<BasicPage
+  title="問主機商或廠商的訊息"
+  heading="複製這段訊息，傳給負責的人"
+  description="可一鍵複製的訊息範本，分別給主機商和外包廠商，請對方用文字回覆版本號與更新狀況。"
+  lead="不用懂技術，把下面的訊息複製起來，填上你的網址，用 Email 或 LINE 傳出去就好。"
+  image="basic-message"
+  back={{ href: '/basic/check/', label: '回到檢查精靈' }}
+  next={[
+    { href: '/basic/faq/', label: '看常見問題', note: '等回覆的時候，可以先看看' },
+    { href: '/basic/check/', label: '還不確定該找誰？回到檢查精靈' },
+  ]}
+>
+  <p>網站放在主機商那裡，就用第一份；網站是外包廠商做的或由他們維護，就用第二份。兩邊都有的話，兩份都傳。</p>
+
+  <div id="host" class="anchor">
+    <CopyBlock id="host-msg" title="給主機商" to="你每月或每年付主機費的公司" text={hostText} />
+  </div>
+  <div id="vendor" class="anchor">
+    <CopyBlock id="vendor-msg" title="給外包廠商" to="幫你做網站、或負責維護網站的公司" text={vendorText} />
+  </div>
+
+  <h2>怎麼看對方的回覆？</h2>
+  <ul>
+    <li><strong>好的回覆：</strong>有完整版本號（三段數字）、有更新時間、有說已經重新啟動。</li>
+    <li><strong>不夠的回覆：</strong>只說「我們有防火牆」「我們有資安防護」「已經是最新」，卻沒有版本號。請禮貌地再問一次。</li>
+    <li><strong>收到版本號後：</strong>可以拿回對應的系統頁，用「安全版本」表格對照一下。</li>
+  </ul>
+  <div class="callout">
+    <p>請只把訊息傳給你確定是負責單位的人。有陌生人主動說要「幫你檢查有沒有中毒」並收費，請當成詐騙。</p>
+  </div>
+</BasicPage>
+
+<style>
+  .anchor { scroll-margin-top: 24px; }
+</style>

@@ -82,6 +82,79 @@ slots:
     status: pending
     provenance: null
 
+  - id: basic-kitchen
+    file: basic-kitchen.webp
+    page: /basic/
+    where: 非技術區首頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 餐廳廚房裡的主廚正在備餐，出菜口外的客人在等餐，象徵網站背後的廚房
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a friendly restaurant kitchen seen from the front, a chef figure at a work counter
+      preparing a plate, a pass-through window where a simple diner figure waits, warm and reassuring,
+      light grey background, yellow accents, graphite figures
+    status: pending
+    provenance: null
+
+  - id: basic-check
+    file: basic-check.webp
+    page: /basic/check/
+    where: 檢查精靈標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 一個人站在叉路口的指示牌前，指示牌指向幾個不同方向
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a calm person standing in front of a signpost with several blank direction boards
+      pointing different ways, a simple path leading toward each board, helpful and unhurried,
+      light grey background, yellow signboards, graphite figure
+    status: pending
+    provenance: null
+
+  - id: basic-dashboard
+    file: basic-dashboard.webp
+    page: /basic/systems/*
+    where: 各系統頁標題下方（七個系統頁共用）
+    aspect: "16/9"
+    size: 1600x900
+    alt: 一個人看著筆電上的網站後台，旁邊的放大鏡照著一個版本標籤
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a person sitting at a laptop showing a simple admin dashboard made of blank
+      rectangles, a large friendly magnifying glass highlighting one blank label tag on the screen,
+      calm and clear, light grey background, yellow accents, graphite figure
+    status: pending
+    provenance: null
+
+  - id: basic-message
+    file: basic-message.webp
+    page: /basic/ask-your-vendor/
+    where: 問廠商訊息頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 一個人用手機送出一則訊息，訊息飛向一棟放著主機的小房子
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of a person holding a smartphone and sending a blank speech-bubble message that
+      travels along a dotted line to a small building containing a simple server rack, a second
+      blank reply bubble coming back, polite and reassuring, light grey background, yellow accents
+    status: pending
+    provenance: null
+
+  - id: basic-faq
+    file: basic-faq.webp
+    page: /basic/faq/
+    where: 常見問題頁標題下方
+    aspect: "16/9"
+    size: 1600x900
+    alt: 兩個人面對面聊天，頭上各有一個問號與一個打勾的對話框
+    palette: "#f2b705 黃、#22262c 深石墨線條、#e9ebee 淺灰底、白色"
+    prompt: >-
+      Pictogram of two friendly people talking face to face, one with a question-mark speech bubble
+      and the other with a check-mark speech bubble, a relaxed atmosphere, light grey background,
+      yellow bubbles, graphite figures
+
   - id: news-hub
     file: news-hub.webp
     page: /news/

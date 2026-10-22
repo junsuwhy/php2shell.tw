@@ -1,0 +1,97 @@
+---
+// 可一鍵複製的訊息範本。按鈕一直看得到（不靠滑鼠懸停）；
+// 沒有 JavaScript 時按鈕隱藏，文字框仍可全選後手動複製。
+interface Props {
+  id: string;
+  title: string;
+  to: string;
+  text: string;
+}
+
+const { id, title, to, text } = Astro.props;
+const rows = text.split('\n').length + 1;
+---
+<section class="copy" aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>{title}</h2>
+  <p class="copy__to">寄給：{to}</p>
+  <label class="visually-hidden" for={`${id}-text`}>{title}的訊息內容</label>
+  <textarea id={`${id}-text`} class="copy__text" rows={rows} readonly>{text}</textarea>
+  <div class="copy__actions">
+    <button type="button" class="copy__button" data-copy={`${id}-text`} hidden>複製這段訊息</button>
+    <p class="copy__status" role="status" aria-live="polite"></p>
+  </div>
+  <noscript><p class="copy__hint">在文字框裡全選（手機請長按），再複製貼到 Email 或 LINE。</p></noscript>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy__button').forEach((button) => {
+    const field = document.getElementById(button.dataset.copy ?? '') as HTMLTextAreaElement | null;
+    const status = button.parentElement?.querySelector('.copy__status');
+    if (!field) return;
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      let ok = false;
+      try {
+        await navigator.clipboard.writeText(field.value);
+        ok = true;
+      } catch {
+        field.focus();
+        field.select();
+        try { ok = document.execCommand('copy'); } catch { ok = false; }
+      }
+      if (status) {
+        status.textContent = ok
+          ? '已複製，可以貼到 Email 或 LINE 了。'
+          : '沒辦法自動複製，文字已經幫你選好，請按複製或長按複製。';
+      }
+      button.textContent = ok ? '已複製 ✓' : '複製這段訊息';
+      if (ok) setTimeout(() => { button.textContent = '複製這段訊息'; }, 3000);
+    });
+  });
+</script>
+
+<style>
+  .copy {
+    display: grid;
+    gap: 12px;
+    padding: 22px;
+    border-radius: 16px;
+    background: #fff;
+    border-top: 8px solid var(--line-basic);
+  }
+  h2 { font-size: 1.375rem; font-weight: 800; }
+  .copy__to { color: var(--floor-ink-soft); font-size: 1rem; }
+  .copy__text {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--floor);
+    border-radius: 10px;
+    background: var(--floor);
+    color: var(--floor-ink);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.7;
+    resize: vertical;
+  }
+  .copy__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+  }
+  .copy__button {
+    min-height: 52px;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--graphite);
+    color: var(--on-graphite);
+    font: inherit;
+    font-weight: 800;
+    font-size: 1.125rem;
+    cursor: pointer;
+  }
+  .copy__button:active { transform: translateY(1px); }
+  .copy__status { font-size: 1rem; font-weight: 700; }
+  .copy__hint { font-size: 1rem; color: var(--floor-ink-soft); }
+</style>
