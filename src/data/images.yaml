@@ -99,7 +99,7 @@ slots:
     where: Open Graph／LINE／FB 分享預覽
     aspect: "1200/630"
     size: 1200x630
-    alt: PHP2Shell 事件說明站分享卡，街頭塗鴉牆上三條黃、綠、粉紅色的大箭頭
+    alt: php2shell.tw 分享卡，街頭塗鴉牆上三條黃、綠、粉紅色的大箭頭
     palette: "深石墨牆面 #22262c，電光黃 #f2b705、螢光綠 #2fb26b、桃紅 #e0457b"
     prompt: >-
       Wide graffiti wall at night, three fat spray-painted arrows in electric yellow, neon green and
