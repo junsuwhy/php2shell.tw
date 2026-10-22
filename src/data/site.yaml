@@ -1,5 +1,5 @@
 # 站台設定（公開資訊）。GA Measurement ID 不放這裡，改用 Cloudflare Pages 環境變數 PUBLIC_GA_MEASUREMENT_ID。
-title: php2shell.tw
+title: PHP2Shell 事件說明站
 domain: php2shell.tw
 lang: zh-Hant-TW
 # 站長聯絡 email，待提供；留空則不顯示

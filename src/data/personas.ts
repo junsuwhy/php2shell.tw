@@ -1,4 +1,5 @@
-// 三種身份＝三條路線。名稱、路線色與入口集中在這裡，首頁、轉乘選單、404 共用。
+// 兩種身份＝兩條路線。名稱、路線色與入口集中在這裡，首頁、切換身份選單、404 共用。
+// 'news' 不是可選的身份，只留給 /news/ 子頁的視覺與主選單（事件始末的入口在首頁）。
 export type PersonaId = 'basic' | 'dev' | 'news';
 
 export interface Persona {
@@ -32,15 +33,5 @@ export const personas: Persona[] = [
     toward: 'Debian・Ubuntu・RHEL・Windows・Docker',
     href: '/dev/',
     image: 'exit-dev',
-  },
-  {
-    id: 'news',
-    exit: 3,
-    line: '粉紅線',
-    name: '吃瓜群眾',
-    gets: '前因後果、時間軸、新聞牆。',
-    toward: 'AI 找漏洞・消息外洩・全球關站',
-    href: '/news/',
-    image: 'exit-news',
   },
 ];

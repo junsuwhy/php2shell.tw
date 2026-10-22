@@ -1,0 +1,162 @@
+---
+// 首頁「事件始末」：原 /news/ 首頁，接在「請立即更新」下面。
+// 先給懶人包，再依閱讀順序排各頁，每格附一句「裡面是什麼」。
+import ImageSlot from '../ImageSlot.astro';
+import { getNews, newsHref, newsTitle } from '../../lib/news';
+
+const news = await getNews();
+// 不同媒體轉載常用同一個標題，只留第一則
+const seen = new Set<string>();
+const latest = news.filter((entry) => {
+  const t = newsTitle(entry);
+  if (seen.has(t)) return false;
+  seen.add(t);
+  return true;
+}).slice(0, 3);
+const sections = [
+  { href: '/news/story/', id: 'news-sec-story', title: '前因後果', note: '五分鐘讀完：從 2004 年的老問題到全球關站' },
+  { href: '/news/timeline/', id: 'news-sec-timeline', title: '時間軸', note: '逐時經過，UTC／台灣時間對照' },
+  { href: '/news/rumors/', id: 'news-sec-rumors', title: '常見誤傳與說法不一', note: '數字不要加總、CVSS 不是 10 分' },
+  { href: '/news/outages/', id: 'news-sec-outages', title: '預防性關站紀錄', note: '誰暫停服務、為什麼；不是受害名單' },
+  { href: '/news/wall/', id: 'news-sec-wall', title: '新聞牆', note: `${news.length} 則新聞與公告摘要，可篩選` },
+  { href: '/news/quotes/', id: 'news-sec-quotes', title: '關鍵發言', note: '官方、研究者與資安業者的原話' },
+];
+---
+<section class="what" id="what-happened" aria-labelledby="what-title">
+  <header class="what__head">
+    <p class="what__kicker">事件始末</p>
+    <h2 id="what-title">PHP2Shell 到底發生什麼事？</h2>
+    <p class="what__sub">兩個 PHP 漏洞 → 消息外洩 → 提前修補 → 全球關站</p>
+  </header>
+
+  <a class="brief" href="/news/brief/">
+    <span class="brief__label">急著搞懂？先看懶人包</span>
+    <span class="brief__note">一段話看懂、數字看板、時間軸精華</span>
+  </a>
+
+  <nav aria-label="事件始末頁面">
+    <ol class="sections">
+      {sections.map((s) => (
+        <li>
+          <a class="sec" href={s.href}>
+            <ImageSlot id={s.id} class="sec__img" framed={false} />
+            <span class="sec__text">
+              <span class="sec__title">{s.title}</span>
+              <span class="sec__note">{s.note}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+
+  {latest.length > 0 && (
+    <section class="latest" aria-labelledby="latest-title">
+      <h3 id="latest-title">最新消息</h3>
+      <ul>
+        {latest.map((entry) => (
+          <li>
+            <span class="latest__src">{entry.data.source}</span>
+            <a href={newsHref(entry)}>{newsTitle(entry)}</a>
+          </li>
+        ))}
+      </ul>
+      <p><a class="latest__all" href="/news/wall/">看新聞牆（{news.length} 則）</a></p>
+    </section>
+  )}
+</section>
+
+<style>
+  .what {
+    display: grid;
+    gap: 20px;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 56px) var(--gutter) 64px;
+  }
+  .what__head { display: grid; gap: 8px; }
+  .what__kicker { font-size: 0.9375rem; font-weight: 800; letter-spacing: 0.08em; color: var(--floor-ink-soft); }
+  .what__head h2 { font-size: clamp(1.85rem, 4.6vw, 2.85rem); font-weight: 900; }
+  .what__sub { font-size: 1.0625rem; }
+
+  .brief {
+    display: grid;
+    gap: 2px;
+    justify-items: center;
+    padding: 18px 20px;
+    border-radius: 4px;
+    /* 粉紅路線色略加白，深字才過 4.5:1。 */
+    background: color-mix(in srgb, var(--line-news) 86%, #fff);
+    color: var(--on-line);
+    text-align: center;
+    text-decoration: none;
+  }
+  .brief__label { font-size: clamp(1.375rem, 3vw, 2rem); font-weight: 900; letter-spacing: 0.04em; }
+  .brief__note { font-size: 1rem; font-weight: 700; }
+  .brief:hover .brief__label,
+  .brief:focus-visible .brief__label { text-decoration: underline; text-underline-offset: 0.14em; }
+  .brief:focus-visible { outline: 3px solid var(--graphite); outline-offset: 4px; }
+
+  .sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 48rem) {
+    .sections { grid-template-columns: repeat(3, 1fr); }
+  }
+  .sec {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #2a2228;
+    color: #fff;
+    text-decoration: none;
+  }
+  .sec :global(.sec__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sec__text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: grid;
+    gap: 2px;
+    padding: 36px 14px 12px;
+    background: linear-gradient(transparent, rgb(14 16 20 / 0.88) 38%, rgb(14 16 20 / 0.94) 100%);
+  }
+  .sec__title { font-size: clamp(1.05rem, 2.4vw, 1.35rem); font-weight: 900; line-height: 1.25; }
+  .sec__note { font-size: 0.875rem; line-height: 1.4; color: #e6e8eb; }
+  .sec:hover .sec__title,
+  .sec:focus-visible .sec__title { text-decoration: underline; text-underline-offset: 0.18em; }
+  .sec:hover,
+  .sec:focus-visible { outline: 3px solid var(--line-news); outline-offset: 3px; }
+
+  .latest {
+    display: grid;
+    gap: 10px;
+    padding: 16px var(--gutter);
+    margin: 0 calc(var(--gutter) * -1);
+    background: var(--graphite);
+    color: #fff;
+    border-top: 4px solid var(--line-news);
+  }
+  .latest h3 { font-size: 1.125rem; font-weight: 900; }
+  .latest ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .latest li { display: flex; flex-wrap: wrap; gap: 2px 12px; }
+  .latest__src { flex: none; font-size: 0.875rem; color: var(--on-graphite-soft); }
+  .latest a { color: #fff; font-weight: 700; }
+  .latest a:focus-visible { outline-color: #fff; }
+  .latest__all { white-space: nowrap; }
+</style>

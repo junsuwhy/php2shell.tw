@@ -1,8 +1,60 @@
 ---
 import Base from '../layouts/Base.astro';
-import Stub from '../components/Stub.astro';
+import { facts, site } from '../lib/data';
 ---
-<Base title="關於本站" persona="gateway">
-  <h1>關於本站</h1>
-  <Stub purpose="網站目的、資料來源原則、隱私說明（GA4）、免責聲明、勘誤與聯絡" />
+<Base title="關於本站" persona="gateway" description="本站的目的、資料來源原則、不寫什麼、隱私說明、免責聲明與勘誤方式。">
+  <article class="page">
+    <h1>關於本站</h1>
+    <p class="lede">這是一個用繁體中文整理 {facts.name} 事件（{facts.cves.map((c) => c.id).join('、')}）的說明站，讓不懂技術的網站主人和工程師，都能各自找到該做的事。</p>
+
+    <section>
+      <h2>誰做的？是官方嗎？</h2>
+      <p><strong>不是官方網站。</strong>本站是獨立整理的資訊站，與 PHP 官方、PHP 基金會、各家主機商與資安廠商都沒有關係，也不販售任何檢測或修補服務。</p>
+      <p>修補版本、嚴重程度等關鍵資訊，一律以 <a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a> 為準。本站內容和官方不一致時，請相信官方。</p>
+    </section>
+
+    <section>
+      <h2>資料從哪裡來？</h2>
+      <ul>
+        <li>每個重要數字或說法，都能追到一則新聞、官方公告或研究報告；全部列在<a href="/sources/">資料來源</a>。</li>
+        <li>各家說法互相矛盾時，以 PHP 官方公告為準，並把不同說法並列在<a href="/news/rumors/">常見誤傳與說法不一</a>。</li>
+        <li>查不到可靠來源的，寫「待查證」，不猜。</li>
+        <li>時間同時標示國際標準時間（UTC）與台灣時間；原文只有日期的，就只寫日期。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>本站不寫什麼</h2>
+      <p>本站不提供攻擊步驟、攻擊程式、測試用的惡意請求，或任何能直接重現攻擊的內容。技術內容只寫到成因概念、影響範圍、修補、緩解、偵測與應變。也請不要拿別人的網站「測試」，那可能觸法。</p>
+    </section>
+
+    <section>
+      <h2>隱私</h2>
+      <p>本站使用 Google Analytics 4 統計造訪人數與熱門頁面，用來決定哪些內容要優先補強；不收集姓名、Email 等可以直接認出你的資料。首頁「上次看的是」只記在你自己的瀏覽器裡，不會傳回本站。</p>
+    </section>
+
+    <section>
+      <h2>免責聲明</h2>
+      <p>本站盡力確保內容正確，但事件仍在發展，資訊可能隨時更新或有誤。本站內容僅供參考，不構成專業資安建議；實際修補與應變，請以官方公告、你的主機商、廠商或資安專業人員的判斷為準。因使用本站內容所生的任何損失，本站不負責任。</p>
+      <p>資料最後更新：<span class="num">{facts.updated_at}</span></p>
+    </section>
+
+    <section>
+      <h2>發現錯誤？</h2>
+      {site.contact_email ? (
+        <p>請寄信到 <a href={`mailto:${site.contact_email}`}>{site.contact_email}</a>，附上頁面網址與正確資訊的來源，我們確認後會更正。</p>
+      ) : (
+        <p>勘誤信箱整理中，確定後會公布在這裡與頁尾。</p>
+      )}
+    </section>
+  </article>
 </Base>
+
+<style>
+  .page { display: grid; gap: 32px; max-width: 42rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
+  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  .lede { font-size: 1.1875rem; }
+  section { display: grid; gap: 10px; }
+  h2 { font-size: 1.375rem; font-weight: 900; }
+  ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+</style>
