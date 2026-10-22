@@ -1,0 +1,211 @@
+# 名詞表。plain 給非技術讀者，note 給開發者。定義依 docs/knowledge/05-glossary.md，比喻沿用餐廳主廚的說法。
+- id: "rce"
+  term: "RCE"
+  aliases: ["rce", "遠端程式碼執行", "remote code execution"]
+  plain: "人不用坐在伺服器前面，就能隔空叫主廚去做菜單上沒有的事。"
+  note: "Remote code execution，遠端程式碼執行。未登入的呼叫者有機會讓伺服器執行他指定的指令。這次兩個 CVE 的官方後果都包含未授權 RCE；名稱裡的 shell 不代表每一個請求都必然走到那一步。"
+  see: ["CVE", "worker"]
+- id: "cve"
+  term: "CVE"
+  aliases: ["cve", "CVE 編號"]
+  plain: "漏洞的戶口名簿編號，讓大家確定在講同一個洞。"
+  note: "這次是 CVE-2026-109618 與 CVE-2026-109619。外洩貼文曾把分數寫成 10.0，官方 CVSS v4.0 是 9.2。"
+  see: ["GHSA", "CVSS"]
+- id: "ghsa"
+  term: "GHSA"
+  aliases: ["ghsa", "GitHub Security Advisory"]
+  plain: "同一份漏洞在 GitHub 上的公告編號，像戶口名簿換了一本封面。"
+  note: "這次官方公告對應 GHSA-w8hw-w9fx-j79w（RCE via OOM corruption，記憶體耗盡造成的記憶體破壞）與 GHSA-6wmf-4rv5-p3rp（RCE via stale global state，過期全域狀態）。"
+  see: ["CVE"]
+- id: "cvss"
+  term: "CVSS"
+  aliases: ["cvss", "CVSS v4", "CVSS v4.0"]
+  plain: "把漏洞有多嚴重打成分數的規則，像衛生檢查的評等，分數高就該先處理。"
+  note: "這次官方用的是第 4 版，兩個 CVE 都是 9.2。外洩貼文與 watchTowr 曾稱 10.0，那不是官方分數。"
+  see: ["CVE"]
+- id: "cwe"
+  term: "CWE"
+  aliases: ["cwe", "CWE-824"]
+  plain: "弱點的種類編號，像病歷上的診斷分類，不是某一家網站的個案編號。"
+  note: "Imperva 把這次歸成 CWE-824，意思是程式去用了一個還沒準備好、不能當真的內部指標。"
+  see: ["OOM", "use-after-free"]
+- id: "oom"
+  term: "OOM"
+  aliases: ["oom", "Out of Memory", "out of memory", "記憶體耗盡"]
+  plain: "工作台堆滿、沒地方繼續做菜；做到一半被迫跳開時，可能只收拾了一半。"
+  note: "Out of memory，記憶體不夠用。CVE-2026-109618 的官方描述是：碰到記憶體上限時，可能在內部請求資料只準備好一半的時候就中斷，後面的清理把這份無效資料當成有效。"
+  see: ["CVE", "cgroup"]
+- id: "use-after-free"
+  term: "use-after-free"
+  aliases: ["Use-After-Free", "Use After Free"]
+  plain: "已經丟進回收桶的紙條，卻還被當成這一桌的訂單拿來用。"
+  note: "一塊記憶體已經歸還，程式卻還把它當成活的資料來用。CVE-2026-109619 的官方描述屬於這一類後果：某一次請求持有的內部狀態，可能在記憶體已經釋放之後還留著。"
+  see: ["CVE", "worker"]
+- id: "worker"
+  term: "worker"
+  aliases: ["Worker", "工作行程"]
+  plain: "真正上場煮頁面的那一位主廚，而且常常連續服務很多桌客人。"
+  note: "處理網頁請求的 PHP 行程。同一支 worker 接下一個請求時，可能在正常初始化把殘留狀態清掉之前就用到它。修補後要重啟所有 worker。"
+  see: ["SAPI", "PHP-FPM"]
+- id: "sapi"
+  term: "SAPI"
+  aliases: ["sapi", "Server API"]
+  plain: "主廚接上餐廳的方式；嵌在店裡，或在後場另外站一排，這次的風險排序不一樣。"
+  note: "PHP 接上網站伺服器的介面。官方點名服務網頁請求的安裝：Apache mod_php、PHP-FPM、php-cgi、FrankenPHP、LiteSpeed。其中 mod_php 風險最高。"
+  see: ["mod_php", "PHP-FPM", "php-cgi", "FrankenPHP", "LiteSpeed"]
+- id: "mod-php"
+  term: "mod_php"
+  aliases: ["mod-php", "Apache mod_php", "php_module"]
+  plain: "把主廚直接編進 Apache 的櫃檯裡；官方認為這次這樣接，風險最高。"
+  note: "把 PHP 嵌進 Apache 行程的模組。未驗證的請求可在應用程式碼開始前碰到漏洞；官方稱預設設定下已展示完整 RCE。worker 會跨請求重複使用的部署，過期狀態更有機會留下來。"
+  see: ["SAPI", "RCE"]
+- id: "php-fpm"
+  term: "PHP-FPM"
+  aliases: ["php-fpm", "FPM", "PHP FPM"]
+  plain: "主廚在後場組成一組輪班來接單；這次同樣確認叫得動，只是沒被排在 mod_php 前面。"
+  note: "以獨立行程池處理請求的常見跑法。基金會確認經應用層路徑可以 RCE。官方沒有把 PHP-FPM 寫成安全，只是沒有把它排在 mod_php 前面。"
+  see: ["SAPI", "worker"]
+- id: "php-cgi"
+  term: "php-cgi"
+  aliases: ["php-cgi", "PHP-CGI"]
+  plain: "網站伺服器用一種較舊的窗口把主廚叫來；官方把這扇窗口也列進這次的名單。"
+  note: "由網站伺服器叫起 PHP 的舊式介面，官方列入受影響名單。Windows 上的 php-cgi 也是 2024 年 CVE-2024-4577 的現場；當年的修補不會使這次的洞消失。"
+  see: ["SAPI", "KEV"]
+- id: "frankenphp"
+  term: "FrankenPHP"
+  aliases: ["frankenphp"]
+  plain: "較新的一種讓 PHP 上場的方式，官方同樣要它去更新。"
+  note: "官方列入這次受影響的 SAPI。JFrog 認為它很可能與 mod_php 同屬高風險，那是廠商判斷，不是官方排序。"
+  see: ["SAPI", "mod_php"]
+- id: "litespeed"
+  term: "LiteSpeed"
+  aliases: ["litespeed"]
+  plain: "另一種網站伺服器跑 PHP 的方式，官方同樣把它算進這次要檢查的名單。"
+  note: "官方把 LiteSpeed 列在服務網頁請求、需要假設有風險的安裝裡，沒有單獨排成第二名或第三名。"
+  see: ["SAPI"]
+- id: "opcache"
+  term: "OPcache"
+  aliases: ["opcache", "OPCache"]
+  plain: "主廚把已經練過的菜先備好，下次不用重頭做；這次過期的狀態可能留在這份備料裡。"
+  note: "把已編譯的程式放進可重複使用的快取。請求若在錯誤時刻中斷，快取槽可能處於已配置卻未正確發布的狀態，後續請求可能誤用。關掉上傳進度不會蓋住這條路。"
+  see: ["session upload-progress", "CVE"]
+- id: "session"
+  term: "session"
+  aliases: ["Session", "工作階段"]
+  plain: "伺服器用來記得你是剛才那位客人的號碼牌，常見憑證是瀏覽器裡的 cookie。"
+  note: "伺服器端狀態，用來把一連串請求認成同一位訪客。這次與上傳進度、PHPSESSID 有關；應用程式沒有呼叫 session_start() 時，讀到行程記憶體這件事仍可能成立。"
+  see: ["PHPSESSID", "session upload-progress"]
+- id: "phpsessid"
+  term: "PHPSESSID"
+  aliases: ["phpsessid"]
+  plain: "瀏覽器帶著走的那張號碼牌，上面通常只該有一組短編號。"
+  note: "攜帶 session 識別資料的 cookie 名稱。研究者展示，異常的回應 cookie 可能把伺服器行程記憶體裡的敏感資料帶出去。偵測時可留意異常巨大、或格式不像正常 session id 的值。"
+  see: ["session"]
+- id: "session-upload-progress"
+  term: "session upload-progress"
+  aliases: ["session.upload_progress", "session.upload_progress.enabled", "上傳進度"]
+  plain: "PHP 預設用來記檔案上傳到哪的小黑板；把它擦掉只擋這一條路，不是整間店的修補。"
+  note: "對應設定 session.upload_progress.enabled，出廠為開，是這次已被確認的遠端入口之一，但不是唯一入口。暫時措施是在請求開始解析前生效的設定裡關掉它，並重啟所有 worker；ini_set() 與 .user.ini 來不及。它擋不了 OPcache 與 backtrace 那些變體。"
+  see: ["session", "OPcache", "backtrace"]
+- id: "backtrace"
+  term: "backtrace"
+  aliases: ["Backtrace", "fatal_error_backtraces", "回溯"]
+  plain: "嚴重出錯時留下的「當時走到哪一步」筆記；PHP 8.5 上它是另一條已確認的路徑。"
+  note: "致命錯誤留下的回溯資訊，可能在所屬記憶體釋放後仍被當成有效狀態。PHP 8.5 的暫時措施是 fatal_error_backtraces=0 並重啟所有 worker。官方說這只擋已確認的 backtrace 路徑。"
+  see: ["use-after-free", "worker"]
+- id: "waf"
+  term: "WAF"
+  aliases: ["waf", "Web Application Firewall"]
+  plain: "站在餐廳門口幫忙擋可疑點菜單的過濾器；多一層看守，不能取代把主廚換掉。"
+  note: "Web Application Firewall。Cloudflare 自 2026-10-21 03:02 UTC 對免費與付費客戶預設上線規則，仍必須更新 PHP。已看到有人變造請求試圖避開規則。"
+  see: ["RCE"]
+- id: "embargo"
+  term: "禁運"
+  aliases: ["embargo", "Embargo"]
+  plain: "修補還沒好之前，知情的人先約定不把細節說出去，讓防守方有時間準備。"
+  note: "這次原訂 10 月 22 日公開，10 月 20 日編號外洩後提前到 10 月 21 日 14:00 UTC。AWS 的說法是：禁運只保護防守方，直到別人自己找到同一個問題。"
+  see: ["協調揭露", "零時差"]
+- id: "coordinated-disclosure"
+  term: "協調揭露"
+  aliases: ["coordinated disclosure", "Coordinated Disclosure"]
+  plain: "發現的人、維護的人與重要廠商約好同一天公開，讓修補和說明一起上桌。"
+  note: "PHP 於 2026-09-21 確認 Wiz 的報告後開始協調修補。這次約定被 10 月 20 日的外洩打亂。Chainguard 於 10 月 21 日 07:41 UTC 單方面發布含修補的映像，基金會稱為打破禁運。"
+  see: ["禁運"]
+- id: "poc"
+  term: "PoC"
+  aliases: ["poc", "POC", "proof of concept", "Proof of Concept"]
+  plain: "用來證明這個洞真的存在的示範；有示範，不等於每一家店都已經被打成功。"
+  note: "Proof of concept。Calif 於 10 月 20 日約 20:00 UTC 誤發展示影片，副本仍在流傳。基金會在修補發布當下表示尚未看到可運作的公開 exploit；AWS 稱約 02:00 UTC 起已看到多份 PoC。"
+  see: ["在野利用", "蜜罐"]
+- id: "honeypot"
+  term: "蜜罐"
+  aliases: ["honeypot", "Honeypot", "MadPot"]
+  plain: "故意放上網、假裝是真店面的誘餌，用來觀察誰在敲門。"
+  note: "Amazon 的蜜罐叫 MadPot，於 2026-10-17 看到利用嘗試，比公開早四天。蜜罐看到，和客戶機器上已經失守，是兩件不同的事。"
+  see: ["在野利用", "PoC"]
+- id: "webshell"
+  term: "webshell"
+  aliases: ["web shell", "Webshell", "WebShell"]
+  plain: "入侵之後放在網站目錄裡的網頁程式，之後靠它遙控；它是落腳點，不是這次漏洞本身。"
+  note: "攻擊者放在網站目錄的網頁程式，用來在得手之後維持存取。偵測時可留意網站根目錄或上傳目錄新增的 PHP 檔。沒有留下 webshell，不等於行程記憶體或設定裡的祕密仍然安全。"
+  see: ["RCE"]
+- id: "backport"
+  term: "回移植"
+  aliases: ["backport", "Backport"]
+  plain: "不換整套新菜單，只把安全性的那一刀改動搬回舊版，所以版號不一定變成官方的新號，仍可能已經修好。"
+  note: "發行版不升級大版本，只把安全性修補搬回舊版套件。7.4、8.0、8.1 這次有官方最小化原始碼回移植，沒有新的官方安裝包。確認時要看發行版安全公告，不要只對 php.net 版號。"
+  see: ["EOL", "發行版"]
+- id: "eol"
+  term: "EOL"
+  aliases: ["eol", "End of Life", "end of life"]
+  plain: "官方不再修的版本，像已經歇業的分店，不會再出新的安全更新。"
+  note: "End of life。PHP 8.2 的安全支援到 2026-12-31；8.1 以前更早就停了一般官方發布。8.2.35 修了這次，仍應規劃離開這個分支。7.3 以前現有資料沒有官方修補。"
+  see: ["回移植", "LTS"]
+- id: "lts"
+  term: "LTS"
+  aliases: ["lts", "Long-term Support", "long-term support"]
+  plain: "廠商答應會照顧很久的產品線；這次不少這類廠商事先拿到修補。"
+  note: "Long-term support。Linux 發行版與 LTS 廠商事先拿到修補。版號可能仍是廠商自己的編號，要以該廠商的安全公告為準。"
+  see: ["發行版", "回移植"]
+- id: "heartbleed"
+  term: "Heartbleed"
+  aliases: ["heartbleed"]
+  plain: "2014 年那個讓全球管理員連夜更新的大洞；這次 PHP 基金會拿它來比喻嚴重程度。"
+  note: "2014 年 OpenSSL 的重大漏洞，攻擊者能讀到伺服器記憶體裡的密鑰與資料。Volker Dusch 用它比喻這次是 PHP 十多年來最嚴重的安全問題。兩者不是同一個漏洞。"
+  see: ["RCE"]
+- id: "zero-day"
+  term: "零時差"
+  aliases: ["zero-day", "zero day", "0-day"]
+  plain: "鎖還沒換，攻擊就已經出現；這次新聞用這個詞，指的是外洩之後、修補發布之前的那一段。"
+  note: "防守方還沒有修補可用、攻擊就已經出現。這次原屬協調修補，不是一開始就沒有修補流程。外洩之後、10 月 21 日 14:00 UTC 修補發布之前的那一段，新聞才用這個詞。"
+  see: ["禁運", "在野利用"]
+- id: "in-the-wild"
+  term: "在野利用"
+  aliases: ["in the wild", "in-the-wild"]
+  plain: "實驗室以外，真實網路上已經有人在用；誘餌被敲，和客人的店已經失守，不是同一件事。"
+  note: "Amazon MadPot 自 10 月 17 日看到嘗試；AWS 後來稱修補後已被廣泛在野利用。Huntress 截至 10 月 21 日美東 16:30 仍未在客戶端觀察到。早期嘗試是否已在真實系統成功，AWS 當時表示尚不清楚。"
+  see: ["蜜罐", "PoC"]
+- id: "kev"
+  term: "KEV"
+  aliases: ["kev", "Known Exploited Vulnerabilities"]
+  plain: "美國官方的「已經有人在用」漏洞名冊；沒被寫上去，不代表這次可以慢慢來。"
+  note: "CISA 的已知被利用漏洞目錄。CVE-2024-4577 與 CVE-2019-11043 已列入。截至蕃新聞引 Tenable 整理時，CVE-2026-109618 與 CVE-2026-109619 尚未列入。沒進目錄只表示那個時間點的狀態。"
+  see: ["在野利用", "CVE"]
+- id: "x-powered-by"
+  term: "X-Powered-By"
+  aliases: ["x-powered-by", "X-Powered-By"]
+  plain: "有些網站在回應裡自報家門，寫自己是 PHP 哪一版；沒自報的店不會被算進那份統計的分母。"
+  note: "HTTP 回應標頭。Mallory 的 59% 統計靠有回報版本號的主機：約 150 萬台裡 883,717 台跑著官方沒有修補包的版本，另有約 74 萬台隱藏版本、沒算進分母。隱藏版本不代表不用更新。"
+  see: ["CVE"]
+- id: "cgroup"
+  term: "cgroup"
+  aliases: ["cgroups", "control group"]
+  plain: "Linux 用來規定一組行程最多能用多少記憶體與處理器時間的圍欄。"
+  note: "官方建議用容器或 cgroup 的記憶體限制當可用性邊界，最好只停掉受影響的 worker。不要改用 RLIMIT_AS 或 RLIMIT_DATA；官方寫明它們本身就可能造成漏洞所需要的配置失敗。"
+  see: ["OOM"]
+- id: "distro"
+  term: "發行版"
+  aliases: ["distro", "distribution", "Linux 發行版"]
+  plain: "把 Linux 和 PHP 打包好、之後還負責維修的廠商或社群；修補常常走他們的套件公告，而不是只看 php.net。"
+  note: "例如 Debian、Ubuntu、RHEL。套件版號可能不是 8.3.36 這種 php.net 版號，仍可能已經回移植。官方寫明 rpms.remirepo.net 當天不會更新。"
+  see: ["回移植", "LTS"]

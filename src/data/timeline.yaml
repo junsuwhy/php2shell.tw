@@ -1,0 +1,336 @@
+# 時間軸。來源只引用 docs/news 檔名。at 保留來源給出的時區；約略時刻 precision 為 approximate。
+- id: "esser-memory-limit-2004"
+  at: "2004"
+  precision: "date-only"
+  title: "Stefan Esser 發現第一個與記憶體上限相關的遠端漏洞"
+  summary: "PHP 安全圈的 Stefan Esser 發現第一個與 memory limit 相關的遠端漏洞。他認為嚴重，沒有公開 exploit。來源只有年份。"
+  sources:
+    - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+  tags: ["歷史"]
+  importance: 2
+- id: "bug-78876-2020"
+  at: "2020"
+  precision: "date-only"
+  title: "bug #78876：過長變數造成記憶體耗盡"
+  summary: "有人在 bug tracker 回報 bug #78876：過長變數造成記憶體耗盡，暫存檔沒清掉。當時未受重視。來源只有年份。"
+  sources:
+    - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+  tags: ["歷史"]
+  importance: 1
+- id: "external-audit-structural-failure-2024"
+  at: "2024"
+  precision: "date-only"
+  title: "外部稽核看見跡象，修法停擺，後來稱為結構性失敗"
+  summary: "多年來首次外部稽核：Sovereign Tech Agency 出資、OSTIF 組織、Quarkslab 執行。核心開發者在修另一個問題時看到記憶體耗盡問題的跡象，當時找不到具體路徑。幾種修法互相衝突（破壞相容、帶來阻斷服務風險，或要改大量擴充），共識決的小團隊停擺數月。基金會後來稱之為結構性失敗。來源只有年份。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-22-0002-thenextweb-php-foundation-structural-failure.md"
+  tags: ["稽核", "結構性失敗"]
+  importance: 3
+- id: "alpha-omega-ai-scan-2026"
+  at: "2026"
+  precision: "approximate"
+  title: "與 Alpha-Omega 合作，用模型掃描 PHP"
+  summary: "與 Alpha-Omega 合作，用 Anthropic Claude Mythos 掃描 PHP，之後以 OpenAI Daybreak Red 驗證回報。Trail of Bits 近期亦在稽核 PHP；基金會沒有把他們列為這兩個 CVE 的回報者。來源只寫今年稍早，沒有日期。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["稽核", "AI"]
+  importance: 2
+- id: "ecosystem-security-team-2026-05"
+  at: "2026-05"
+  precision: "date-only"
+  title: "PHP 基金會成立 Ecosystem Security Team"
+  summary: "基金會成立 Ecosystem Security Team。Volker Dusch 擔任 AI Security Engineer in Residence。決策後來改成可以多數決。來源只有月份。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["基金會"]
+  importance: 2
+- id: "fifteen-cves-from-2026-07-01"
+  at: "2026-07-01"
+  precision: "date-only"
+  title: "自 7 月 1 日起已發布 15 個 CVE"
+  summary: "至修補日，已發布 15 個 CVE，並處理逾 100 份無效、重複或無法重現的回報。The Next Web 作自 7 月起。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-22-0002-thenextweb-php-foundation-structural-failure.md"
+  tags: ["基金會"]
+  importance: 1
+- id: "calif-audit-starts-2026-07-30"
+  at: "2026-07-30"
+  precision: "date-only"
+  title: "基金會：Calif 開始稽核"
+  summary: "基金會說 Calif 開始稽核，PHP 被納入 OpenAI 資助的 Patch the Planet。這是「開始」的日期，和 8 月 1 日「找到」的說法還沒對成同一個里程碑。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["發現", "Calif"]
+  importance: 2
+- id: "calif-finds-paths-2026-08-01"
+  at: "2026-08-01"
+  precision: "date-only"
+  title: "另有說法把 Calif 找到路徑或開工寫在 8 月 1 日"
+  summary: "Sansec 寫 Calif 找到多條遠端程式碼執行路徑。電腦王阿達寫 8 月 1 日開始動手。衛報轉述 Calif 稱 8 月 1 日在語言模型協助下發現。與 7 月 30 日開始稽核是不同說法，尚未對齊。"
+  sources:
+    - "2026-10-21-sansec-php2shell-critical-rce.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+  tags: ["發現", "Calif"]
+  importance: 1
+- id: "calif-openai-report-2026-08-11"
+  at: "2026-08-11"
+  precision: "date-only"
+  title: "Calif 與 OpenAI 同日回報，Thai Duong 致電基金會"
+  summary: "Calif 研究員 Ryan Austin 向 PHP 回報，與 2024 年那個記憶體耗盡問題同根。OpenAI 同日獨立回報同一根因。Calif 執行長 Thai Duong 致電 Volker Dusch。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md"
+  tags: ["發現", "Calif", "OpenAI"]
+  importance: 3
+- id: "wiz-first-finding-2026-08-19"
+  at: "2026-08-19"
+  precision: "date-only"
+  title: "Wiz 找到第一個漏洞"
+  summary: "Wiz 用 Wiz Atlas、Gemini 4 Argon、GPT-5.6 Sol 找到第一個漏洞。這是獨立於 Calif 的發現。"
+  sources:
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+  tags: ["發現", "Wiz"]
+  importance: 2
+- id: "wiz-drupal-2026-08-20"
+  at: "2026-08-20"
+  precision: "date-only"
+  title: "Wiz 在 Drupal 上確認未授權遠端程式碼執行"
+  summary: "Wiz 在 Drupal 上確認未授權的遠端程式碼執行。"
+  sources:
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+  tags: ["發現", "Wiz"]
+  importance: 1
+- id: "wiz-wordpress-2026-08-21"
+  at: "2026-08-21"
+  precision: "date-only"
+  title: "Wiz 在 WordPress 上確認未授權遠端程式碼執行"
+  summary: "Wiz 在 WordPress 上確認未授權的遠端程式碼執行。"
+  sources:
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+  tags: ["發現", "Wiz"]
+  importance: 1
+- id: "wiz-reports-2026-08-24"
+  at: "2026-08-24"
+  precision: "date-only"
+  title: "Wiz 向 PHP 安全團隊回報"
+  summary: "Wiz 向 PHP 安全團隊回報。Sansec 時間軸同日。"
+  sources:
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+    - "2026-10-21-sansec-php2shell-critical-rce.md"
+  tags: ["發現", "Wiz"]
+  importance: 2
+- id: "openai-more-paths-2026-09-18"
+  at: "2026-09-18"
+  precision: "date-only"
+  title: "OpenAI 回報更多路徑"
+  summary: "OpenAI 回報更多攻擊路徑。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["發現", "OpenAI"]
+  importance: 2
+- id: "php-confirms-wiz-2026-09-21"
+  at: "2026-09-21"
+  precision: "date-only"
+  title: "PHP 確認 Wiz 的報告，開始協調修補"
+  summary: "PHP 確認 Wiz 的報告，開始協調修補。原本約定先不公開細節，等修補一起公開。"
+  sources:
+    - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
+  tags: ["禁運", "協調揭露"]
+  importance: 3
+- id: "white-house-friday-notice-2026-10-16"
+  at: "2026-10-16"
+  precision: "date-only"
+  title: "白宮稱周五接獲通知（日期待查證）"
+  summary: "衛報寫白宮稱周五接獲通知，沒有寫日期。10 月 21 日是星期三，前一個周五是 10 月 16 日。是否就是這一天，待查證。"
+  sources:
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+  tags: ["政府", "待查證"]
+  importance: 1
+- id: "madpot-attempt-2026-10-17"
+  at: "2026-10-17"
+  precision: "date-only"
+  title: "Amazon MadPot 看到利用嘗試，比公開早四天"
+  summary: "Amazon MadPot 蜜罐看到 PHP2Shell 利用嘗試，來源與商業匿名網路有關，比公開早四天。對方如何在禁運期間得知利用方式，AWS 表示不明。時分未公布。調查日誌 AWS 建議至少從這一天看。"
+  sources:
+    - "2026-10-22-0636-aws-php2shell-exploitation-madpot.md"
+  tags: ["蜜罐", "在野利用"]
+  importance: 3
+- id: "cve-numbers-circulate-2026-10-20"
+  at: "2026-10-20T15:00:00Z"
+  precision: "approximate"
+  title: "CVE 編號在論壇與社群流傳"
+  summary: "約 15:00 UTC（台灣 23:00），CVE 編號在論壇與社群流傳，附錯誤的發布時間與錯誤的 CVSS 10.0（官方為 9.2）。當時沒有技術細節。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-22-0002-thenextweb-php-foundation-structural-failure.md"
+  tags: ["外洩"]
+  importance: 3
+- id: "hacker-news-post-2026-10-20"
+  at: "2026-10-20T15:20:00Z"
+  precision: "exact"
+  title: "Hacker News 出現貼文，隨後撤下"
+  summary: "15:20 UTC（台灣 23:20），Hacker News 出現貼文，隨後撤下。貼文稱將於 10 月 22 日 18:00 CEST 公布，並稱 CVSS 10、影響 PHP 5 以上所有版本。貼文者自承未經證實。編號是真的，分數與時間不是官方說法。"
+  sources:
+    - "2026-10-21-0852-cyberq-php-core-rce-leak.md"
+    - "2026-10-21-1357-icsda-php2shell-patch-released.md"
+    - "2026-10-21-0335-watchtowr-php2shell-faq.md"
+    - "2026-10-21-ithome-php-zero-day-storm-warning.md"
+  tags: ["外洩"]
+  importance: 2
+- id: "php-advance-notice-2026-10-20"
+  at: "2026-10-20T19:30:00Z"
+  precision: "exact"
+  title: "PHP 發出預告，修補提前到 10 月 21 日 14:00 UTC"
+  summary: "19:30 UTC（台灣 10 月 21 日 03:30），PHP 發出預告。釋出日從 10 月 22 日提前到 10 月 21 日 14:00 UTC（台灣 22:00）。預告本身沒有 CVE 編號，也沒有寫遠端程式碼執行。官方保留細節公開或出現在野利用就再提前的權利。發行商仍在打包，所以沒有立刻公開。原訂 10 月 22 日的鐘點有三種講法，都是計畫，不是已經發生的事。"
+  sources:
+    - "2026-10-21-0330-php-net-upcoming-security-release.md"
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-21-0852-cyberq-php-core-rce-leak.md"
+  tags: ["官方", "預告"]
+  importance: 3
+- id: "watchtowr-faq-2026-10-20"
+  at: "2026-10-20T19:35:22Z"
+  precision: "exact"
+  title: "watchTowr 發布 FAQ，確認兩個 CVE 是真的"
+  summary: "19:35:22 UTC（台灣 10 月 21 日 03:35），watchTowr 發布 FAQ，向公開管道確認這兩個 CVE 是真的。預告裡沒寫的編號與影響，是外流貼文和這份 FAQ 補上的。"
+  sources:
+    - "2026-10-21-0335-watchtowr-php2shell-faq.md"
+  tags: ["外洩"]
+  importance: 2
+- id: "calif-poc-video-2026-10-20"
+  at: "2026-10-20T20:00:00Z"
+  precision: "approximate"
+  title: "Calif 誤發一段 PoC 展示影片"
+  summary: "約 20:00 UTC（台灣 10 月 21 日約 04:00），Calif 誤發一段 PoC 展示影片。刪除後副本仍在社群流傳，加速隔日的 PoC。Huntress 亦表示看過後來下架的影片。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+    - "2026-10-22-0002-thenextweb-php-foundation-structural-failure.md"
+    - "2026-10-21-ithome-php-zero-day-storm-warning.md"
+  tags: ["外洩", "PoC"]
+  importance: 3
+- id: "mitigation-advice-may-leak-2026-10-20"
+  at: "2026-10-20T23:00:00Z"
+  precision: "approximate"
+  title: "給關鍵基礎設施的緩解建議可能外流"
+  summary: "約 23:00 UTC 起（台灣 10 月 21 日約 07:00 起），提供給少數關鍵基礎設施業者的緩解建議，可能外流。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["外洩", "緩解"]
+  importance: 2
+- id: "amazon-multiple-pocs-2026-10-21"
+  at: "2026-10-21T02:00:00Z"
+  precision: "approximate"
+  title: "Amazon 看到多份 PoC"
+  summary: "約 02:00 UTC（台灣約 10:00），Amazon 看到多份 PoC。"
+  sources:
+    - "2026-10-22-0636-aws-php2shell-exploitation-madpot.md"
+  tags: ["PoC", "在野利用"]
+  importance: 2
+- id: "amazon-more-attempts-2026-10-21"
+  at: "2026-10-21T02:00:00Z"
+  precision: "approximate"
+  title: "接下來六小時出現另一批利用嘗試"
+  summary: "02:00 至 08:00 UTC（台灣 10:00 至 16:00），更多利用嘗試。內容與匿名基礎設施的選型和稍早不同，AWS 研判為多名行為者。能否在真實系統成功，當時仍不清楚。"
+  sources:
+    - "2026-10-22-0636-aws-php2shell-exploitation-madpot.md"
+  tags: ["在野利用"]
+  importance: 2
+- id: "cloudflare-waf-2026-10-21"
+  at: "2026-10-21T03:02:00Z"
+  precision: "exact"
+  title: "Cloudflare WAF 規則對免費與付費客戶預設上線"
+  summary: "03:02 UTC（台灣 11:02），Cloudflare WAF 規則對免費與付費客戶預設上線，約比公開早 9 小時。外洩之後已看到針對客戶的攻擊，以及試圖變造請求以避開規則的流量。有 WAF 仍須更新 PHP。"
+  sources:
+    - "2026-10-21-2156-cloudflare-waf-protection.md"
+  tags: ["WAF", "緩解"]
+  importance: 2
+- id: "chainguard-breaks-embargo-2026-10-21"
+  at: "2026-10-21T07:41:00Z"
+  precision: "exact"
+  title: "Chainguard 單方面打破禁運"
+  summary: "07:41 UTC（台灣 15:41），Chainguard 在協調發布前六個多小時，單方面打破禁運，發布含修補的映像。基金會寫明，攻擊者因而能提前對照修補。"
+  sources:
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["禁運", "修補"]
+  importance: 3
+- id: "sansec-cloudflare-early-attacks-2026-10-21"
+  at: "2026-10-21T07:43:00Z"
+  precision: "exact"
+  title: "Sansec 時間軸：Cloudflare 回報早期攻擊"
+  summary: "Sansec 把 Cloudflare 回報早期攻擊的時間記在 07:43 UTC（台灣 15:43）。這是 Sansec 所記的回報時間，不是 Cloudflare 規則上線時間（規則是 03:02 UTC）。"
+  sources:
+    - "2026-10-21-sansec-php2shell-critical-rce.md"
+  tags: ["在野利用"]
+  importance: 1
+- id: "github-advisory-early-2026-10-21"
+  at: "2026-10-21T13:34:00Z"
+  precision: "exact"
+  title: "Wikipedia 稱 GitHub advisory 提前公開（待查證）"
+  summary: "Wikipedia 稱 GitHub advisory 於 13:34 UTC（台灣 21:34）提前公開，比官方 14:00 UTC 早 26 分鐘。php.net 摘要註記此說有 citation needed。本庫沒有 Wikipedia 全文。待查證。"
+  sources:
+    - "2026-10-21-2200-php-net-security-advisory.md"
+  tags: ["修補", "待查證"]
+  importance: 1
+- id: "patches-released-2026-10-21"
+  at: "2026-10-21T14:00:00Z"
+  precision: "exact"
+  title: "修補發布：8.5.12、8.4.27、8.3.36、8.2.35"
+  summary: "14:00 UTC（台灣 22:00），修補發布：PHP 8.5.12、8.4.27、8.3.36、8.2.35。官方安全公告與基金會說明同日公開。發布當下，安全團隊表示尚未發現可運作的公開 exploit。"
+  sources:
+    - "2026-10-21-2200-php-net-security-advisory.md"
+    - "2026-10-21-php-foundation-security-release-strengthening.md"
+  tags: ["官方", "修補"]
+  importance: 3
+- id: "aws-widespread-exploitation-2026-10-21"
+  at: "2026-10-21T14:00:00Z"
+  precision: "approximate"
+  title: "修補公開後數小時，AWS 稱已被廣泛在野利用"
+  summary: "14:00 UTC 之後數小時，AWS 稱又出現更多 PoC，感測器幾乎立刻被打到。AWS 稱其後已被廣泛在野利用。來源沒有更細的鐘點，此筆時刻沿用發布時刻並標為約略。"
+  sources:
+    - "2026-10-22-0636-aws-php2shell-exploitation-madpot.md"
+  tags: ["在野利用", "PoC"]
+  importance: 3
+- id: "watchtowr-honeypot-2026-10-21"
+  at: "2026-10-21"
+  precision: "date-only"
+  title: "watchTowr 全球蜜罐觀察到在野利用"
+  summary: "watchTowr 全球蜜罐（Attacker Eye）於 10 月 21 日起觀察到在野利用。時分未公布。"
+  sources:
+    - "2026-10-21-0335-watchtowr-php2shell-faq.md"
+  tags: ["蜜罐", "在野利用"]
+  importance: 2
+- id: "huntress-no-customer-hits-2026-10-21"
+  at: "2026-10-21T16:30:00-04:00"
+  precision: "exact"
+  title: "Huntress 截至美東 16:30 仍未在客戶端看到利用"
+  summary: "截至 10 月 21 日 16:30 美東（EDT，20:30 UTC；台灣 10 月 22 日 04:30），Huntress 在其客戶端尚未觀察到在野利用，同時寫明其他研究者已回報攻擊出現。蜜罐與客戶端是不同視角。"
+  sources:
+    - "2026-10-20-huntress-rapid-response-php2shell.md"
+  tags: ["在野利用"]
+  importance: 2
+- id: "preventive-shutdowns-2026-10-21"
+  at: "2026-10-21"
+  precision: "date-only"
+  title: "多國政府與民間網站預防性下線或限制功能"
+  summary: "10 月 21 日當天至 10 月 22 日，多國政府與民間網站預防性下線或限制功能。下線多半是預防，不表示已經被入侵。比利時 CCB 當時尚未記錄到針對比利時網站的攻擊。個別名單見關站資料。"
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+  tags: ["關站"]
+  importance: 3
+- id: "moda-notice-2026-10-22"
+  at: "2026-10-22"
+  precision: "date-only"
+  title: "數位發展部資通安全署通知各機關與企業"
+  summary: "數位發展部資通安全署新聞稿（民國 115 年 10 月 22 日）。已透過資安警訊、N-ISAC、TWCERT/CC 通知各機關與企業。來源只有日期。"
+  sources:
+    - "2026-10-22-moda-php-emergency-update.md"
+  tags: ["台灣", "政府"]
+  importance: 2

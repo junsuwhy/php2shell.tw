@@ -1,0 +1,452 @@
+# 關站與應對名單，整理自 docs/knowledge/04-for-onlookers.md。php_confirmed 只有來源明確說與 PHP 有關才為 true。
+- id: "us-nsa"
+  name: "美國國家安全局（NSA）"
+  region: "美國"
+  kind: "government"
+  action: "建議不能立刻更新的系統下線，稱這類漏洞往往有一條直達檔案系統或資料庫的路。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+- id: "us-white-house"
+  name: "美國白宮"
+  region: "美國"
+  kind: "government"
+  action: "BBC：聯邦機構與主要 AI 實驗室合作加速修補。香港01：評估對政府系統與關鍵基礎設施的影響。衛報：稱周五接獲通知，沒有寫日期。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-21-2346-hk01-php-vulnerability-government-sites.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "uk-ncsc"
+  name: "英國國家網路安全中心（NCSC）"
+  region: "英國"
+  kind: "government"
+  action: "建議無法立即更新的系統考慮下線，並在升級前檢查是否已遭入侵、是否有後門。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-ncsc-critical-security-issue-php.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "edinburgh-city-council"
+  name: "愛丁堡市議會"
+  region: "英國"
+  kind: "government"
+  action: "網站無法存取。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "oxford-city-council"
+  name: "牛津市議會"
+  region: "英國"
+  kind: "government"
+  action: "網站下線。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "bristol-city-council"
+  name: "布里斯托市議會"
+  region: "英國"
+  kind: "government"
+  action: "網站下線。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "digid"
+  name: "DigiD"
+  region: "荷蘭"
+  kind: "government"
+  action: "網站暫時下線。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+- id: "netherlands-house"
+  name: "荷蘭眾議院"
+  region: "荷蘭"
+  kind: "government"
+  action: "網站暫時下線。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+- id: "netherlands-ncsc"
+  name: "荷蘭國家網路安全中心"
+  region: "荷蘭"
+  kind: "government"
+  action: "把自己的網站下線。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+- id: "overheid-nl"
+  name: "Overheid.nl"
+  region: "荷蘭"
+  kind: "government"
+  action: "Mashable 列入下線的政府與公共服務網站。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "port-of-rotterdam"
+  name: "鹿特丹港"
+  region: "荷蘭"
+  kind: "government"
+  action: "Mashable 列入受影響的政府與公共服務。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "knvb"
+  name: "荷蘭足協（KNVB）"
+  region: "荷蘭"
+  kind: "other"
+  action: "Mashable 列入受影響的公共服務名單。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "france-local-governments"
+  name: "法國地方政府網站"
+  region: "法國"
+  kind: "government"
+  action: "應 ANSSI 要求，多個地方政府網站無法存取。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "paris-police"
+  name: "巴黎警察局"
+  region: "法國"
+  kind: "government"
+  action: "應 ANSSI 要求，網站無法存取。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "belgium-foreign-ministry"
+  name: "比利時外交部"
+  region: "比利時"
+  kind: "government"
+  action: "網站暫時關閉。比利時 CCB 當時尚未記錄到針對比利時網站的攻擊。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "finland-valtori"
+  name: "芬蘭政府公共網路服務（Valtori）"
+  region: "芬蘭"
+  kind: "government"
+  action: "政府公共網路服務暫停。Mashable 寫是 Valtori 預防性關閉。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+- id: "germany-itzbund"
+  name: "德國聯邦網站（ITZBund）"
+  region: "德國"
+  kind: "government"
+  action: "部分聯邦網站預防性停用。Mashable 點名 ITZBund。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+- id: "japan-government"
+  name: "日本政府"
+  region: "日本"
+  kind: "government"
+  action: "首相高市早苗在 X 發文，請確認公開網站是否使用 PHP；香港經濟日報描述為極緊急請求。國家網路統括室要求儘速處理。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "australia-acsc"
+  name: "澳洲網路安全中心（ACSC）"
+  region: "澳洲"
+  kind: "government"
+  action: "發出最高級別警告。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-1010-hket-php-security-vulnerability.md"
+- id: "cyber-gov-au"
+  name: "cyber.gov.au"
+  region: "澳洲"
+  kind: "government"
+  action: "澳洲訊號局表示，cyber.gov.au 是受影響的政府網站之一。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
+- id: "australia-asd"
+  name: "澳洲訊號局（ASD）"
+  region: "澳洲"
+  kind: "government"
+  action: "當地夜間短暫受影響。國家網路防衛機關指出，其他政府網站可能同樣受波及。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+- id: "cert-eu"
+  name: "CERT-EU"
+  region: "歐盟"
+  kind: "government"
+  action: "外洩當下確認 CVE 編號對得上。與 ENISA 的聯合聲明全文未收進 news。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-ithome-php-zero-day-storm-warning.md"
+- id: "taiwan-moda"
+  name: "數位發展部資通安全署"
+  region: "台灣"
+  kind: "government"
+  action: "10 月 22 日經資安警訊、N-ISAC、TWCERT/CC 通知各機關與企業。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-moda-php-emergency-update.md"
+- id: "wikimedia"
+  name: "維基媒體"
+  region: "全球"
+  kind: "community"
+  action: "預防性關閉部分支援系統。Mashable 點名 Toolforge、Cloud VPS，並寫明不是維基百科整個關掉。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "4chan"
+  name: "4chan"
+  region: "未載明"
+  kind: "community"
+  action: "NBC 稱下線；Mashable 稱改成唯讀。精確狀態兩說並存。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "something-awful"
+  name: "Something Awful"
+  region: "未載明"
+  kind: "community"
+  action: "下線或維護。NBC 寫下線等修補，Mashable 寫宣布維護或關站。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "pinboard"
+  name: "Pinboard"
+  region: "未載明"
+  kind: "company"
+  action: "下線。"
+  php_confirmed: true
+  sources:
+    - "2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "fur-affinity"
+  name: "Fur Affinity"
+  region: "未載明"
+  kind: "community"
+  action: "預防性關站。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "miraheze"
+  name: "Miraheze"
+  region: "未載明"
+  kind: "community"
+  action: "預防性關站。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "grapheneos-forum"
+  name: "GrapheneOS 討論區"
+  region: "未載明"
+  kind: "community"
+  action: "宣布維護或關站。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "choice-of-games"
+  name: "Choice of Games"
+  region: "未載明"
+  kind: "company"
+  action: "宣布維護或關站。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "openstreetmap"
+  name: "OpenStreetMap"
+  region: "全球"
+  kind: "community"
+  action: "關掉 wiki 與次要服務。主地圖不在該公告裡。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "codomon"
+  name: "コドモン"
+  region: "日本"
+  kind: "company"
+  action: "進入或預告緊急維護。ITmedia 把它寫進 PHP 漏洞相關報導；已由業者或採訪確認的名單沒有點名它。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
+- id: "shadowverse-worlds-beyond"
+  name: "Shadowverse: Worlds Beyond"
+  region: "日本"
+  kind: "game"
+  action: "緊急維護。業者或 ITmedia 採訪已確認與 PHP 有關。Mashable 亦將它與 PHP 連結。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "base"
+  name: "BASE"
+  region: "日本"
+  kind: "company"
+  action: "預計採取類似的緊急對應。已由業者或 ITmedia 採訪確認與 PHP 有關。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "sakura-rental-server"
+  name: "sakura 租用主機"
+  region: "日本"
+  kind: "company"
+  action: "進入或預告緊急維護。ITmedia 把它寫進 PHP 漏洞相關報導；已由業者或採訪確認的名單沒有點名它。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "x-server"
+  name: "X Server"
+  region: "日本"
+  kind: "company"
+  action: "預計採取類似對應。ITmedia 的已確認名單沒有點名它。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "pictsquare"
+  name: "pictSQUARE"
+  region: "日本"
+  kind: "company"
+  action: "預計採取類似對應。已由業者或 ITmedia 採訪確認與 PHP 有關。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "kinboru"
+  name: "キンボル"
+  region: "日本"
+  kind: "company"
+  action: "官方網站預計採取類似對應。已由業者或 ITmedia 採訪確認與 PHP 有關。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "tsunagu"
+  name: "つなぐ"
+  region: "日本"
+  kind: "company"
+  action: "預計採取類似對應。ITmedia 的已確認名單沒有點名它。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0147-itmedia-php-emergency-maintenance.md"
+- id: "uma-musume"
+  name: "賽馬娘 Pretty Derby"
+  region: "未載明"
+  kind: "game"
+  action: "宣布緊急維護。Mashable 將它與 PHP 連結。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "granblue-fantasy"
+  name: "碧藍幻想（Granblue Fantasy）"
+  region: "未載明"
+  kind: "game"
+  action: "宣布緊急維護。Mashable 將它與 PHP 連結。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "princess-connect"
+  name: "公主連結（Princess Connect! Re:Dive）"
+  region: "未載明"
+  kind: "game"
+  action: "宣布緊急維護。Mashable 將它與 PHP 連結。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "chunithm-international"
+  name: "CHUNITHM 國際帳號"
+  region: "未載明"
+  kind: "game"
+  action: "宣布緊急維護。Mashable 將它與 PHP 連結。"
+  php_confirmed: true
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "bbc-doctor-who"
+  name: "BBC《Doctor Who》頁面"
+  region: "英國"
+  kind: "media"
+  action: "離線。BBC 未證實與 PHP 有關。"
+  php_confirmed: false
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+- id: "bbc-the-traitors"
+  name: "BBC《The Traitors》頁面"
+  region: "英國"
+  kind: "media"
+  action: "離線。BBC 未證實與 PHP 有關。"
+  php_confirmed: false
+  sources:
+    - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
+- id: "pokemon-sleep"
+  name: "Pokémon Sleep"
+  region: "未載明"
+  kind: "game"
+  action: "維護。Mashable 未證實與 PHP 有關。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "pokemon-home"
+  name: "Pokémon HOME"
+  region: "未載明"
+  kind: "game"
+  action: "維護。Mashable 未證實與 PHP 有關。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "pokemon-champions"
+  name: "Pokémon Champions"
+  region: "未載明"
+  kind: "game"
+  action: "維護。Mashable 未證實與 PHP 有關。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "gog"
+  name: "GOG"
+  region: "未載明"
+  kind: "company"
+  action: "維護，沒說原因。Mashable 未證實與 PHP 有關。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "duolingo"
+  name: "Duolingo"
+  region: "未載明"
+  kind: "company"
+  action: "有人回報錯誤變多。Mashable：對方未提及此漏洞。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "internet-archive"
+  name: "網際網路檔案館"
+  region: "未載明"
+  kind: "other"
+  action: "DownDetector 有障礙回報。Mashable：無法直接連結到這次更新。不要寫成已證實因 PHP 關閉。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
+- id: "asana"
+  name: "Asana"
+  region: "未載明"
+  kind: "company"
+  action: "DownDetector 有障礙回報。Mashable：無法直接連結到這次更新。"
+  php_confirmed: false
+  sources:
+    - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"

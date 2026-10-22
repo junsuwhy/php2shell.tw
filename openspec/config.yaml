@@ -1,0 +1,42 @@
+schema: spec-driven
+
+context: |
+  Language: Traditional Chinese (Taiwan)
+  All artifacts must be written in Traditional Chinese (Taiwan).
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  Project: php2shell.tw — 以台灣繁中、依身份（非技術人員 /basic/、軟體開發人員 /dev/、吃瓜群眾 /news/）分流說明 PHP2Shell 事件（CVE-2026-109618、CVE-2026-109619）的靜態網站。
+  Stack: Astro（static）+ MDX + Content Collections，部署 Cloudflare Pages。
+  Background: 先讀 AGENTS.md、PRODUCT.md、docs/architecture.md；素材在 docs/knowledge/ 與 docs/news/。
+  Hard rules:
+    - 不得包含攻擊步驟、exploit、payload 或可重現攻擊的內容。
+    - 不得寫入主機資訊（IP、本機路徑、環境變數值、連接埠、金鑰）。
+    - 新聞以 docs/news/*.md 新增，不需改程式碼。
+
+rules:
+  proposal:
+    - 明列 out of scope
+  tasks:
+    - 每項任務可在 2 小時內完成，並標明對應的 spec capability
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always state what is out of scope
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

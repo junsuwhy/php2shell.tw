@@ -1,0 +1,41 @@
+# 核心事實：全站單一來源。改這裡，所有頁面跟著變。
+name: PHP2Shell
+updated_at: "2026-10-22"
+cves:
+  - id: CVE-2026-109618
+    ghsa: GHSA-w8hw-w9fx-j79w
+    title: RCE via OOM corruption
+    title_zh: 記憶體耗盡造成的記憶體破壞
+    cvss_v4: 9.2
+    advisory: https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w
+  - id: CVE-2026-109619
+    ghsa: GHSA-6wmf-4rv5-p3rp
+    title: RCE via stale global state
+    title_zh: 過期全域狀態
+    cvss_v4: 9.2
+    advisory: https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+released_at: "2026-10-21T14:00:00Z"
+official_advisory: https://www.php.net/archive/2026.php#2026-10-21-5
+# 官方支援分支的修補版本
+fixed:
+  - branch: "8.5"
+    version: 8.5.12
+  - branch: "8.4"
+    version: 8.4.27
+  - branch: "8.3"
+    version: 8.3.36
+  - branch: "8.2"
+    version: 8.2.35
+    eol: "2026-12-31"
+# 不再由官方發布 binary 的分支
+source_backports: ["7.4", "8.0", "8.1"]
+unpatched: "7.3 以前（含 5.x）"
+affected_since: "5.4.0"
+sapis:
+  - { name: Apache mod_php, risk: highest }
+  - { name: PHP-FPM, risk: high }
+  - { name: php-cgi, risk: high }
+  - { name: FrankenPHP, risk: high }
+  - { name: LiteSpeed, risk: high }
+discoverers: [Calif, OpenAI, Wiz]
+php_share: { value: "69.3%", source: W3Techs }

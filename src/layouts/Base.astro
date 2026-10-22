@@ -1,0 +1,48 @@
+---
+import Analytics from '../components/Analytics.astro';
+import { facts, site } from '../lib/data';
+
+export type Persona = 'gateway' | 'basic' | 'dev' | 'news';
+
+interface Props {
+  title: string;
+  description?: string;
+  persona: Persona;
+}
+
+const { title, description = `${facts.name} 事件，依身份說清楚。`, persona } = Astro.props;
+const fullTitle = title === site.title ? title : `${title}｜${site.title}`;
+---
+<!doctype html>
+<html lang={site.lang} data-persona={persona}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Analytics />
+  </head>
+  <body>
+    <header>
+      <a href="/">{site.title}</a>
+      {persona !== 'gateway' && (
+        <nav aria-label="切換身份">
+          <a href="/basic/" aria-current={persona === 'basic' ? 'page' : undefined}>非技術人員</a>
+          <a href="/dev/" aria-current={persona === 'dev' ? 'page' : undefined}>開發人員</a>
+          <a href="/news/" aria-current={persona === 'news' ? 'page' : undefined}>吃瓜群眾</a>
+        </nav>
+      )}
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <p>資料更新：{facts.updated_at}</p>
+      <a href="/about/">關於本站</a>
+      <a href="/sources/">資料來源</a>
+      {site.contact_email && <a href={`mailto:${site.contact_email}`}>聯絡站長</a>}
+    </footer>
+  </body>
+</html>

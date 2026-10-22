@@ -1,0 +1,48 @@
+#!/bin/sh
+# Block commits that leak host information (IPs, local paths, ports, env, secrets).
+# Allowed IPs: documentation ranges 192.0.2.0/24, 198.51.100.0/24, 203.0.113.0/24.
+# To allow a specific line on purpose, append the marker: allow-hostinfo
+set -eu
+
+files=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$files" ] && exit 0
+
+fail=0
+report() { echo "pre-commit: $1" >&2; fail=1; }
+
+for f in $files; do
+  case "$f" in
+    .env|.env.*|*.local|*.local.*|.dev.vars)
+      case "$f" in .env.example) ;; *) report "refusing to commit local/env file: $f" ;; esac ;;
+  esac
+done
+
+added=$(git diff --cached -U0 --diff-filter=ACMR -- . ':(exclude).githooks/pre-commit' \
+  | grep -E '^\+[^+]' | grep -v 'allow-hostinfo' || true)
+
+check() {
+  hits=$(printf '%s\n' "$added" | grep -nE "$1" | grep -vE "$2" || true)
+  [ -n "$hits" ] && { report "$3"; printf '%s\n' "$hits" | head -5 >&2; }
+  return 0
+}
+
+NONE='^$'
+# Octets 0-255 without leading zeros; not glued to letters/-/+ (package versions like 8.3.6-0ubuntu0.24.04.13).
+# Lines that talk about versions (版/version/release) are treated as version numbers, not IPs.
+OCT='(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])'
+check "(^|[^0-9A-Za-z.+_-])($OCT\\.){3}$OCT([^0-9A-Za-z.+_-]|\$)" \
+      '(192\.0\.2\.|198\.51\.100\.|203\.0\.113\.|0\.0\.0\.0|版|[Vv]ersion|[Rr]elease)' \
+      'IPv4 address found (use 192.0.2.x / 198.51.100.x / 203.0.113.x in docs)'
+check '(/home/[A-Za-z0-9_.-]+|/Users/[A-Za-z0-9_.-]+|[A-Za-z]:\\\\Users\\\\|/tmp/claude|/root/)' "$NONE" \
+      'local absolute path found'
+check '(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]):[0-9]{2,5}' "$NONE" \
+      'local host:port found'
+check '(AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{30,}|xox[abp]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)' "$NONE" \
+      'secret-looking token found'
+check '(CLOUDFLARE_API_TOKEN|CF_API_TOKEN|ACCOUNT_ID|API_KEY|SECRET|PASSWORD)[[:space:]]*[=:][[:space:]]*[^[:space:]$<{]' "$NONE" \
+      'credential assignment found'
+
+if [ "$fail" -ne 0 ]; then
+  echo "pre-commit: blocked. Remove host info, or append 'allow-hostinfo' if intentional." >&2
+  exit 1
+fi
