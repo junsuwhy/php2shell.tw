@@ -33,7 +33,7 @@ import { facts } from '../../lib/data';
 
 - 兩個 PHP 核心漏洞：<a href={facts.cves[0].advisory}>{facts.cves[0].id}</a>（{facts.cves[0].title}）與 <a href={facts.cves[1].advisory}>{facts.cves[1].id}</a>（{facts.cves[1].title}），官方 CVSS v4.0 都是 {facts.cves[0].cvss_v4}。
 - 官方於 2026-10-21 14:00 UTC（台灣時間 22:00）發布修補。所有服務網頁請求的 PHP 安裝都要假設有風險，Apache mod_php 最高。
-- 漏洞發生在應用程式碼開始之前，WordPress、Drupal 等應用本身的更新**不是**這次的修補，只能更新 PHP。
+- 漏洞可以在應用程式碼開始之前就被觸發，WordPress、Drupal 等應用本身的更新**不是**這次的修補，只能更新 PHP。
 - 官方原話：There are no complete mitigations, updating is the only safe choice. 暫時緩解只能降低特定路徑的曝險。
 - 更新之後要**重啟所有 worker**，再向正在接流量的行程確認版號。
 
