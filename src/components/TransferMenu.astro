@@ -23,7 +23,7 @@ const { current } = Astro.props;
       </li>
     ))}
     <li>
-      <a href="/#what-happened" data-line="story">
+      <a href="/#what-happened" data-line="story" aria-current={current === 'news' ? 'page' : undefined}>
         <span class="transfer__badge" aria-hidden="true">?</span>
         <span class="transfer__name">事件始末</span>
         <span class="transfer__line">懶人包・時間軸</span>
