@@ -63,6 +63,8 @@ const showMedia = Boolean(slot && (slot.ready || import.meta.env.DEV));
     aspect-ratio: 16 / 9;
     object-fit: cover;
   }
+  /* 首頁圖的 PHP2SHELL 字在右側，手機裁成 16:9 時靠右裁，字才完整。 */
+  .hero--home .hero__media :global(.hero__img) { object-position: right center; }
   .hero--campaign.hero--media .hero__media :global(.hero__img) {
     aspect-ratio: 2 / 1;
   }

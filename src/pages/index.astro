@@ -40,7 +40,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
         </span>
         <span class="exit__gets">{p.gets}</span>
         <ImageSlot id={p.image} class="exit__art" />
-        <span class="exit__toward"><span class="exit__toward-label">內含</span>{p.toward}</span>
         <Arrow class="exit__arrow" />
         <span class="visually-hidden">（出口 {p.exit}，{p.line}）</span>
       </a>
@@ -115,7 +114,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
       'badge head head'
       'gets gets gets'
       'art art art'
-      'toward toward arrow';
+      '. . arrow';
     align-items: center;
     gap: 16px 18px;
     padding: 28px clamp(20px, 2.6vw, 36px) 32px;
@@ -157,18 +156,14 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   .exit__head { grid-area: head; display: grid; }
   .exit__name { font-size: clamp(1.75rem, 2.9vw, 2.5rem); font-weight: 900; line-height: 1.15; }
   .exit__gets { grid-area: gets; font-size: 1.1875rem; font-weight: 700; line-height: 1.55; }
-  .exit :global(.exit__art) { grid-area: art; max-width: 220px; justify-self: start; border-radius: 4px; }
-  .exit__toward {
-    grid-area: toward;
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    padding-top: 14px;
-    border-top: 1px solid var(--graphite-rule);
-    font-size: 0.9375rem;
-    color: var(--on-graphite-soft);
+  .exit :global(.exit__art) {
+    grid-area: art;
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 4px;
   }
-  .exit__toward-label { flex: none; white-space: nowrap; font-weight: 900; color: var(--c); font-size: 1.0625rem; }
   .exit :global(.exit__arrow) {
     grid-area: arrow;
     justify-self: end;
@@ -228,12 +223,12 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     .exit {
       grid-template-columns: auto minmax(0, 1fr) auto;
       grid-template-areas:
-        'badge head art'
+        'badge head head'
         'gets gets gets'
-        'toward toward arrow';
+        'art art art'
+        '. . arrow';
       padding: 22px var(--gutter) 24px;
     }
-    .exit :global(.exit__art) { width: 88px; max-width: none; justify-self: end; }
     .exit[data-line] { --arrow-rotate: 90deg; }
     .exit :global(.exit__arrow) { font-size: 2.25rem; }
     .notice { grid-template-columns: 1fr; }

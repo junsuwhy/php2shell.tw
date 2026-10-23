@@ -11,6 +11,7 @@ style: >-
 
 slots:
   # ── 首頁 ──────────────────────────────────────────
+
   - id: home-concourse
     file: home-concourse.webp
     page: /
@@ -18,20 +19,17 @@ slots:
     where: 首頁最上方滿版橫幅
     aspect: "21/9"
     size: 2520x1080
-    alt: 街頭塗鴉風的車站大廳，三面黃、綠、粉紅色的大指示牌各指向不同方向
+    alt: 街頭塗鴉風的深色牆面，PHP2SHELL 大字以黃、綠、粉紅噴漆寫成，帶滴漆
     palette: "深石墨牆面 #22262c 為底，電光黃 #f2b705、螢光綠 #2fb26b、桃紅 #e0457b，白色高光"
     prompt: >-
-      A huge graffiti mural covering an underground station concourse wall, three giant hanging
-      direction signs in electric yellow, neon green and hot pink, each with a fat arrow pointing a
-      different way, small stylized commuters in motion below, spray-paint drips and halftone
-      shadows, wide cinematic panorama, the left third calmer and darker so a headline can sit on it
+      Wide cinematic graffiti mural on a deep graphite underground wall. Giant spray-painted wordmark PHP2SHELL in wildstyle graffiti lettering fills the center-right, thick black outlines, paint drips, neon fills mixing electric yellow #f2b705, neon green #2fb26b and hot pink #e0457b. Left third calmer and darker so a headline can sit on it. Halftone dots, risograph misregistration. No arrows, no people, no other readable text besides PHP2SHELL.
     status: generated
     provenance:
-      tool: grok image_gen
-      model: grok-imagine-image-quality
-      generated_at: "2026-10-22T18:39:43+08:00"
+      tool: Grok Bot GenerateImage
+      generated_at: "2026-10-23T19:58:00+08:00"
+      note: 刻意含 PHP2SHELL 塗鴉大字（例外於全站 no-text 規則），舊圖備份於 .image-backup-20261023/
       prompt: >-
-        A huge graffiti mural covering an underground station concourse wall, three giant hanging direction signs in electric yellow, neon green and hot pink, each with a fat arrow pointing a different way, small stylized commuters in motion below, spray-paint drips and halftone shadows, wide cinematic panorama, the left third calmer and darker so a headline can sit on it, color palette: deep graphite wall #22262c as the base, electric yellow #f2b705, neon green #2fb26b, hot pink #e0457b, white highlights, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+        Wide cinematic graffiti mural on a deep graphite underground wall. Giant spray-painted wordmark PHP2SHELL in wildstyle graffiti lettering fills the center-right, thick black outlines, paint drips, neon fills mixing electric yellow #f2b705, neon green #2fb26b and hot pink #e0457b. Left third calmer and darker so a headline can sit on it. Halftone dots, risograph misregistration. No arrows, no people, no other readable text besides PHP2SHELL.
 
   - id: exit-basic
     file: exit-basic.webp
@@ -39,19 +37,17 @@ slots:
     where: 出口 1「非技術人員」卡內
     aspect: "1/1"
     size: 1024x1024
-    alt: 街頭風插畫，小店老闆拿著手機看自己的網站，旁邊一個大放大鏡
+    alt: 塗鴉風貼紙：放大鏡檢查網頁，鏡中一個大勾，表示確認網站有沒有事
     palette: "電光黃 #f2b705 為底，黑色粗線條，白色與一點桃紅點綴"
     prompt: >-
-      Street-poster portrait of a cheerful small shop owner in an apron holding up a smartphone that
-      shows a simple shop website made of blank blocks, a giant magnifying glass beside them,
-      sticker-bomb style shapes in the background, reassuring and upbeat
+      Square graffiti street-art sticker. Big magnifying glass inspecting a simple website window (blank colored blocks), a huge bold checkmark inside the lens: checking whether your website is okay. Electric yellow #f2b705, thick black outlines, white highlights, hot pink #e0457b spray accents, paint drips, halftone dots, deep graphite #22262c wall. No arrows, no text.
     status: generated
     provenance:
-      tool: grok image_gen
-      model: grok-imagine-image-quality
-      generated_at: "2026-10-22T18:38:27+08:00"
+      tool: Grok Bot GenerateImage
+      generated_at: "2026-10-23T20:41:00+08:00"
+      note: 改為「檢查網站」的放大鏡打勾圖示，舊圖備份於 .image-backup-20261023/
       prompt: >-
-        Street-poster portrait of a cheerful small shop owner in an apron holding up a smartphone that shows a simple shop website made of blank blocks, a giant magnifying glass beside them, sticker-bomb style shapes in the background, reassuring and upbeat, color palette: electric yellow #f2b705 as the base, thick black outlines, white and a touch of hot pink #e0457b accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+        Square graffiti street-art sticker. Big magnifying glass inspecting a simple website window (blank colored blocks), a huge bold checkmark inside the lens: checking whether your website is okay. Electric yellow #f2b705, thick black outlines, white highlights, hot pink #e0457b spray accents, paint drips, halftone dots, deep graphite #22262c wall. No arrows, no text.
 
   - id: exit-dev
     file: exit-dev.webp
@@ -59,19 +55,17 @@ slots:
     where: 出口 2「軟體開發人員」卡內
     aspect: "1/1"
     size: 1024x1024
-    alt: 街頭風插畫，工程師戴著帽T站在伺服器機櫃前，手拿扳手，頭上一個更新箭頭
+    alt: 塗鴉風貼紙：螢光綠的終端機提示符號 >_，帶滴漆
     palette: "螢光綠 #2fb26b 為底，深石墨 #22262c，黑色粗線條，白色高光"
     prompt: >-
-      Street-poster portrait of an engineer in a hoodie standing in front of a glowing server rack,
-      holding a big wrench over their shoulder, a fat circular refresh arrow spray-painted above the
-      rack, confident and competent, stencil graffiti texture
+      Square graffiti street-art sticker. Big chunky terminal prompt symbol (greater-than sign plus underscore cursor) spray-painted in neon green #2fb26b with thick black outlines, white highlights and paint drips, small hot pink #e0457b spray accent, deep graphite #22262c wall, halftone dots. No words.
     status: generated
     provenance:
-      tool: grok image_gen
-      model: grok-imagine-image-quality
-      generated_at: "2026-10-22T18:38:27+08:00"
+      tool: Grok Bot GenerateImage
+      generated_at: "2026-10-23T20:31:00+08:00"
+      note: 改為終端機提示符號 >_ 圖示，舊圖備份於 .image-backup-20261023/
       prompt: >-
-        Street-poster portrait of an engineer in a hoodie standing in front of a glowing server rack, holding a big wrench over their shoulder, a fat circular refresh arrow spray-painted above the rack, confident and competent, stencil graffiti texture, color palette: neon green #2fb26b as the base, deep graphite #22262c, thick black outlines, white highlights, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
+        Square graffiti street-art sticker. Big chunky terminal prompt symbol (greater-than sign plus underscore cursor) spray-painted in neon green #2fb26b with thick black outlines, white highlights and paint drips, small hot pink #e0457b spray accent, deep graphite #22262c wall, halftone dots. No words.
 
   - id: exit-news
     file: exit-news.webp
@@ -99,21 +93,19 @@ slots:
     where: Open Graph／LINE／FB 分享預覽
     aspect: "1200/630"
     size: 1200x630
-    alt: php2shell.tw 分享卡，街頭塗鴉牆上三條黃、綠、粉紅色的大箭頭
+    alt: php2shell.tw 分享卡，夜間塗鴉牆上黃、綠、粉紅三色的 PHP2SHELL 大字
     palette: "深石墨牆面 #22262c，電光黃 #f2b705、螢光綠 #2fb26b、桃紅 #e0457b"
     prompt: >-
-      Wide graffiti wall at night, three fat spray-painted arrows in electric yellow, neon green and
-      hot pink sweeping across the wall in different directions, paint drips and halftone dust,
-      large calm dark area on the left for a title to be added later
+      Wide graffiti wall at night. Huge spray-painted PHP2SHELL wildstyle wordmark across the right two-thirds in electric yellow, neon green and hot pink on deep graphite #22262c, paint drips and halftone dust. Left third calm dark empty space for a title overlay. No arrows, no people, no other text.
     status: generated
     provenance:
-      tool: grok image_gen
-      model: grok-imagine-image-quality
-      generated_at: "2026-10-22T18:38:28+08:00"
+      tool: Grok Bot GenerateImage
+      generated_at: "2026-10-23T19:58:00+08:00"
+      note: 刻意含 PHP2SHELL 塗鴉大字（例外於全站 no-text 規則），舊圖備份於 .image-backup-20261023/
       prompt: >-
-        Wide graffiti wall at night, three fat spray-painted arrows in electric yellow, neon green and hot pink sweeping across the wall in different directions, paint drips and halftone dust, large calm dark area on the left for a title to be added later, color palette: deep graphite wall #22262c, electric yellow #f2b705, neon green #2fb26b, hot pink #e0457b, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
-
+        Wide graffiti wall at night. Huge spray-painted PHP2SHELL wildstyle wordmark across the right two-thirds in electric yellow, neon green and hot pink on deep graphite #22262c, paint drips and halftone dust. Left third calm dark empty space for a title overlay. No arrows, no people, no other text.
   # ── 非技術區（黃線）─────────────────────────────────
+
   - id: basic-kitchen
     file: basic-kitchen.webp
     page: /basic/
@@ -199,6 +191,7 @@ slots:
         Wide street-mural panorama of two friendly people chatting face to face in front of a sticker-covered wall, one with a big question-mark speech bubble, the other with a big check-mark speech bubble, relaxed and warm, the left third simpler for a headline, color palette: electric yellow #f2b705 dominant, cream white background, thick black outlines, teal accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   # ── 開發者區（綠線）─────────────────────────────────
+
   - id: dev-hub
     file: dev-hub.webp
     page: /dev/
@@ -244,6 +237,7 @@ slots:
         Wide street-poster panorama of a workbench, one worker abruptly walking away mid-task leaving the bench only half cleared, a second worker arriving and picking up one leftover part that glows warning red, a fat spray-painted warning triangle above the bench, explanatory not scary, no screens, no attack imagery, color palette: deep graphite #22262c as the base, neon green #2fb26b, white, a small amount of warning red #c8233a, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   # ── 吃瓜區（粉紅線）─────────────────────────────────
+
   - id: news-hub
     file: news-hub.webp
     page: /news/
@@ -289,6 +283,7 @@ slots:
         Wide graffiti panorama of a thick hot-pink timeline line spray-painted left to right across a wall, with five stops: an old beige desktop computer, a magnifying glass over a document, a robot arm holding a magnifying glass, a broken wax seal on an envelope, and a row of shop fronts with metal shutters pulled down, color palette: hot pink #e0457b timeline, deep graphite #22262c, cream white background, electric yellow #f2b705 accents, bold vibrant street-art illustration, graffiti mural and screen-printed street poster style, thick confident black outlines, saturated neon and high-contrast flat colors, halftone dots and spray-paint texture, slight risograph misregistration, dynamic composition, energetic and confident mood, no readable text, no letters, no numbers, no logos, no brand marks, no real people, no weapons, no hacking or attack imagery, no computer code on screens
 
   # 首頁「事件始末」六個入口按鈕（圖上不放字，標題由網頁文字疊上）
+
   - id: news-sec-story
     file: news-sec-story.webp
     page: /
