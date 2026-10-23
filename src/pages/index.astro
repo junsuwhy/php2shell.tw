@@ -21,8 +21,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   <HeroBanner id="home-concourse" variant="home">
     <div class="station__text">
       <h1 id="station-title">{facts.name} 事件</h1>
-      <p class="station__direction">你是哪一種人？選一個入口</p>
-      <p class="station__hint">兩個入口只是依身份分開說明，都在這個網站裡，不用換站。只想知道發生什麼事，往下捲。</p>
       <dl class="station__meta">
         <div><dt>漏洞編號</dt><dd class="num">{facts.cves.map((c) => c.id).join('　')}</dd></div>
         <div><dt>嚴重程度</dt><dd><span class="num">CVSS {facts.cves[0].cvss_v4}</span>（重大）</dd></div>
@@ -80,13 +78,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     letter-spacing: 0.01em;
     line-height: 1.05;
   }
-  .station__direction {
-    margin-top: 12px;
-    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
-    font-weight: 700;
-    color: var(--on-graphite);
-  }
-  .station__hint { margin-top: 8px; max-width: 40rem; color: var(--on-graphite-soft); }
   .station__meta {
     display: flex;
     flex-wrap: wrap;
