@@ -62,8 +62,6 @@
 | `/dev/fix/docker/` | Docker／Kubernetes：重建映像、釘版本、重新部署 |
 | `/dev/fix/macos/` | Homebrew（開發機）|
 | `/dev/fix/panels/` | cPanel（EA-PHP）、Plesk、DirectAdmin |
-| `/dev/fix/drupal/` | Drupal 工具：drush 檢查環境、Drupal 狀態報告、composer 平台需求、代管平台 |
-| `/dev/fix/wordpress/` | WordPress 工具：WP-CLI 檢查、Site Health |
 | `/dev/fix/build-from-source/` | 7.4／8.0／8.1 官方最小回移植、自行編譯注意事項 |
 | `/dev/mitigation/` | 無法立即升級時的官方暫時緩解（含「不要做」清單：RLIMIT_AS／RLIMIT_DATA、ini_set、.user.ini）|
 | `/dev/detect/` | 偵測訊號、事件應變清單、日誌保全 |
@@ -92,8 +90,6 @@
 | 核心事實 | `src/data/facts.yaml` | YAML | CVE、CVSS、修補版本、最後更新時間——全站引用，只改一處 |
 | 名詞表 | `src/data/glossary.yaml` | YAML | 加一個詞，全站自動標註 |
 | 關站名單 | `src/data/outages.yaml` | YAML | 加一筆 |
-| 名言 | `src/data/quotes.yaml` | YAML | 加一筆 |
-| 說法分歧 | `src/data/discrepancies.yaml` | YAML | 加一題；並列各說法，官方說法只作對照（整理自 `docs/knowledge/06-discrepancies.md`）|
 | 角色頁面 | `src/content/{basic,dev,story}/*.mdx` | MDX | 編輯文章 |
 
 Astro content collection 以 glob loader 讀 `docs/news/`，用 zod schema 驗證 frontmatter；欄位缺漏時建置失敗，避免壞資料上線。

@@ -53,12 +53,11 @@
 - **AND** macOS 頁說明 Homebrew 用於開發機
 - **AND** 控制台頁包含 cPanel 的 EA-PHP、Plesk 與 DirectAdmin
 
-#### Scenario: Drupal 與 WordPress 工具
+#### Scenario: Drupal 與 WordPress 網站
 
-- **WHEN** 訪客開啟 `/dev/fix/drupal/` 或 `/dev/fix/wordpress/`
-- **THEN** 兩頁都依序呈現檢查、更新、重啟、驗證
-- **AND** Drupal 頁包含 drush 檢查環境、狀態報告、composer 平台需求與代管平台
-- **AND** WordPress 頁包含 WP-CLI 檢查與 Site Health
+- **WHEN** 訪客開啟 `/dev/am-i-affected/`
+- **THEN** 頁面說明 Drupal、WordPress 只需更新底下的 PHP，不另設修補頁
+- **AND** 頁面說明從 Drupal 狀態報告、WordPress Site Health 看網站實際的 PHP 版本
 
 #### Scenario: 自行編譯
 

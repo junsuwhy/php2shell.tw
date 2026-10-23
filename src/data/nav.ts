@@ -87,13 +87,6 @@ export const areaNav: Record<PersonaId, AreaNavData> = {
         ],
       },
       {
-        label: '各工具',
-        children: [
-          { label: 'Drupal', href: '/dev/fix/drupal/' },
-          { label: 'WordPress', href: '/dev/fix/wordpress/' },
-        ],
-      },
-      {
         label: '緩解與偵測',
         children: [
           { label: '暫時緩解', href: '/dev/mitigation/' },

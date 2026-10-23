@@ -1,56 +1,95 @@
 ---
 layout: ../../../layouts/DevDoc.astro
 title: 修補：Debian
-description: Debian 上修補 PHP2Shell：DSA-6574-1、DLA-4848-1 的修補套件版、Sury 套件庫、重啟與驗證。
-lede: 依 Debian 安全追蹤頁的修補版本更新 PHP 套件，重啟所有 worker，再向正在接流量的行程確認版本。
-checked: "2026-10-22"
+description: Debian 上修補 PHP2Shell：13 用 DSA-6574-1、12 用 DLA-4848-1，Sury 套件庫已出 8.2–8.5 與 7.4–8.1 修補版；更新、重啟、驗證指令。
+lede: 先看 PHP 是從 Debian 官方還是 Sury 裝的，從 security 套件庫更新到修補版，重啟所有 worker，再用套件版本與 changelog 確認。
+checked: "2026-10-23"
 sources:
-  - title: Debian 安全追蹤：DSA-6574-1（php8.4）
+  - title: Debian 安全追蹤：DSA-6574-1（php8.4，trixie）
     url: https://security-tracker.debian.org/tracker/DSA-6574-1
-  - title: Debian 安全追蹤：DLA-4848-1（php8.2）
+  - title: Debian 安全追蹤：DLA-4848-1（php8.2，bookworm）
     url: https://security-tracker.debian.org/tracker/DLA-4848-1
+  - title: Debian 安全追蹤：CVE-2026-109618
+    url: https://security-tracker.debian.org/tracker/CVE-2026-109618
+  - title: Sury 套件庫：php8.3 套件目錄
+    url: https://packages.sury.org/php/pool/main/p/php8.3/
+  - title: Sury 套件庫：php7.4 套件目錄
+    url: https://packages.sury.org/php/pool/main/p/php7.4/
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
-  - title: ICSDA：PHP2Shell 修補已釋出
-    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
 ---
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
-> 本站在 2026-10-22 查詢時，debian.org 的 DSA／DLA 公告郵件被驗證頁擋住，沒有讀到官方「請升級」那一句正文。下面的版號來自安全追蹤頁；Debian 官方的升級指令**待查證**，本站不代寫。
-
 ## 1. 檢查
 
-先找出網站真正在用的 PHP 分支與套件，見[我受影響嗎？](/dev/am-i-affected/)。命令列的版本只是起點：
+先看裝了哪些 PHP 套件、版本是多少：
 
-<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+<CommandBlock label="列出已安裝的 PHP 套件與版本" code={`dpkg -l 'php*' 'libapache2-mod-php*' | awk '/^ii/{print $2, $3}'`} />
 
-再拿已安裝的套件版本對照安全追蹤頁：
+版本字串看得出來源：`~deb13u1`、`~deb12u1` 結尾的是 **Debian 官方**套件；含 `+debian12~1.gbp…`、`+freexian…` 的是 **Sury**（packages.sury.org）。再對照下表。
 
-| 公告 | 套件 | 發行版 | 修補版（security） | 追蹤頁仍列為有漏洞 |
+### Debian 官方套件
+
+Debian 每一版只附一個 PHP 分支，修補從 security 套件庫出：
+
+| 發行版 | 套件 | 公告 | 修補版（security） | 修補前 |
 | --- | --- | --- | --- | --- |
-| DSA-6574-1 | php8.4 | trixie | 8.4.27-1~deb13u1 | 8.4.24-1~deb13u1 |
-| DLA-4848-1 | php8.2 | bookworm | 8.2.35-1~deb12u1 | 8.2.32-1~deb12u1 |
+| 13 trixie | php8.4 | DSA-6574-1 | 8.4.27-1~deb13u1 | 8.4.24-1~deb13u1 |
+| 12 bookworm | php8.2 | DLA-4848-1 | 8.2.35-1~deb12u1 | 8.2.32-1~deb12u1 |
+| 11 bullseye | php7.4 | 無 | Debian 不再修補 | — |
 
-php8.3 的 DSA：查詢當下未找到官方資訊，待查證。
+- **bookworm** 已轉由 Debian LTS 維護，所以公告編號是 DLA，不是 DSA；更新方式一樣。
+- **bullseye** 的 Debian LTS 已經結束，安全追蹤頁沒有列出 php7.4，不會有官方修補。見下面 Sury，或升級到 12／13。
+- **forky（testing）**：2026-10-23 查詢時仍是 8.4.26-1，列為有漏洞；sid 已有 8.4.27-1。正式環境不要跑 testing。
+- Debian 官方沒有 php8.3；裝了 php8.3 就是來自 Sury 或其他套件庫。
 
 ### Sury 套件庫
 
-不少主機用 Ondřej Surý 維護的第三方 Sury 套件庫裝較新的 PHP 分支。那是 Debian 官方以外的套件來源，上面的 DSA／DLA 不涵蓋它。本站查詢時**沒有找到** Sury 針對這兩個 CVE 的公告，狀態待查證：請直接到該套件庫確認是否已發布含修補的套件；確認不了，就改用 Debian 官方套件或自行編譯。
+很多主機用 Ondřej Surý 維護的 Sury 套件庫裝其他 PHP 分支。它不在 Debian 安全公告範圍內，但 2026-10-21 起已經上架修補版（本站 2026-10-23 對照套件目錄）：
+
+| 分支 | Sury 修補版 | `php -v` 會顯示 |
+| --- | --- | --- |
+| 8.5／8.4／8.3／8.2 | 8.5.12、8.4.27、8.3.36、8.2.35 | 新版號 |
+| 8.1／8.0／7.4 | 同一個上游版本的新修訂，例如 `7.4.33-31` | **舊版號不變**，要看 changelog |
+
+- arm64 等架構的套件有時比 amd64 晚一兩天，裝完要確認實際版本。
+- 加了 Sury 之後，Debian 自己的 php8.x 也可能改從 Sury 更新。同一台主機請想清楚 PHP 要從哪一邊來，不要混用。
+- 8.1 以前的分支 PHP 官方已不再發布更新，Sury 的修訂只是過渡，見[舊版本策略](/dev/eol/)。
 
 ## 2. 更新
 
-依你的套件來源，把 PHP 相關套件更新到上表的修補版或更新版：
+<CommandBlock label="更新套件清單，列出可更新的 PHP 套件" code={`sudo apt-get update
+apt list --upgradable 2>/dev/null | grep php`} />
 
-- **Debian 官方套件**：從 security 套件庫取得 DSA／DLA 列出的版本。DSA 正文未讀到，官方指令待查證。
-- **Sury**：確認該庫已出修補版之後才更新；沒有就不要以為已經修好。
-- **8.1 以前**：見[舊版本策略](/dev/eol/)。
+<CommandBlock label="只更新已安裝的 PHP 套件（依你的分支改 php8.4 / php8.2 / php7.4）" code={`sudo apt-get install --only-upgrade 'php8.4*' 'libapache2-mod-php8.4'`} />
+
+整台一起更新（`sudo apt-get upgrade`）也可以，會順便更新其他套件。
+
+**清單裡沒有 PHP？** 多半是 sources 沒有 security 套件庫。確認有這一行（12 把 `trixie` 換成 `bookworm`），再 `apt-get update`：
+
+<CommandBlock label="security 套件庫（/etc/apt/sources.list 或 sources.list.d/ 內）" code={`deb http://deb.debian.org/debian-security trixie-security main`} />
+
+用 deb822 格式（`/etc/apt/sources.list.d/debian.sources`）的，確認 `Suites:` 裡有 `trixie-security`。
 
 ## 3. 重啟
 
-裝好套件之後，**重啟所有** php-fpm 與 Apache 服務（用 mod_php 時是 Apache），讓每一支 worker 都換成新的程式。服務名稱依你安裝的套件而定。只 reload 一部分、或滾動更新留下舊 worker，等於還沒修完。
+裝好套件之後，**重啟所有** php-fpm 與 Apache（用 mod_php 時），讓每一支 worker 都換成新的程式。服務名稱跟著分支走：
+
+<CommandBlock label="重啟 PHP-FPM 與 Apache（服務名稱依實際安裝調整）" code={`sudo systemctl restart php8.4-fpm
+sudo systemctl restart apache2`} />
+
+不確定還有哪些行程在用舊的函式庫，可以裝 `needrestart` 列出來：
+
+<CommandBlock label="列出需要重啟的服務" code={`sudo needrestart -r l`} />
+
+只 reload 一部分、或滾動更新留下舊 worker，等於還沒修完。
 
 ## 4. 驗證
 
-- 再查一次已安裝的套件版本，確認等於或新於上表的修補版。
-- 向正在接流量的那一支 PHP 確認版本（PHP-FPM 執行檔的 `-v`、Apache 載入的模組），不只看命令列。
+- 再跑一次第 1 步的 `dpkg -l`，確認版本等於或新於上表的修補版。
+- 看套件的 changelog 有沒有提到這兩個 CVE（8.1 以前用 Sury 的修訂版，這是唯一看得出來的地方）：
+
+<CommandBlock label="changelog 裡找這次的 CVE（依分支改 php8.4 / php8.2 / php7.4）" code={`zgrep -E 'CVE-2026-10961[89]' /usr/share/doc/php8.4-common/changelog.Debian.gz`} />
+
+- 向正在接流量的那一支 PHP 確認版本（PHP-FPM 執行檔的 `-v`、Apache 載入的模組），不只看命令列，見[我受影響嗎？](/dev/am-i-affected/)。
 - 若緩解期間把 `memory_limit` 設成 `-1`，修補後改回應用真正需要的上限。

@@ -38,13 +38,7 @@
 - **WHEN** 訪客開啟某一則新聞摘要頁
 - **THEN** 頁面顯示該則摘要與原文連結
 
-#### Scenario: 關站名單與名言
+#### Scenario: 關站名單
 
-- **WHEN** 訪客開啟 `/news/outages/` 或 `/news/quotes/`
-- **THEN** 關站頁列出全球關站名單，名言頁列出名言
-
-#### Scenario: 說法分歧
-
-- **WHEN** 訪客開啟 `/news/rumors/`
-- **THEN** 頁面並列說法不一致或待查證的項目
-- **AND** 頁面不把分歧改寫成單一結論
+- **WHEN** 訪客開啟 `/news/outages/`
+- **THEN** 頁面列出全球關站名單

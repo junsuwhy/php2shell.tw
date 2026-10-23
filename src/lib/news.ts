@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry, type DataCollectionKey } from 'ast
 import { parse } from 'yaml';
 
 // file() loader 不保證順序；依 src/data/<name>.yaml 的排列順序取出（資料檔本身就是編輯好的順序）。
-export async function getOrdered<K extends 'timeline' | 'outages' | 'quotes' | 'discrepancies'>(name: K) {
+export async function getOrdered<K extends 'timeline' | 'outages'>(name: K) {
   const raw = parse(readFileSync(join(process.cwd(), 'src/data', `${name}.yaml`), 'utf8')) as { id: string }[];
   const index = new Map(raw.map((r, i) => [r.id, i]));
   const entries = await getCollection(name as DataCollectionKey);

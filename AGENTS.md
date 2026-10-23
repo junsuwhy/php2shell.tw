@@ -43,8 +43,8 @@ docs/architecture.md  網站架構
 openspec/         規格驅動開發（OpenSpec），變更提案放 openspec/changes/
 PRODUCT.md        產品背景（impeccable 設計流程讀取）
 DESIGN.md         視覺系統（由 impeccable 產生後才會存在）
-src/content.config.ts  內容 schema（news、timeline、glossary、outages、quotes、discrepancies）
-src/data/         facts.yaml（核心事實）、site.yaml（站台設定）、timeline/glossary/outages/quotes/discrepancies.yaml
+src/content.config.ts  內容 schema（news、timeline、glossary、outages）
+src/data/         facts.yaml（核心事實）、site.yaml（站台設定）、timeline/glossary/outages.yaml
 src/pages/        路由；/basic/ /dev/ 兩個身份區＋/news/ 事件始末子頁，對應 docs/architecture.md
 src/layouts/      Base.astro（以 data-persona 切換三種視覺世界）
 ```

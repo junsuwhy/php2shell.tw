@@ -68,27 +68,4 @@ const outages = defineCollection({
   }),
 });
 
-const quotes = defineCollection({
-  loader: file('src/data/quotes.yaml'),
-  schema: z.object({
-    quote: z.string(),
-    quote_original: z.string().optional(),
-    speaker: z.string(),
-    role: z.string(),
-    sources: z.array(z.string()).min(1),
-  }),
-});
-
-// 說法分歧：src/data/discrepancies.yaml（目前沒有頁面渲染，留作寫內容時的對照）
-const discrepancies = defineCollection({
-  loader: file('src/data/discrepancies.yaml'),
-  schema: z.object({
-    topic: z.string(),
-    claims: z.array(z.object({ claim: z.string(), by: z.string() })).min(1),
-    assessment: z.string(),
-    sources: z.array(z.string()).default([]),
-    pending: z.boolean().default(false),
-  }),
-});
-
-export const collections = { news, timeline, glossary, outages, quotes, discrepancies };
+export const collections = { news, timeline, glossary, outages };

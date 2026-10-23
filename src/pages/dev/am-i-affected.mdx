@@ -23,6 +23,10 @@ sources:
     url: https://x.com/OpenAI/status/2112945805686604033
   - title: 研究團隊官網 PHP2Shell（影響範圍）
     url: https://www.php2shell.com/
+  - title: WordPress.org：Critical PHP security release（2026-10-21）
+    url: https://wordpress.org/news/2026/10/critical-php-security-release/
+  - title: WP-CLI 官方文件：wp cli info
+    url: https://developer.wordpress.org/cli/commands/cli/info/
   - title: Vercel：php2shell security bulletin
     url: https://vercel.com/kb/bulletin/php2shell-security-bulletin
 ---
@@ -68,6 +72,19 @@ Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號沒有變，只有 2026-10
 
 需要一個只給管理員看的檢查頁時，印出 `PHP_VERSION` 與 `PHP_SAPI` 即可，用完立刻從文件根目錄移除。不要把 `phpinfo()` 長時間留在公開網址。
 
+<h2 id="cms">WordPress、Drupal 等網站：要修的是 PHP</h2>
+
+這次不是 WordPress、Drupal 本身的漏洞。WordPress.org 寫明：No WordPress update is required or planned for these issues. 核心、外掛、佈景主題、Drupal 模組的更新都**不是**這次的修補；要更新的是底下的 PHP，照你的作業系統、[控制台](/dev/fix/panels/)或 [Docker](/dev/fix/docker/) 頁做。代管平台（Acquia、Pantheon、WordPress 代管）由平台更新，請對方回覆更新後的 PHP 版本，並確認已經重啟。
+
+從網站後台看網頁請求那一側實際用的 PHP，比命令列可靠：
+
+- **WordPress**：工具 → 網站健康狀態 → 資訊 → 伺服器（Tools > Site Health > Info > Server）。
+- **Drupal**：報告 → 狀態報告，列有 PHP 版本。
+
+`wp cli info`、drush 這類命令列工具回報的是**命令列 PHP**，可能和網站的 PHP-FPM 或 mod_php 不同；對不上時以後台為準。多個環境（正式、測試、預覽）每一個都要看。
+
+composer.json 的 PHP 版本需求（含 `config.platform`）只影響相依套件怎麼解析，不會改變伺服器實際跑的 PHP。同一分支內套修補版不用動它；趁這次換到新分支時，先確認專案與相依套件支援新分支。
+
 ## 發行版的版號怎麼讀
 
 發行版通常不升級大版本，而是把安全修補**回移植**到自己的套件。版號會是發行版自己的編號，比 php.net 的修補版號「小」也可能已經修好。官方查詢日 2026-10-22 讀到的例子：
@@ -76,7 +93,7 @@ Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號沒有變，只有 2026-10
 | --- | --- | --- | --- |
 | Ubuntu 24.04 LTS | php8.3 | 8.3.6-0ubuntu0.24.04.13 | 數字看起來比 8.3.36 舊，但 USN 列為已修補 |
 | Ubuntu 22.04 LTS | php8.1 | 8.1.2-1ubuntu2.28 | 8.1 沒有新的官方安裝包，Ubuntu 自行回移植 |
-| Debian trixie | php8.4 | 8.4.27-1~deb13u1 | 追蹤頁上 8.4.24-1~deb13u1 仍列為有漏洞 |
+| Debian trixie | php8.4 | 8.4.27-1~deb13u1 | 修補前是 8.4.24-1~deb13u1，見 [Debian](/dev/fix/debian/) |
 
 規則：**以該發行版的安全公告或追蹤頁為準**，看已安裝的套件版本是否等於或新於公告上的修補版，不要只拿版號跟 php.net 比大小。
 
