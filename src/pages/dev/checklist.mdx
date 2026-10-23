@@ -13,19 +13,17 @@ sources:
     url: https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
   - title: PHP 基金會：Today's PHP security release and how we're strengthening PHP security
     url: https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/
-  - title: ICSDA：PHP2Shell 修補已釋出（繁中應變整理）
-    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
   - title: 研究團隊官網 PHP2Shell（更新後要回頭檢查的設定）
     url: https://www.php2shell.com/
 ---
 
-每一步的實際做法依平台不同，套件版號與指令在各平台頁：[Debian](/dev/fix/debian/)・[Ubuntu](/dev/fix/ubuntu/)・[RHEL](/dev/fix/rhel/)・[Alpine](/dev/fix/alpine/)・[Windows](/dev/fix/windows/)・[macOS](/dev/fix/macos/)・[Docker](/dev/fix/docker/)・[控制台](/dev/fix/panels/)・[自行編譯](/dev/fix/build-from-source/)。WordPress、Drupal 等網站程式不用另外更新，要修的是底下的 PHP，見[是否受影響](/dev/am-i-affected/#cms)。
+先分辨 PHP 從哪裡來：跑在容器裡就先看 Docker 頁，控制台裝的看控制台頁，其餘依作業系統，見[先分辨 PHP 從哪裡來](/dev/am-i-affected/#source)。各平台頁：[Debian](/dev/fix/debian/)・[Ubuntu](/dev/fix/ubuntu/)・[RHEL](/dev/fix/rhel/)・[Alpine](/dev/fix/alpine/)・[Windows](/dev/fix/windows/)・[macOS](/dev/fix/macos/)・[Docker](/dev/fix/docker/)・[控制台](/dev/fix/panels/)・[自行編譯](/dev/fix/build-from-source/)。WordPress、Drupal 等網站程式不用另外更新，要修的是底下的 PHP，見[是否受影響](/dev/am-i-affected/#cms)。
 
 1. **盤點**：列出所有會回應網頁請求的 PHP，包括控制台（cPanel、Plesk）、Docker 映像、廠商設備與 Windows 軟體內建的 PHP。
 2. **確認實際版本**：`php -v` 不一定等於網站在用的 PHP-FPM 或 mod_php，見[是否受影響](/dev/am-i-affected/)。
 3. **更新**：依你的平台頁更新到已修補的版本或發行版套件。
 4. **重啟**：重啟所有 php-fpm、Apache、LiteSpeed worker；Docker 要重建映像並重新部署。
-5. **驗證**：向正在接流量的行程確認版號，滾動更新不要留下舊 worker。
+5. **驗證**：向正在接流量的行程確認版號，滾動更新不要留下舊 worker，做法見[驗證四步](/dev/am-i-affected/#verify)。
 6. **查日誌**：調查視窗從 2026-10-17 起算，見[偵測與應變](/dev/detect/)。
 7. **還不能更新**：先套[官方暫時緩解](/dev/mitigation/)，並考慮暫時下線或不直接對外。WAF、CDN 或主機商規則只是暫時層。
 8. **更新之後**：重啟確認版號之後，回頭做[更新後的強化](/dev/mitigation/#after-upgrade)。包含把暫時的 `memory_limit=-1` 改回、檢查 `post_max_size` 與 `max_input_nesting_level`，並看硬性記憶體上限到達時行程會被終止、shutdown handler 不會執行。這不是第二套修補。

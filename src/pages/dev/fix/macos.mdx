@@ -3,7 +3,7 @@ layout: ../../../layouts/DevDoc.astro
 title: 修補：macOS（Homebrew）
 description: macOS 開發機上用 Homebrew 安裝的 PHP：公式裡的修補版本、更新後重啟與驗證。
 lede: Homebrew 的 PHP 通常在開發機上。它不是正式環境，但若開發機的 PHP 會對外接請求（例如分享給同事的本機服務），一樣要更新。
-checked: "2026-10-22"
+checked: "2026-10-23"
 sources:
   - title: Homebrew homebrew-core：php 公式
     url: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/p/php.rb
@@ -18,11 +18,10 @@ sources:
 ---
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
-> 本站沒有找到 Homebrew 針對這次漏洞的公告；公式頁沒有檢查或升級指令，本站不代寫 `brew` 指令。
-
 ## 1. 檢查
 
-<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+<CommandBlock label="列出已安裝的 PHP 公式與版本" code={`brew list --versions | grep '^php'
+php -v`} />
 
 對照 homebrew-core 公式裡的上游原始碼版本（2026-10-22 查詢）：
 
@@ -37,11 +36,16 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 2. 更新
 
-用 Homebrew 平常的更新流程，把已安裝的 PHP 公式更新到上表的版本。若你用的是更舊、已不在 homebrew-core 的分支，見[舊版本策略](/dev/eol/)。
+<CommandBlock label="更新 Homebrew 並升級 PHP 公式（依你裝的公式改 php@8.3 等）" code={`brew update
+brew upgrade php`} />
+
+若你用的是更舊、已不在 homebrew-core 的分支（例如第三方 tap 的 php@7.4），見[舊版本策略](/dev/eol/)。
 
 ## 3. 重啟
 
-重啟所有用到 PHP 的本機服務：以服務方式在背景執行的 php-fpm、本機的網頁伺服器，以及開著的開發伺服器。
+<CommandBlock label="用 brew services 跑 php-fpm 時重啟它" code={`brew services restart php`} />
+
+本機的網頁伺服器，以及開著的開發伺服器（例如 Laravel Valet、`php -S`）也一起重啟。
 
 ## 4. 驗證
 

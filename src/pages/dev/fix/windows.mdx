@@ -9,8 +9,6 @@ sources:
     url: https://windows.php.net/downloads/releases/
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
-  - title: ICSDA：PHP2Shell 修補已釋出（盤點 php.exe、php-cgi.exe）
-    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
   - title: Huntress：PHP2Shell 快速應變
     url: https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
 ---
@@ -22,7 +20,7 @@ import { facts } from '../../../lib/data';
 **盤點每一份 PHP。** 除了你自己安裝的 PHP，也要找：
 
 - IIS 透過 FastCGI 掛上的 `php-cgi.exe`（看 IIS 的處理常式對應指向哪一個路徑）。
-- XAMPP 這類整合包，以及廠商軟體、設備管理介面內建的 `php.exe`、`php-cgi.exe`（ICSDA 點名的盤點範圍）。
+- XAMPP 這類整合包，以及廠商軟體、設備管理介面內建的 `php.exe`、`php-cgi.exe`。
 
 對每一個找到的執行檔查版本，例如在它所在的資料夾執行：
 
@@ -33,7 +31,7 @@ php-cgi 也是 2024 年 CVE-2024-4577 的現場。當年的修補**不會**讓�
 ## 2. 更新
 
 - **自行安裝的 PHP**：從 windows.php.net 下載官方修補版的 zip。查詢時 releases 目錄已有 {facts.fixed.map((f) => f.version).join('、')}，並有 NTS、x86、x64 版本；請選和你現在相同的執行緒安全類型與架構。目錄本身沒有安裝指令，依你原本的部署方式替換。
-- **XAMPP 等整合包、廠商軟體**：PHP 是包在產品裡的，要等該產品發布含修補的版本，或依廠商指示替換。本站沒有找到這些產品針對這次的公告，狀態待查證，請直接問廠商要「已含 PHP 修補版」的明確回覆。
+- **XAMPP 等整合包、廠商軟體**：PHP 是包在產品裡的，要等該產品發布含修補的版本，或依廠商指示替換。請直接問廠商要「已含 PHP 修補版」的明確回覆，並寫出內附的 PHP 版本。
 - **8.1 以前**：官方沒有新的 Windows binary，見[舊版本策略](/dev/eol/)。
 
 ## 3. 重啟

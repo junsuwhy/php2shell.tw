@@ -41,7 +41,8 @@ export const areaNav: Record<PersonaId, AreaNavData> = {
       { label: '首頁', href: '/basic/' },
       { label: '先做什麼', href: '/basic/act/' },
       { label: '發生什麼事', href: '/basic/what-happened/' },
-      { label: '檢查我的網站', href: '/basic/check/' },
+      { label: '找出處理方式', href: '/basic/check/' },
+      { label: '怎樣算處理完', href: '/basic/done/' },
       {
         label: '各系統',
         children: [

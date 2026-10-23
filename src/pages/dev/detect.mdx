@@ -17,8 +17,6 @@ sources:
     url: https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
   - title: Corelight：PHP2Shell detection before disclosure
     url: https://corelight.com/blog/php2shell-detection-before-disclosure
-  - title: itnotetk：PHP webshell 與 RCE 偵測強化
-    url: https://www.itnotetk.com/2026/10/22/php-webshell-rce-detection-hardening/
   - title: 數位發展部資通安全署新聞稿
     url: https://moda.gov.tw/ACS/press/news/press/21134
   - title: 英國 NCSC：Critical security issue affecting PHP
@@ -48,13 +46,13 @@ Wiz 與研究團隊都提醒：應用層的存取日誌可能幾乎是空的，�
 
 Huntress 說，RCE 得手之後最常見的樣子，就是 PHP 工作行程生出不該有的子行程。他們建議行程監控先用**觀察模式**，不要一上線就自動砍行程。
 
-網路層：Corelight 公開了 Zeek 與 Suricata 的偵測規則，用途包含可疑的 HTTP 活動與從回應標頭辨識受影響版本，需要能檢查 HTTP 內容。規則內容本站不轉述，請到其官方儲存庫取得。
+網路層：Corelight 公開了 Zeek 與 Suricata 的偵測規則，用途包含可疑的 HTTP 活動與從回應標頭辨識受影響版本，需要能檢查 HTTP 內容，請到其官方儲存庫取得。
 
 ## 日誌保全
 
 - 先**保留**再處理：網頁伺服器日誌、PHP 與 PHP-FPM 日誌、系統行程紀錄、檔案的時間戳。
 - 確認日誌輪替不會在調查期間把 10 月 17 日以後的紀錄刪掉；必要時先複製一份到別處。
-- 對可疑檔案做人工確認，不要自動刪除（itnotetk）。自動刪檔會毀證據，也可能刪到正常的快取。可以搭配檔案完整性比對。
+- 對可疑檔案做人工確認，不要自動刪除。自動刪檔會毀證據，也可能刪到正常的快取。可以搭配檔案完整性比對。
 - 懷疑失守的主機先不要重灌。
 
 ## 懷疑已經失守時
@@ -66,4 +64,19 @@ Huntress 說，RCE 得手之後最常見的樣子，就是 PHP 工作行程生�
 5. **輪替祕密**：密碼、API 金鑰、session 祕密與憑證。這次有讀取行程記憶體的路徑，沒有留下 webshell 不等於祕密還安全。
 6. **通報**：通知需要知道的人。台灣的機關與企業，資安署已透過資安警訊、N-ISAC、TWCERT/CC 通報，內部窗口依各單位規定。沒有把握時，找事件應變支援。
 
-AWS 公開了一些蜜罐上看到的來源 IP，其中包含共用的匿名基礎設施，適合拿來調查，不適合直接當成永久封鎖清單。本站不轉貼那些 IP。
+
+<h2 id="close">什麼時候可以結案</h2>
+
+查不到異常不等於沒事，但調查要有終點。下面三種結果擇一。
+
+**基本調查範圍。** 每一台在修補前對外、跑受影響版本的主機，時間從 2026-10-17 到修補並重啟完成為止：
+
+- 網頁伺服器的存取與錯誤日誌、PHP 與 PHP-FPM 日誌（worker 異常結束、記憶體上限錯誤、連續 500）。
+- 行程紀錄：PHP 相關行程有沒有衍生上面列的子行程（EDR、auditd 或同等紀錄）。
+- 網站根目錄與上傳目錄裡新增或被改過的 PHP 檔，新的排程與系統帳號。
+
+**可以結案：** 已修補並[驗證是接流量的那一支](/dev/am-i-affected/#verify)；日誌涵蓋整段期間；上面範圍都查過，沒有訊號。記憶體外洩不一定留下痕跡，所以這類主機上的高價值祕密（資料庫密碼、API 金鑰、session 祕密）仍建議輪替。
+
+**證據不足：** 日誌已經輪替掉、期間有缺口，或沒有行程紀錄。這時不能說「沒有被入侵」，只能說「無法排除」。照失守處理其中可以做的部分：輪替祕密、加強監控一段時間，必要時從乾淨來源重建。
+
+**交給事件應變人員：** 看到子行程、新的 PHP 檔、新帳號或排程任何一項；主機上有個資或金流資料；或單位規定要通報。先照上面保全證據，不要自己清掉。

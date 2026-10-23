@@ -7,8 +7,6 @@ checked: "2026-10-23"
 sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
-  - title: ICSDA：PHP2Shell 修補已釋出
-    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
   - title: Ubuntu USN-8948-1
     url: https://ubuntu.com/security/notices/USN-8948-1
   - title: Debian 安全追蹤：DSA-6574-1
@@ -46,13 +44,13 @@ import CommandBlock from '../../components/dev/CommandBlock.astro';
 
 ## 先問：它會不會被網頁請求碰到？
 
-官方把風險對象寫成「服務網頁請求的安裝」：Apache mod_php、PHP-FPM、php-cgi、FrankenPHP、LiteSpeed。英國 NCSC 的用詞更寬，說任何版本都可能受影響。本站沒有看到官方保證命令列的 PHP 絕對無關，所以盤點時以「會不會被網頁請求碰到」為準。
+官方把風險對象寫成「服務網頁請求的安裝」：Apache mod_php、PHP-FPM、php-cgi、FrankenPHP、LiteSpeed。英國 NCSC 的用詞更寬，說任何版本都可能受影響。盤點時以「會不會被網頁請求碰到」為準，命令列的 PHP 也一起更新。
 
 別漏掉表面上沒寫 PHP 的東西：主機控制台、廠商設備、Windows 軟體內建的 `php.exe`、`php-cgi.exe`。
 
 ## `php -v` 不一定是網站在用的那一支
 
-`php -v` 印的是你在 shell 裡叫到的那支執行檔。網站用的 PHP-FPM pool 或 Apache 模組可以是另一支，版號不同並不稀奇（ICSDA）。
+`php -v` 印的是你在 shell 裡叫到的那支執行檔。網站用的 PHP-FPM pool 或 Apache 模組可以是另一支，版號不同並不稀奇。
 
 <CommandBlock label="命令列 PHP 的版本（只是起點）" code={`php -v`} />
 
@@ -70,7 +68,54 @@ import CommandBlock from '../../components/dev/CommandBlock.astro';
 
 Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號沒有變，只有 2026-10-21 建置的才含修補，所以要一併看 `built:` 那一行的建置日期。
 
-需要一個只給管理員看的檢查頁時，印出 `PHP_VERSION` 與 `PHP_SAPI` 即可，用完立刻從文件根目錄移除。不要把 `phpinfo()` 長時間留在公開網址。
+<h2 id="source">先分辨 PHP 從哪裡來</h2>
+
+同一個版號，修補方式依來源而不同。先看這一支 PHP 是誰裝的，再決定照哪一頁：
+
+| 你看到的 | 來源 | 照哪一頁 |
+| --- | --- | --- |
+| PHP 跑在容器裡 | 映像 | 先看 [Docker／Kubernetes](/dev/fix/docker/)，不管主機是什麼系統 |
+| 路徑是 `/opt/cpanel/ea-php*`、`/opt/plesk/php/*`、`/usr/local/php*`、`/opt/alt/php*` | cPanel、Plesk、DirectAdmin、CloudLinux | [控制台](/dev/fix/panels/) |
+| 套件來自 packages.sury.org、ppa.launchpadcontent.net/ondrej、remi | 第三方套件庫 | 作業系統頁裡 Sury／PPA／remi 那一段 |
+| 套件來自 deb.debian.org、archive.ubuntu.com、RHEL 的 AppStream | 發行版官方 | [Debian](/dev/fix/debian/)、[Ubuntu](/dev/fix/ubuntu/)、[RHEL](/dev/fix/rhel/) |
+| 自己下載原始碼編譯的 | 自行編譯 | [自行編譯](/dev/fix/build-from-source/) |
+
+<CommandBlock label="Debian／Ubuntu：看套件來自哪個套件庫（換成你的套件名）" code={`apt-cache policy php8.3-fpm`} />
+
+<CommandBlock label="RHEL 系：最後一欄是來源套件庫（@appstream、@remi-modular⋯⋯）" code={`dnf list --installed 'php*'`} />
+
+<CommandBlock label="Alpine" code={`apk policy php83`} />
+
+<h2 id="verify">驗證：怎麼證明查到的是接流量的那一支</h2>
+
+修補後照這四步做一次，每一步都對得上才算完成。以 Debian／Ubuntu 的 PHP-FPM 8.3 為例，其他平台把名稱換掉。
+
+**1. 找出正在處理請求的行程。**
+
+<CommandBlock label="列出 PHP 相關行程" code={`ps -eo pid,lstart,args | grep -E 'php-fpm|php-cgi|lsphp|frankenphp|apache2|httpd' | grep -v grep`} />
+
+會看到像 `php-fpm: master process (/etc/php/8.3/fpm/php-fpm.conf)` 這樣的行。記下 master 的 PID 與設定檔路徑，同一台有好幾個 master 時每一個都要做。用 mod_php 時看的是 Apache 的 master。
+
+**2. 對它實際執行的那個檔案查版本。**
+
+<CommandBlock label="把 PID 換成上一步的 master PID" code={`sudo readlink /proc/PID/exe
+/usr/sbin/php-fpm8.3 -v`} />
+
+第一行印出執行檔路徑，第二行對那個路徑查版本。版本要達到[版本矩陣](/dev/versions/)的修補版；發行版套件則對照該發行版公告的套件版本（用第 1 步看 changelog 的方式確認）。
+
+**3. 確認它是在更新之後才啟動的。**
+
+<CommandBlock label="還載入著已被替換的舊檔案時，數字會大於 0" code={`sudo grep -c '(deleted)' /proc/PID/maps`} />
+
+印出 `0`，代表行程用的是更新後的檔案。大於 `0` 就是還沒重啟乾淨。第 1 步的 `lstart` 欄也應該晚於套件更新時間。
+
+**4. 從網頁那一側再確認一次。**
+
+在文件根目錄暫時放一個只有你知道檔名的檢查檔，用瀏覽器打開：
+
+<CommandBlock label="暫時的檢查檔內容（用完立刻刪除）" code={`<?php echo PHP_VERSION, ' ', PHP_SAPI;`} />
+
+預期看到 `8.3.36 fpm-fcgi` 這類輸出：版本是修補版，SAPI 是你以為的那一種（mod_php 是 `apache2handler`）。發行版套件可能顯示發行版自己的版號，以第 2 步的套件版本為準。看完立刻刪掉，不要把 `phpinfo()` 長時間留在公開網址。
 
 <h2 id="cms">WordPress、Drupal 等網站：要修的是 PHP</h2>
 
@@ -111,7 +156,7 @@ composer.json 的 PHP 版本需求（含 `config.platform`）只影響相依套�
 
 2026-10-21 00:29:12 UTC（台灣時間 08:29），OpenAI 的 GitHub 儲存庫 [php2shell-checker](https://github.com/openai/php2shell-checker) 建立，授權 Apache-2.0。2026-10-21 16:35:11 UTC（台灣時間 2026-10-22 00:35），OpenAI 官方 X 帳號請不確定網站是否受影響的人，把 Codex 指向這個儲存庫。
 
-它比對看得到的 PHP 版號和工具內建的門檻，結果是 OK、VULNERABLE 或 UNKNOWN。只有網址時，讀回應標頭裡的 Server 與 X-Powered-By。有這台主機的權限時，改看 `php -v`，並核對是不是正在處理網頁請求的那一支。網址檢查的官方技能寫明，不要跑會觸發漏洞的測試。本站不轉貼用法。只能檢查自己有權限的系統。
+它比對看得到的 PHP 版號和工具內建的門檻，結果是 OK、VULNERABLE 或 UNKNOWN。只有網址時，讀回應標頭裡的 Server 與 X-Powered-By。有這台主機的權限時，改看 `php -v`，並核對是不是正在處理網頁請求的那一支。不要跑會觸發漏洞的測試，只能檢查自己有權限的系統。
 
 README 寫的限制：
 

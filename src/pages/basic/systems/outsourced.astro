@@ -1,5 +1,6 @@
 ---
 import BasicPage from '../../../components/basic/BasicPage.astro';
+import AskVendor from '../../../components/basic/AskVendor.astro';
 ---
 <BasicPage
   title="外包或不知道誰做的網站"
@@ -10,13 +11,8 @@ import BasicPage from '../../../components/basic/BasicPage.astro';
 >
   <section class="part" id="vendor">
     <h2>網站是外包廠商做的、也由他們維護</h2>
-    <p>最簡單的情況。外包廠商就像幫你經營餐廳的管理公司，換主廚是他們的工作。請直接傳訊息給他們，問三件事：</p>
-    <ol class="steps">
-      <li>我們的網站（以及舊的活動網站、報名系統）有沒有用到 PHP？</li>
-      <li>如果有，更新到修補版了嗎？請給<strong>完整版本號</strong>和更新時間。</li>
-      <li>更新之前那幾天，有沒有檢查過異常紀錄？</li>
-    </ol>
-    <p>請他們用文字回覆，不要只口頭說「有處理」。回覆裡要有完整版本號、更新時間，以及更新之後有沒有重新啟動。</p>
+    <p>最簡單的情況。外包廠商就像幫你經營餐廳的管理公司，換主廚是他們的工作。把下面的訊息傳給他們。</p>
+    <AskVendor to="外包廠商" />
     <div class="callout">
       <p>廠商說「網站程式我們更新過了」還不夠。請確認他們連<strong>主機上的 PHP</strong> 也一起更新了；如果主機是另一家公司租的，廠商要去問那家公司，或請你去問。</p>
     </div>
@@ -33,7 +29,7 @@ import BasicPage from '../../../components/basic/BasicPage.astro';
     </ol>
     <p>找到任何一家相關的公司，就先把訊息傳給它，請它告訴你網站實際由誰管理。網站有沒有用 PHP、要不要更新，交給對方判斷就好，你不用先弄懂。</p>
     <div class="callout callout--warn">
-      <p><strong>真的找不到人管？</strong>沒有人照顧的網站最危險。請考慮先把網站暫停對外，再慢慢找人接手。舊的活動網站、測試網站也一樣，只要還打得開，就算在內。</p>
+      <p><strong>真的找不到人管？</strong>沒有人照顧的網站最危險。請考慮先把網站暫停對外，再慢慢找人接手；誰能幫你關、怎麼跟主管說，見<a href="/basic/done/#no-owner">找不到人負責時</a>。舊的活動網站、測試網站也一樣，只要還打得開，就算在內。</p>
     </div>
   </section>
 

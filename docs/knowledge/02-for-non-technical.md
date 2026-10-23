@@ -11,15 +11,9 @@ sources:
   - https://www.bbc.com/news/articles/cmly0lg3w5x2o
   - https://www.nbcnews.com/tech/security/critical-vulnerabilities-php-update-systems-rcna604751
   - https://mashable.com/tech/php-vulnerability-websites-offline-affected-services
-  - https://inews.hket.com/article/4212585/php-security-vulnerability-global-websites-offline-2026
-  - https://news.cnyes.com/news/id/6635339
   - https://moda.gov.tw/ACS/press/news/press/21134
-  - https://www.ithome.com.tw/news/179861
-  - https://icsda.org.tw/php2shell-cve-2026-109618-109619/
-  - https://blog.billows.com.tw/?p=6420
   - https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
   - https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
-  - https://cyberq.tw/2026/10/21/two-cvss-92-rce-vulnerabilities/
   - https://arstechnica.com/security/2026/10/php-maintainers-tell-web-devs-to-prepare-themselves-for-critical-security-patches/
 ---
 

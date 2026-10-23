@@ -14,20 +14,12 @@ sources:
   - https://blog.cloudflare.com/php-vulnerabilities-waf-protection/
   - https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
   - https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
-  - https://www.itnotetk.com/2026/10/22/php-webshell-rce-detection-hardening/
-  - https://cyberq.tw/2026/10/21/two-cvss-92-rce-vulnerabilities/
-  - https://www.ithome.com.tw/news/179861
   - https://www.itmedia.co.jp/news/article/2610/21/2000002472/
-  - https://n.yam.com/Article/20261022685398
-  - https://www.kocpc.com.tw/archives/700257
   - https://www.theguardian.com/technology/2026/oct/21/flaw-in-php-computer-language-leads-to-shutdown-of-websites-around-world
   - https://thenextweb.com/news/php-foundation-structural-failure-2024-flaw-leak
   - https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php
   - https://mashable.com/tech/php-vulnerability-websites-offline-affected-services
   - https://www.bbc.com/news/articles/cmly0lg3w5x2o
-  - https://www.hk01.com/%E5%8D%B3%E6%99%82%E5%9C%8B%E9%9A%9B/60402259/%E6%94%AF%E6%8C%81%E5%85%A8%E7%90%83%E4%B8%83%E6%88%90%E7%B6%B2%E7%AB%99php%E7%88%86%E9%87%8D%E5%A4%A7%E6%BC%8F%E6%B4%9E-%E6%AD%90%E6%B4%B2%E5%A4%9A%E5%9C%8B%E6%94%BF%E5%BA%9C%E7%B6%B2%E7%AB%99%E5%A4%A7%E8%A6%8F%E6%A8%A1%E4%B8%8B%E7%B7%9A
-  - https://inews.hket.com/article/4212585/php-security-vulnerability-global-websites-offline-2026
-  - https://tw.news.yahoo.com/php%E9%87%8D%E5%A4%A7%E6%BC%8F%E6%B4%9E%E5%BC%95%E7%88%86%E5%85%A8%E7%90%83%E8%B3%87%E5%AE%89%E5%8D%B1%E6%A9%9F-%E5%90%84%E5%9C%8B%E6%94%BF%E5%BA%9C%E5%8F%8A%E4%BC%81%E6%A5%AD%E7%B7%8A%E6%80%A5%E9%97%9C%E9%96%89%E7%B6%B2%E7%AB%99-004855247.html
 ---
 
 # 來源不一致與待查證

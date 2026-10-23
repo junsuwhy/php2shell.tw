@@ -18,8 +18,6 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## cPanel（EasyApache 4 的 ea-php）
 
-cPanel 支援文章的頁面時間為 2026-10-22 00:11（未標時區）。
-
 ### 1. 檢查
 
 cPanel EasyApache 4 的修補版：
@@ -40,7 +38,7 @@ cPanel & WHM 本身的修補版：11.110.0.153、11.134.0.66、11.136.0.50、11.
 
 <CommandBlock label="cPanel 官方：檢查 ea-php81 是否已含修補" code={`rpm -q --changelog ea-php81-php-cli | grep -m1 CVE-2026-109618`} />
 
-CloudLinux 主機：cPanel 文章同一張表另有 CloudLinux EasyApache 4 欄，並指向 CloudLinux 的狀態頁。本站沒有取回 CloudLinux 部落格正文，alt-php 的修補版號與指令待查證，請以 CloudLinux 官方公告為準。
+CloudLinux 主機：cPanel 文章另列 CloudLinux 的 EasyApache 4 與 alt-php，請照 CloudLinux 的公告更新，再用同樣的 changelog 方式確認。
 
 ### 2. 更新
 
@@ -51,15 +49,14 @@ CloudLinux 主機：cPanel 文章同一張表另有 CloudLinux EasyApache 4 欄�
 
 ### 3. 重啟
 
-更新後重啟網頁伺服器與所有 PHP-FPM 服務，讓每一支 worker 都換成新程式。
+<CommandBlock label="重啟 Apache 與 cPanel 管理的 PHP-FPM" code={`/scripts/restartsrv_httpd
+/scripts/restartsrv_apache_php_fpm`} />
 
 ### 4. 驗證
 
 對每一個在用的 ea-php 分支重跑上面的 `rpm -q --changelog` 檢查，應該要找得到 CVE 編號；再向網站實際使用的那一版 PHP 確認版本。
 
 ## Plesk
-
-Plesk 支援文章的更新時間為 2026-10-22 02:11（未標時區）。
 
 ### 1. 檢查
 
@@ -78,7 +75,9 @@ Plesk 支援文章的更新時間為 2026-10-22 02:11（未標時區）。
 
 ### 2. 更新
 
-官方正文的處置是把 Plesk 更新到當時的最新版本。文章連到的一般更新教學本站沒有另外打開，指令不在此抄錄，請依 Plesk 官方更新說明操作。
+把 Plesk 更新到最新，隨附的 PHP 會一起換成修補版。可以在 Plesk 介面的「工具與設定 → 更新」操作，或在主機上執行：
+
+<CommandBlock label="Plesk：安裝所有可用的更新" code={`plesk installer update`} />
 
 ### 3. 重啟
 
@@ -90,11 +89,13 @@ Plesk 支援文章的更新時間為 2026-10-22 02:11（未標時區）。
 
 ## DirectAdmin
 
-本站查詢時**沒有找到** DirectAdmin 針對這兩個 CVE 的官方公告，修補版本與指令待查證。在找到官方資訊之前：
+DirectAdmin 的 PHP 由 CustomBuild 編譯，更新 CustomBuild 後重新編譯 PHP 即可。DirectAdmin 在 2026-10-21 起發布含修補的 CustomBuild。
 
-1. **檢查**：確認 DirectAdmin 上每一個在用的 PHP 版本，與真正處理請求的執行檔版本，見[我受影響嗎？](/dev/am-i-affected/)。
-2. **更新**：依 DirectAdmin 官方的 PHP 更新方式，更新到官方修補版（8.5.12、8.4.27、8.3.36、8.2.35）以上。
-3. **重啟**：重啟網頁伺服器與所有 PHP-FPM 服務。
-4. **驗證**：向正在接流量的那一支 PHP 確認版本。
+<CommandBlock label="DirectAdmin：更新 CustomBuild、看版本、重新編譯 PHP" code={`cd /usr/local/directadmin/custombuild
+./build update
+./build versions
+./build php`} />
+
+`./build versions` 會列出每個 PHP 槽位目前與可用的版本，編譯完再跑一次確認沒有待更新的項目。8.1 以前的分支修補狀態各槽位不一，見[舊版本策略](/dev/eol/)。編譯完成後重啟網頁伺服器與所有 PHP-FPM 服務，再向正在接流量的那一支 PHP 確認版本。
 
 代管主機的使用者沒有控制台的系統權限時，請直接向主機商要「已更新到哪一版、何時重啟」的明確回覆。

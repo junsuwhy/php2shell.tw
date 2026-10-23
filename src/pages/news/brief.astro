@@ -14,8 +14,6 @@ const board = [
   { value: facts.php_share.value, label: '已知伺服器端語言的網站裡，使用 PHP 的比例', note: `${facts.php_share.source}。不是「網際網路的七成」。` },
   { value: '近 5,500 萬', label: '當天看到跑著 PHP 的網路資產', note: 'Censys，經 NBC 報導', href: ref('2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md') },
   { value: '約 2,260 萬', label: '暴露在網路上、可能受影響的實例', note: 'Cortex Xpanse 估計', href: ref('2026-10-21-unit42-php-threat-brief.md') },
-  { value: '59%', label: '有回報版本號的約 150 萬台主機中，跑的是拿不到官方修補的版本', note: 'Mallory 統計，經 CyberQ 報導', href: ref('2026-10-21-0852-cyberq-php-core-rce-leak.md') },
-  { value: '近 200 個檔', label: '這次修補動到的檔案，程式碼超過一萬行', note: '鉅亨網編譯《華爾街日報》', href: ref('2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md') },
 ];
 const versions = facts.fixed.map((f) => f.version).join('、');
 ---
@@ -27,7 +25,7 @@ const versions = facts.fixed.map((f) => f.version).join('、');
   <article class="page">
     <section aria-labelledby="board-t" class="block">
       <h2 id="board-t">數字看板</h2>
-      <p class="soft">這五個數字常在標題裡輪流出現，但它們數的不是同一件事，<strong>不要加總</strong>。</p>
+      <p class="soft">這三個數字常在標題裡輪流出現，但它們數的不是同一件事，<strong>不要加總</strong>。</p>
       <ul class="board">
         {board.map((b) => (
           <li>

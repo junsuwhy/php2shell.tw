@@ -1,5 +1,6 @@
 ---
 import BasicPage from '../../../components/basic/BasicPage.astro';
+import AskVendor from '../../../components/basic/AskVendor.astro';
 import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
 <BasicPage
@@ -41,6 +42,7 @@ import SafeVersions from '../../../components/basic/SafeVersions.astro';
     <li><strong>商店是外包廠商架的：</strong>找外包廠商，請他們確認主機也一起更新了。</li>
     <li><strong>不確定是哪一種：</strong>看<a href="/basic/systems/outsourced/#unknown">不知道網站是誰做的</a>那一頁。</li>
   </ul>
+  <AskVendor />
   <p>拿不到「已經更新」的答覆前，請考慮讓商店暫停對外。商店後台的「維護模式」擋不住這次的問題，要請主機商從外面直接暫停。</p>
 </BasicPage>
 

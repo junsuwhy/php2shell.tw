@@ -1,5 +1,6 @@
 ---
 import BasicPage from '../../../components/basic/BasicPage.astro';
+import AskVendor from '../../../components/basic/AskVendor.astro';
 import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
 <BasicPage
@@ -38,5 +39,5 @@ import SafeVersions from '../../../components/basic/SafeVersions.astro';
     <li>你找不到可以看版本的地方，或看不懂畫面。</li>
     <li>主機商的公告裡沒有提到這次的事件。</li>
   </ul>
-  <p>請主機商用文字回覆<strong>完整版本號</strong>（三段數字）與<strong>更新的時間</strong>。只回「我們有防護」不算數。</p>
+  <AskVendor to="主機商" />
 </BasicPage>

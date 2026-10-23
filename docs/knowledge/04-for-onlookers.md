@@ -7,11 +7,7 @@ sources:
   - https://thenextweb.com/news/php-foundation-structural-failure-2024-flaw-leak
   - https://calif.io/php2shell/
   - https://www.wiz.io/blog/php2shell-php-rce
-  - https://www.kocpc.com.tw/archives/700257
-  - https://news.cnyes.com/news/id/6635339
   - https://watchtowr.com/intelligence/php-cve-2026-109618-faq/
-  - https://www.ithome.com.tw/news/179861
-  - https://cyberq.tw/2026/10/21/two-cvss-92-rce-vulnerabilities/
   - https://www.bleepingcomputer.com/news/security/php-warns-admins-of-two-critical-flaws-emergency-patches-coming-tomorrow/
   - https://blog.cloudflare.com/php-vulnerabilities-waf-protection/
   - https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
@@ -22,11 +18,8 @@ sources:
   - https://mashable.com/tech/php-vulnerability-websites-offline-affected-services
   - https://www.theguardian.com/technology/2026/oct/21/flaw-in-php-computer-language-leads-to-shutdown-of-websites-around-world
   - https://www.itmedia.co.jp/news/article/2610/21/2000002472/
-  - https://inews.hket.com/article/4212585/php-security-vulnerability-global-websites-offline-2026
-  - https://tw.news.yahoo.com/php%E9%87%8D%E5%A4%A7%E6%BC%8F%E6%B4%9E%E5%BC%95%E7%88%86%E5%85%A8%E7%90%83%E8%B3%87%E5%AE%89%E5%8D%B1%E6%A9%9F-%E5%90%84%E5%9C%8B%E6%94%BF%E5%BA%9C%E5%8F%8A%E4%BC%81%E6%A5%AD%E7%B7%8A%E6%80%A5%E9%97%9C%E9%96%89%E7%B6%B2%E7%AB%99-004855247.html
   - https://www.helpnetsecurity.com/2026/10/21/php2shell-php-vulnerabilities-patched-cve-2026-109618-cve-2026-109619/
   - https://arstechnica.com/security/2026/10/php-maintainers-tell-web-devs-to-prepare-themselves-for-critical-security-patches/
-  - https://n.yam.com/Article/20261022685398
 ---
 
 # 給吃瓜群眾

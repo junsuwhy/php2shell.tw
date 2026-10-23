@@ -17,13 +17,8 @@ sources:
   - https://blog.cloudflare.com/php-vulnerabilities-waf-protection/
   - https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
   - https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
-  - https://news.cnyes.com/news/id/6635339
   - https://moda.gov.tw/ACS/press/news/press/21134
-  - https://www.ithome.com.tw/news/179861
-  - https://cyberq.tw/2026/10/21/two-cvss-92-rce-vulnerabilities/
-  - https://n.yam.com/Article/20261022685398
   - https://www.nbcnews.com/tech/security/critical-vulnerabilities-php-update-systems-rcna604751
-  - https://icsda.org.tw/php2shell-cve-2026-109618-109619/
 ---
 
 # PHP2Shell 事件總覽

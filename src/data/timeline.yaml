@@ -6,7 +6,6 @@
   summary: "PHP 安全圈的 Stefan Esser 發現第一個與 memory limit 相關的遠端漏洞。他認為嚴重，沒有公開 exploit。來源只有年份。"
   sources:
     - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
-    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
   tags: ["歷史"]
   importance: 2
 - id: "bug-78876-2020"
@@ -16,7 +15,6 @@
   summary: "有人在 bug tracker 回報 bug #78876：過長變數造成記憶體耗盡，暫存檔沒清掉。當時未受重視。來源只有年份。"
   sources:
     - "2026-10-21-calif-tale-of-two-php-remote-vulnerabilities.md"
-    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
   tags: ["歷史"]
   importance: 1
 - id: "external-audit-structural-failure-2024"
@@ -70,10 +68,9 @@
   at: "2026-08-01"
   precision: "date-only"
   title: "另有說法把 Calif 找到路徑或開工寫在 8 月 1 日"
-  summary: "Sansec 寫 Calif 找到多條遠端程式碼執行路徑。電腦王阿達寫 8 月 1 日開始動手。衛報轉述 Calif 稱 8 月 1 日在語言模型協助下發現。與 7 月 30 日開始稽核是不同說法，尚未對齊。"
+  summary: "Sansec 寫 Calif 找到多條遠端程式碼執行路徑。衛報轉述 Calif 稱 8 月 1 日在語言模型協助下發現。與 7 月 30 日開始稽核是不同說法，尚未對齊。"
   sources:
     - "2026-10-21-sansec-php2shell-critical-rce.md"
-    - "2026-10-22-0747-kocpc-php2shell-history-ai.md"
     - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
   tags: ["發現", "Calif"]
   importance: 1
@@ -84,7 +81,6 @@
   summary: "Calif 研究員 Ryan Austin 向 PHP 回報，與 2024 年那個記憶體耗盡問題同根。OpenAI 同日獨立回報同一根因。Calif 執行長 Thai Duong 致電 Volker Dusch。"
   sources:
     - "2026-10-21-php-foundation-security-release-strengthening.md"
-    - "2026-10-21-2240-cnyes-php-emergency-patch-heartbleed.md"
   tags: ["發現", "Calif", "OpenAI"]
   importance: 3
 - id: "wiz-first-finding-2026-08-19"
@@ -142,15 +138,6 @@
     - "2026-10-21-2159-wiz-php2shell-ai-uncovers-rce.md"
   tags: ["禁運", "協調揭露"]
   importance: 3
-- id: "white-house-friday-notice-2026-10-16"
-  at: "2026-10-16"
-  precision: "date-only"
-  title: "白宮稱周五接獲通知（日期待查證）"
-  summary: "衛報寫白宮稱周五接獲通知，沒有寫日期。10 月 21 日是星期三，前一個周五是 10 月 16 日。是否就是這一天，待查證。"
-  sources:
-    - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
-  tags: ["政府", "待查證"]
-  importance: 1
 - id: "madpot-attempt-2026-10-17"
   at: "2026-10-17"
   precision: "date-only"
@@ -176,10 +163,7 @@
   title: "Hacker News 出現貼文，隨後撤下"
   summary: "15:20 UTC（台灣 23:20），Hacker News 出現貼文，隨後撤下。貼文稱將於 10 月 22 日 18:00 CEST 公布，並稱 CVSS 10、影響 PHP 5 以上所有版本。貼文者自承未經證實。編號是真的，分數與時間不是官方說法。"
   sources:
-    - "2026-10-21-0852-cyberq-php-core-rce-leak.md"
-    - "2026-10-21-1357-icsda-php2shell-patch-released.md"
     - "2026-10-21-0335-watchtowr-php2shell-faq.md"
-    - "2026-10-21-ithome-php-zero-day-storm-warning.md"
   tags: ["外洩"]
   importance: 2
 - id: "php-advance-notice-2026-10-20"
@@ -190,7 +174,6 @@
   sources:
     - "2026-10-21-0330-php-net-upcoming-security-release.md"
     - "2026-10-21-php-foundation-security-release-strengthening.md"
-    - "2026-10-21-0852-cyberq-php-core-rce-leak.md"
   tags: ["官方", "預告"]
   importance: 3
 - id: "watchtowr-faq-2026-10-20"
@@ -210,7 +193,6 @@
   sources:
     - "2026-10-21-php-foundation-security-release-strengthening.md"
     - "2026-10-22-0002-thenextweb-php-foundation-structural-failure.md"
-    - "2026-10-21-ithome-php-zero-day-storm-warning.md"
   tags: ["外洩", "PoC"]
   importance: 3
 - id: "mitigation-advice-may-leak-2026-10-20"
@@ -266,15 +248,6 @@
   sources:
     - "2026-10-21-sansec-php2shell-critical-rce.md"
   tags: ["在野利用"]
-  importance: 1
-- id: "github-advisory-early-2026-10-21"
-  at: "2026-10-21T13:34:00Z"
-  precision: "exact"
-  title: "Wikipedia 稱 GitHub advisory 提前公開（待查證）"
-  summary: "Wikipedia 稱 GitHub advisory 於 13:34 UTC（台灣 21:34）提前公開，比官方 14:00 UTC 早 26 分鐘。php.net 摘要註記此說有 citation needed。本庫沒有 Wikipedia 全文。待查證。"
-  sources:
-    - "2026-10-21-2200-php-net-security-advisory.md"
-  tags: ["修補", "待查證"]
   importance: 1
 - id: "patches-released-2026-10-21"
   at: "2026-10-21T14:00:00Z"
@@ -351,7 +324,6 @@
     - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
     - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
     - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
-    - "2026-10-22-0848-ctwant-php-global-security-crisis.md"
   tags: ["關站"]
   importance: 3
 - id: "moda-notice-2026-10-22"

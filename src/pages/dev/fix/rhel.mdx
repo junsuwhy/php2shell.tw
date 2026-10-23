@@ -3,7 +3,7 @@ layout: ../../../layouts/DevDoc.astro
 title: 修補：RHEL／Rocky／Alma
 description: RHEL 家族修補 PHP2Shell：Red Hat RHSA 勘誤狀態、Rocky 與 AlmaLinux、remi 套件庫當天沒有更新時的處理。
 lede: RHEL 依 Red Hat 的 RHSA 勘誤更新；用 remi 套件庫的主機，官方明講當天不會有更新，要改走別的路。
-checked: "2026-10-22"
+checked: "2026-10-23"
 sources:
   - title: Red Hat：CVE-2026-109618
     url: https://access.redhat.com/security/cve/CVE-2026-109618
@@ -11,22 +11,21 @@ sources:
     url: https://access.redhat.com/security/vulnerabilities/RHSB-2026-013
   - title: PHP.net 安全公告（2026-10-21，含 remi 說明）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
-  - title: ICSDA：PHP2Shell 修補已釋出
-    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
 ---
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
-> Red Hat 的 CVE 頁與公報沒有寫出 `dnf` 或 `yum` 指令，也沒有列出 rpm 版號。本站不代寫指令、不補版號；以 RHSA 勘誤為準。
-
 ## 1. 檢查
 
-先確認網站真正在用的 PHP，見[我受影響嗎？](/dev/am-i-affected/)：
+先確認 PHP 套件從哪裡來：RHEL 的 `php` 套件或模組串流（例如 `php:8.2`），還是 remi 套件庫。兩者處理方式不同。
 
-<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+<CommandBlock label="看已安裝的 PHP 套件與來源套件庫（remi 開頭就是 remi）" code={`dnf list --installed 'php*'
+dnf module list --enabled php`} />
 
-再確認套件來源：是 RHEL 的 `php` 套件或模組串流（例如 `php:8.2`），還是 remi 套件庫。兩者的處理方式不同。
+再查這個套件是否已含修補：changelog 裡出現 CVE 編號就是已修。
 
-Red Hat CVE 頁在查詢當下的狀態（RHSB-2026-013 公開於 2026-10-21 13:38、更新於 23:04，頁面未標時區）：
+<CommandBlock label="changelog 裡找這次的 CVE（沒有輸出就是還沒修）" code={`rpm -q --changelog php-common | grep -m1 CVE-2026-109618`} />
+
+Red Hat CVE 頁的狀態（RHSB-2026-013，2026-10-21 公開）：
 
 | 產品 | 套件 | 狀態 | 勘誤（發布時間 UTC／台灣時間） |
 | --- | --- | --- | --- |
@@ -37,36 +36,34 @@ Red Hat CVE 頁在查詢當下的狀態（RHSB-2026-013 公開於 2026-10-21 13:
 | RHEL 9 | php | Fixed | RHSA-2026:87151（10-21 20:06／10-22 04:06） |
 | RHEL 8 | php:8.2 | Fixed | RHSA-2026:87073（10-21 20:30／10-22 04:30） |
 | RHEL 8 | php:7.4 | Fixed | RHSA-2026:87080（10-21 15:53／10-21 23:53） |
-| RHEL 9 | php:8.4/php | Affected | 未找到勘誤 |
-| RHEL 7 | php | Under investigation | 未找到勘誤 |
-| RHEL 6 | php | Under investigation | 未找到勘誤 |
+| RHEL 9 | php:8.4/php | Affected | 尚無勘誤 |
+| RHEL 7 | php | Under investigation | 尚無勘誤 |
+| RHEL 6 | php | Under investigation | 尚無勘誤 |
 
 ### Rocky Linux 與 AlmaLinux
 
-查詢當下，本站**沒有找到** Rocky Linux 或 AlmaLinux 針對這兩個 CVE 的官方勘誤頁，待查證。請到各自的勘誤公告確認對應 RHSA 的套件是否已發布；在確認之前，不要假設已經修好。
+兩者都會跟著 RHEL 重建上表的修補套件（AlmaLinux 的版號帶 `.alma`）。更新方式和 RHEL 相同；用上面的 changelog 指令確認有沒有拿到，比看勘誤編號可靠。RHEL 沒有修補的模組串流（例如 RHEL 8 的 php:7.2、php:8.0），重建版也不會有。
 
-### remi 套件庫當天沒有更新
+### remi 套件庫
 
-PHP 官方公告寫明：依賴志工維護的 rpms.remirepo.net 的主機，**該套件庫當天不會更新**，請改用發行版套件或自行編譯。本站查詢時也沒有找到 remi 事件之後的正式修補公告；2026-10-09 的 RC 測試庫文章不是這次的正式修補，不要拿那裡的版號或測試庫來用。
-
-你的選項：
-
-1. 改用 RHEL（或 Rocky、Alma）官方套件中已修補的版本。
-2. 有能力維護建置的團隊，[自行編譯](/dev/fix/build-from-source/)官方修補版。
-3. 兩者都做不到之前，先套[官方暫時緩解](/dev/mitigation/)，並考慮暫時不直接對外。
+remi 在 2026-10-22 發布 8.2.35、8.3.36、8.4.27、8.5.12，涵蓋 Enterprise Linux 8 以上（remi-modular 模組，以及 remi-safe 的平行安裝套件 php82～php85）。8.1 以前 remi 沒有發布修補，見[舊版本策略](/dev/eol/)。
 
 ## 2. 更新
 
-- **RHEL**：依你的版本與模組串流，套用上表的 RHSA 勘誤。狀態仍是 Affected 或 Under investigation 的組合，目前沒有勘誤可裝，改用緩解並追蹤 CVE 頁。
-- **Rocky、Alma**：以各自發布的勘誤為準。
-- **remi**：見上一節，不要等。
+<CommandBlock label="RHEL、Rocky、Alma，以及用 remi-modular 的主機：更新 PHP 套件" code={`sudo dnf upgrade --refresh 'php*'`} />
+
+<CommandBlock label="用 remi-safe 平行安裝（例如 php83）的主機" code={`sudo dnf upgrade --refresh 'php83*'`} />
+
+上表狀態仍是 Affected 或 Under investigation 的組合，目前沒有修補可裝：先套[暫時緩解](/dev/mitigation/)、考慮暫時不直接對外，並換到有修補的版本或[自行編譯](/dev/fix/build-from-source/)。
 
 ## 3. 重啟
 
-套用勘誤後，**重啟所有** php-fpm 與 Apache（httpd）服務，讓每一支 worker 都換成新程式。
+<CommandBlock label="重啟 PHP-FPM 與 Apache（remi-safe 的服務名是 php83-php-fpm 這類）" code={`sudo systemctl restart php-fpm
+sudo systemctl restart httpd`} />
+
+**所有** php-fpm 服務都要重啟，讓每一支 worker 都換成新程式。
 
 ## 4. 驗證
 
-- 確認已安裝的 PHP 套件就是 RHSA 勘誤所帶的版本（或更新）。
-- 向正在接流量的那一支 PHP 確認，不只看命令列。
-- 從 remi 換到發行版套件的主機，確認 remi 的 PHP 已經不在網頁伺服器的路徑上。
+- 再跑一次第 1 步的 changelog 指令，要找得到 CVE 編號。
+- 向正在接流量的那一支 PHP 確認，不只看命令列，見[我受影響嗎？](/dev/am-i-affected/#verify)。

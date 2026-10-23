@@ -1,47 +1,55 @@
 ---
 layout: ../../../layouts/DevDoc.astro
 title: 修補：Alpine
-description: Alpine Linux 修補 PHP2Shell：edge community 套件頁上的 php85、php84、php83 修補版本與注意事項。
-lede: Alpine 的 PHP 套件以分支命名（php85、php84⋯⋯）。下面只列官方套件頁查得到的版本。
-checked: "2026-10-22"
+description: Alpine Linux 修補 PHP2Shell：各穩定分支 php82–php85 的修補版本、apk 更新、重啟與驗證。
+lede: Alpine 的 PHP 套件以分支命名（php85、php84⋯⋯）。3.21 以後的穩定分支都已上架修補版，用 apk 更新、重啟即可；跑在容器裡就重建映像。
+checked: "2026-10-23"
 sources:
-  - title: Alpine 套件頁：php85（edge／community／x86_64）
-    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php85
-  - title: Alpine 套件頁：php84（edge／community／x86_64）
-    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php84
-  - title: Alpine 套件頁：php83（edge／community／x86_64）
-    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php83
+  - title: Alpine 套件頁：php84（v3.23／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/v3.23/community/x86_64/php84
+  - title: Alpine 套件頁：php83（v3.22／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/v3.22/community/x86_64/php83
+  - title: Alpine 套件頁：php82（v3.21／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/v3.21/community/x86_64/php82
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
-> 套件頁沒有寫 `apk` 指令；其他分支、其他架構與 Alpine 漏洞追蹤頁，本站查詢時都未找到官方資訊。本站不代寫指令，以下狀態待查證的部分照實標出。
-
 ## 1. 檢查
 
-<CommandBlock label="命令列 PHP 的版本" code={`php -v`} />
+先看是哪個 Alpine 分支、裝了哪些 PHP 套件：
 
-對照 edge／community／x86_64 套件頁（2026-10-22 查詢）：
+<CommandBlock label="Alpine 版本與已安裝的 PHP 套件" code={`cat /etc/alpine-release
+apk info -v | grep -E '^php[0-9]+-'`} />
 
-| 套件 | 修補版 |
-| --- | --- |
-| php85 | 8.5.12-r0（build time 2026-10-21 18:17:49，頁面未標時區） |
-| php84 | 8.4.27-r0 |
-| php83 | 8.3.36-r0 |
-| php82 | edge 的套件頁為 404，待查證 |
+對照套件頁（community／x86_64，2026-10-23 查詢）。表格是修補版，已安裝版本等於或更新就算修好：
 
-用穩定分支（非 edge）或其他架構的主機：未找到官方資訊，待查證，請到你所用分支的套件頁確認版本。
+| 分支 | php85 | php84 | php83 | php82 |
+| --- | --- | --- | --- | --- |
+| edge、v3.24 | 8.5.12-r0 | 8.4.27-r0 | 8.3.36-r0 | — |
+| v3.23 | 8.5.12-r0 | 8.4.27-r0 | 8.3.36-r0 | — |
+| v3.22 | — | 8.4.27-r0 | 8.3.36-r0 | 8.2.35-r0 |
+| v3.21 | — | **沒有修補**（仍是 8.4.14-r0） | 8.3.36-r0 | 8.2.35-r0 |
+| v3.20 以前 | — | — | **沒有修補** | **沒有修補** |
+
+「—」是該分支沒有這個套件。v3.20 以前已不再更新，v3.21 的 php84 也沒有跟上；請升級 Alpine 分支，或換成有修補的 PHP 套件。
 
 ## 2. 更新
 
-把 PHP 套件更新到上表或你所用分支套件頁上的修補版。Alpine 常用在容器：如果 PHP 跑在 Alpine 基底的映像裡，要**重建映像**，不是在執行中的容器裡更新，見 [Docker／Kubernetes](/dev/fix/docker/)。
+<CommandBlock label="更新套件索引並升級（只升 PHP 時把套件名稱列在 upgrade 後面）" code={`apk update
+apk upgrade`} />
+
+**PHP 跑在 Alpine 基底的容器裡**：不要在執行中的容器裡 `apk upgrade`，容器重建就會回到舊版。改成更新 Dockerfile 的基底映像或 `apk` 步驟後**重建映像**，見 [Docker／Kubernetes](/dev/fix/docker/)。
 
 ## 3. 重啟
 
-重啟所有 php-fpm 與網頁伺服器服務，讓每一支 worker 都換成新程式；容器則以新映像重新部署。
+<CommandBlock label="OpenRC：重啟 PHP-FPM（服務名依分支，例如 php-fpm84）" code={`rc-service php-fpm84 restart`} />
+
+網頁伺服器（nginx、Apache）若直接載入 PHP，也一起重啟。容器則以新映像重新部署，確認舊的 Pod 或容器都已結束。
 
 ## 4. 驗證
 
-- 在正在接流量的主機或容器裡確認版本達到修補版。
+- 再跑一次第 1 步，確認 PHP 套件版本等於或新於上表。
+- 對正在接流量的那一支確認版本，例如 `php-fpm84 -v`；容器要進到**正在跑的那一個**裡面看，見[我受影響嗎？](/dev/am-i-affected/#verify)。
 - 確認編排檔或部署腳本沒有把舊映像拉回來。

@@ -139,7 +139,7 @@ slots:
     file: basic-check.webp
     page: /basic/check/
     hero: true
-    where: 檢查精靈最上方滿版橫幅
+    where: 找出處理方式頁最上方滿版橫幅
     aspect: "21/9"
     size: 2520x1080
     alt: 街頭風插畫，一個人站在塗鴉牆前的叉路指示牌下，指示牌指向不同方向

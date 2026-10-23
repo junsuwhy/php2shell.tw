@@ -1,0 +1,104 @@
+---
+// 可直接複製傳給主機商、外包廠商或資訊人員的詢問訊息。每一頁都用同一份，改這裡就好。
+import { facts } from '../../lib/data';
+
+interface Props {
+  /** 收件對象，只用在標題，例如「主機商」 */
+  to?: string;
+}
+
+const { to = '主機商或廠商' } = Astro.props;
+const cves = facts.cves.map((c) => c.id).join('、');
+const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell（${cves}）。想請您協助確認我們的網站，並用文字回覆：
+
+網站網址：（請填你的網址；舊的活動網站、測試網站也請一起列）
+
+1. 這些網站有沒有用到 PHP？目前是哪一版？
+2. 是否已更新到修補版？請提供更新後的完整版本號。如果是作業系統或主機商提供的修補套件，版本號可能比官方舊，請附上對應的安全公告編號。
+3. 是哪一天、幾點更新的？
+4. 更新後，PHP 和網站伺服器是否已經重新啟動？
+5. 10 月 17 日以來的存取紀錄和網站檔案，有沒有檢查過？有沒有發現異常？
+6. 如果今天無法完成更新，是否能先讓網站暫停對外？
+
+謝謝！`;
+---
+<section class="ask" aria-labelledby="ask-title">
+  <h2 id="ask-title">直接傳給{to}的訊息</h2>
+  <p>複製下面這段，把網址填上，用 Email 或客服單傳給對方。請對方<strong>用文字回覆</strong>，之後拿回覆對照<a href="/basic/done/">怎樣算處理完</a>。</p>
+  <figure class="ask__box">
+    <figcaption>
+      <span>詢問訊息</span>
+      <button type="button" class="ask__copy" data-ask-copy><span data-ask-copy-text>複製</span></button>
+    </figcaption>
+    <pre data-ask-text>{text}</pre>
+    <span class="visually-hidden" role="status" aria-live="polite" data-ask-status></span>
+  </figure>
+</section>
+
+<script>
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-ask-copy]');
+    if (!button) return;
+    const box = button.closest('.ask__box');
+    const text = box?.querySelector('[data-ask-text]')?.textContent ?? '';
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(text);
+      ok = true;
+    } catch {
+      // 沒有 Clipboard API（非 https、舊瀏覽器）時改用選取複製
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.append(area);
+      area.select();
+      ok = document.execCommand('copy');
+      area.remove();
+    }
+    const label = button.querySelector('[data-ask-copy-text]');
+    const status = box?.querySelector('[data-ask-status]');
+    if (label) label.textContent = ok ? '已複製' : '請手動選取';
+    if (status) status.textContent = ok ? '訊息已複製' : '無法自動複製，請手動選取文字';
+    window.setTimeout(() => {
+      if (label) label.textContent = '複製';
+      if (status) status.textContent = '';
+    }, 2000);
+  });
+</script>
+
+<style>
+  .ask { display: grid; gap: 12px; }
+  h2 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  .ask__box { margin: 0; background: #fff; border-radius: 14px; overflow: hidden; }
+  figcaption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--line-basic);
+    color: var(--on-line);
+    font-weight: 800;
+  }
+  .ask__copy {
+    min-height: 40px;
+    padding: 6px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--floor-ink);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .ask__copy:focus-visible { outline: 3px solid var(--graphite); outline-offset: 2px; }
+  pre {
+    margin: 0;
+    padding: 16px;
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+</style>

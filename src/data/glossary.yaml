@@ -189,7 +189,7 @@
   term: "KEV"
   aliases: ["kev", "Known Exploited Vulnerabilities"]
   plain: "美國官方的「已經有人在用」漏洞名冊；沒被寫上去，不代表這次可以慢慢來。"
-  note: "CISA 的已知被利用漏洞目錄。CVE-2024-4577 與 CVE-2019-11043 已列入。截至蕃新聞引 Tenable 整理時，CVE-2026-109618 與 CVE-2026-109619 尚未列入。沒進目錄只表示那個時間點的狀態。"
+  note: "CISA 的已知被利用漏洞目錄。CVE-2024-4577 與 CVE-2019-11043 已列入。沒進目錄只表示那個時間點的狀態，不代表可以慢慢修。"
   see: ["在野利用", "CVE"]
 - id: "codex"
   term: "Codex"

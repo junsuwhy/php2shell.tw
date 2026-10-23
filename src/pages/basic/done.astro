@@ -1,0 +1,80 @@
+---
+import BasicPage from '../../components/basic/BasicPage.astro';
+import SafeVersions from '../../components/basic/SafeVersions.astro';
+import { facts } from '../../lib/data';
+
+const versions = facts.fixed.map((f) => f.version).join('、');
+const memo = `主旨：網站受 PHP 重大漏洞影響，需要決定處理方式
+
+PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號就能在網站主機上執行程式。美國、英國的資安單位建議，無法立刻更新的系統考慮先下線。
+
+我們的網站：（網址）
+目前狀況：找不到負責維護的廠商或人員，無法確認是否已更新。
+
+建議：
+1. 今天先讓網站暫停對外，直到確認已更新。
+2. 指定負責人，聯絡主機商或另找廠商接手更新。
+3. 更新後請廠商檢查有沒有被闖入的跡象，再決定何時重新開放。`;
+---
+<BasicPage
+  title="怎樣算處理完"
+  heading="怎樣算處理完？什麼時候能重新開站？"
+  description="拿到主機商或廠商的回覆後，怎麼確認真的處理完；找不到負責人時怎麼辦；暫停的網站什麼時候可以重新開放。"
+  lead="拿到對方的文字回覆後，用這一頁逐項對照。"
+  image="basic-dashboard"
+>
+  <section class="part" id="done">
+    <h2>處理完的條件</h2>
+    <p>下面四項<strong>都符合</strong>，才算處理完：</p>
+    <ol class="steps">
+      <li>
+        <strong>版本已修補</strong>，符合其中一種：
+        <ul>
+          <li>版本號達到安全版本（<span class="num">{versions}</span> 或更新，見下面的表格）。</li>
+          <li>版本號看起來比較舊，但對方附上作業系統或主機商的<strong>安全公告編號</strong>，說明這個版本已經含修補。這是廠商把修補裝進舊版本，常見於主機商。</li>
+        </ul>
+      </li>
+      <li><strong>已經重新啟動</strong>。沒有重新啟動，舊的程式還在跑，等於沒換。</li>
+      <li><strong>每個網站都問過</strong>。官網、舊的活動網站、報名系統、測試網站，只要還打得開就算。</li>
+      <li><strong>檢查過異常</strong>。對方看過存取紀錄和網站檔案，回覆「沒有發現異常」，或說明發現了什麼。</li>
+    </ol>
+    <p>只回「我們有防護」「已經處理」而沒有版本號，不算。</p>
+    <SafeVersions />
+  </section>
+
+  <section class="part" id="reopen">
+    <h2>暫停的網站，什麼時候能重新開？</h2>
+    <h3>沒有發現異常：只是預防性暫停</h3>
+    <p>上面四項都符合，就可以重新開放。</p>
+
+    <h3>發現異常，或懷疑被闖入</h3>
+    <p>更新只是把門鎖換掉，不會把已經進來的人請出去。這時<strong>不要一更新完就開站</strong>，請廠商或資安公司做完下面這些再開：</p>
+    <ol class="steps">
+      <li><strong>先保留紀錄</strong>，不要急著整台重灌。重灌會把線索清掉。</li>
+      <li><strong>查清楚有沒有被放了東西、被拿走什麼</strong>，並清除；必要時從被闖入之前的備份重建。</li>
+      <li><strong>換掉網站用到的密碼和鑰匙</strong>：網站後台、資料庫、主機帳號，以及網站拿來串接其他服務的金鑰。這次的漏洞可能讓外人讀到主機記憶體裡的這些資料。</li>
+      <li>網站有會員或客戶個人資料的話，<strong>評估是否要依法通報</strong>。機關學校請找單位的資安窗口。</li>
+    </ol>
+  </section>
+
+  <section class="part" id="no-owner">
+    <h2>找不到人負責，誰能幫我關站？</h2>
+    <p>先照<a href="/basic/systems/outsourced/#unknown">找出負責人</a>的步驟找。真的找不到時：</p>
+    <ul>
+      <li><strong>知道主機是哪家（有付主機費）：</strong>以付款帳號的身分聯絡主機商客服，請他們暫停這個網站，或直接幫忙更新 PHP。帳號是你們的，主機商可以做。</li>
+      <li><strong>連主機商都查不到：</strong>找網址每年續約的那家公司（網址註冊商）。登入網址的管理帳號，或請他們協助，暫時讓網址不要連到這個網站，訪客就打不開了。</li>
+      <li><strong>機關、學校、公司：</strong>這已經超出你一個人能決定的範圍，請交給主管，並通知單位的資安窗口。下面這段可以直接轉給主管。</li>
+    </ul>
+    <figure class="memo">
+      <figcaption>給主管的說明</figcaption>
+      <pre>{memo}</pre>
+    </figure>
+  </section>
+</BasicPage>
+
+<style>
+  .part { display: grid; gap: 16px; scroll-margin-top: 24px; }
+  .memo { margin: 0; background: #fff; border-radius: 14px; overflow: hidden; }
+  .memo figcaption { padding: 10px 14px; background: var(--line-basic); color: var(--on-line); font-weight: 800; }
+  .memo pre { margin: 0; padding: 16px; white-space: pre-wrap; font-family: inherit; font-size: 1.0625rem; line-height: 1.7; }
+</style>

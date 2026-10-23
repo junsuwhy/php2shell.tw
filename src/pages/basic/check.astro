@@ -4,10 +4,11 @@ import BasicPage from '../../components/basic/BasicPage.astro';
 interface Choice { href: string; label: string; hint?: string }
 
 const q1: Choice[] = [
-  { href: '#q2', label: '我（或同事）自己登入後台管', hint: '有主機商給的帳號，或網站後台的帳號' },
-  { href: '/basic/systems/outsourced/', label: '外包廠商或資訊公司幫我管', hint: '網站有問題時，你會打給某家公司' },
-  { href: '/basic/systems/shop/#hosted', label: '我用開店平台開的網路商店', hint: '例如 Shopify 這類，付月費就能開店的平台；更新由平台負責' },
-  { href: '/basic/systems/outsourced/#unknown', label: '我不知道', hint: '不用先知道有沒有用 PHP，我們從找出負責人開始' },
+  { href: '#q2', label: '主機商', hint: '每月或每年付主機費給一家公司，你或同事有它給的後台帳號' },
+  { href: '#q2', label: '我們自己或公司的資訊人員', hint: '自己租整台主機或雲端主機，由自己人管理' },
+  { href: '/basic/systems/outsourced/#vendor', label: '外包廠商或資訊公司', hint: '網站出問題時，你會打給某家公司處理' },
+  { href: '/basic/systems/shop/#hosted', label: '開店平台', hint: '例如 Shopify 這類付月費就能開店的平台，主機由平台管' },
+  { href: '/basic/systems/outsourced/#unknown', label: '我不知道', hint: '從找出負責人開始' },
 ];
 
 const q2: Choice[] = [
@@ -17,20 +18,21 @@ const q2: Choice[] = [
   { href: '/basic/systems/shop/', label: '網路商店系統', hint: 'WooCommerce、Magento 等，有商品和訂單管理' },
   { href: '/basic/systems/cpanel/', label: 'cPanel 主機控制台', hint: '主機商給的後台，一格一格的圖示' },
   { href: '/basic/systems/plesk/', label: 'Plesk 主機面板', hint: '主機商給的後台，左邊有「網站與網域」' },
-  { href: '/basic/systems/outsourced/#unknown', label: '都不像，或我不確定', hint: '帶你找出該問誰' },
+  { href: '/basic/systems/outsourced/#unknown', label: '都沒有，或我不確定', hint: '帶你找出該問誰' },
 ];
 ---
 <BasicPage
-  title="檢查精靈"
-  heading="我的網站該看哪一頁？"
-  description="回答兩個問題：網站是誰在管、用什麼後台，就能找到你該看的那一頁。"
-  lead="回答兩個問題。選「不知道」也可以。"
+  title="找出你的處理方式"
+  heading="找出你的處理方式"
+  description="回答兩個問題：誰能更新主機上的 PHP、你能登入哪種後台，就能找到該看的那一頁和要傳給對方的訊息。"
+  lead="這裡不會掃描或連線到你的網站，只是依你的情況，帶你到該看的那一頁。回答兩個問題，選「不知道」也可以。"
   image="basic-check"
 >
   <div class="wizard" data-wizard>
     <section class="q" id="q1" aria-labelledby="q1-title" data-step>
       <p class="q__no">問題 <span class="num">1</span>／<span class="num">2</span></p>
-      <h2 id="q1-title">網站平常是誰在管？</h2>
+      <h2 id="q1-title">誰有權限更新主機上的 PHP？</h2>
+      <p>PHP 裝在放網站的主機上。這裡問的是誰管主機，不是誰更新文章。</p>
       <ul class="choices">
         {q1.map((c) => (
           <li>
@@ -45,8 +47,8 @@ const q2: Choice[] = [
 
     <section class="q" id="q2" aria-labelledby="q2-title" data-step>
       <p class="q__no">問題 <span class="num">2</span>／<span class="num">2</span></p>
-      <h2 id="q2-title" tabindex="-1">登入後台，看到的是哪一種？</h2>
-      <p>不確定的話，挑最像的那一個；每一頁都會告訴你下一步。</p>
+      <h2 id="q2-title" tabindex="-1">你能登入的後台是哪一種？</h2>
+      <p>同時有好幾個很常見，例如 WordPress 加上 WooCommerce，再加上主機商的 cPanel。能登入 cPanel 或 Plesk 就選它，那裡離 PHP 最近；不然選你的網站後台。要做的事都一樣：請管主機的人更新 PHP。</p>
       <ul class="choices">
         {q2.map((c) => (
           <li>
@@ -60,7 +62,6 @@ const q2: Choice[] = [
       <p class="q__back"><a href="#q1" data-back>← 回到問題 1</a></p>
     </section>
   </div>
-  <p>可以請你的工程師或廠商用 OpenAI 推出的<a href="/dev/am-i-affected/#openai-checker">檢查工具</a>確認。</p>
 </BasicPage>
 
 <script>

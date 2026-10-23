@@ -3,7 +3,7 @@ layout: ../../../layouts/DevDoc.astro
 title: 修補：Ubuntu
 description: Ubuntu 上修補 PHP2Shell：USN-8948-1、USN-8948-2 的修補套件版、官方 apt 指令、ondrej PPA、重啟與驗證。
 lede: Ubuntu 官方說一般的系統更新就會帶入修補。下面的指令與版號都抄自 Ubuntu 的安全公告與官方部落格。
-checked: "2026-10-22"
+checked: "2026-10-23"
 sources:
   - title: Ubuntu USN-8948-1（26.10、26.04 LTS、24.04 LTS、22.04 LTS）
     url: https://ubuntu.com/security/notices/USN-8948-1
@@ -11,6 +11,8 @@ sources:
     url: https://ubuntu.com/security/notices/USN-8948-2
   - title: Ubuntu 部落格：PHP2Shell vulnerability fixes available（2026-10-21）
     url: https://ubuntu.com/blog/php2shell-vulnerability-fixes-available
+  - title: Launchpad：ondrej/php PPA 的 php8.3 套件
+    url: https://launchpad.net/~ondrej/+archive/ubuntu/php/+packages?field.name_filter=php8.3&field.status_filter=published
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
@@ -44,7 +46,13 @@ USN-8948-2（同日發布，需要 Ubuntu Pro）：
 
 ### ondrej/php PPA
 
-很多主機用 ondrej/php PPA 裝較新的 PHP 分支。USN 與 Ubuntu 部落格都沒有提到這個 PPA，本站也沒有找到說明這兩個 CVE 的 PPA 公告，因此不列 PPA 的套件版號。狀態：**未找到官方資訊，待查證**。PPA 不是 Ubuntu 官方套件，上面的 USN 不涵蓋它；確認 PPA 已出修補版之前，不要當作已經修好。
+很多主機用 ondrej/php PPA 裝其他 PHP 分支。它不是 Ubuntu 官方套件，上面的 USN 不涵蓋它，但 PPA 在 2026-10-21 已上架修補版（例如 24.04、22.04 的 `8.3.36-1+ubuntu24.04.1+deb.sury.org+1`）。PPA 的版號就是上游版號，對照[版本矩陣](/dev/versions/)即可。
+
+分辨套件從哪裡來：
+
+<CommandBlock label="看 PHP 套件的來源（ppa.launchpadcontent.net 就是 PPA）" code={`apt-cache policy php8.3-fpm`} />
+
+`***` 標的那一行是已安裝的版本，下面列出它來自哪個套件庫。
 
 ## 2. 更新
 
@@ -64,10 +72,14 @@ Ubuntu 部落格寫出兩種做法，擇一：
 
 <CommandBlock label="Ubuntu 官方：或重新開機" code={`sudo reboot`} />
 
-使用 PHP-FPM 時，一樣要重啟**所有** php-fpm 服務，讓每一支 worker 都換成新程式。
+使用 PHP-FPM 時，服務名稱帶分支號（例如 `php8.3-fpm`）。先列出有哪些，再逐一重啟：
+
+<CommandBlock label="列出 PHP-FPM 服務並重啟（服務名依實際列出的調整）" code={`systemctl list-units --type=service 'php*-fpm*'
+sudo systemctl restart php8.3-fpm`} />
+
+同一台裝了好幾個分支時，每一個都要重啟。前面還有 nginx 時不用重啟 nginx；用 mod_php 的 Apache 才要重啟。
 
 ## 4. 驗證
 
 - 再跑一次第 1 步的 `apt list`，確認版本等於或新於公告上的修補版。
-- 向正在接流量的那一支 PHP 確認，不只看命令列的 `php -v`。
-- 用 PPA 的主機，確認 PPA 套件確實已含修補；查不到就視為未修。
+- 向正在接流量的那一支 PHP 確認，不只看命令列的 `php -v`，做法見[我受影響嗎？](/dev/am-i-affected/#verify)。

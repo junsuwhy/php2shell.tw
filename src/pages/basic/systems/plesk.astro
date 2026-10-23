@@ -1,5 +1,6 @@
 ---
 import BasicPage from '../../../components/basic/BasicPage.astro';
+import AskVendor from '../../../components/basic/AskVendor.astro';
 import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
 <BasicPage
@@ -30,5 +31,6 @@ import SafeVersions from '../../../components/basic/SafeVersions.astro';
     <li><strong>你是租用主機的客戶（主機商給你 Plesk 帳號）：</strong>找主機商，請他們確認 Plesk 已更新到最新，並回覆完整版本號。</li>
     <li><strong>你們自己有一台主機、由資訊人員或外包廠商管理：</strong>請他們今天就把 Plesk 更新到最新，並把<a href="/dev/fix/panels/">給工程師的控制台頁</a>轉給他們。</li>
   </ul>
+  <AskVendor />
   <p>拿不到明確答覆前，請考慮先讓網站暫停對外。</p>
 </BasicPage>

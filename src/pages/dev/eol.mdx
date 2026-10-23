@@ -7,8 +7,6 @@ checked: "2026-10-22"
 sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
-  - title: ICSDA：PHP2Shell 修補已釋出（7.3 以前的過渡做法）
-    url: https://icsda.org.tw/php2shell-cve-2026-109618-109619/
   - title: Ubuntu USN-8948-2（20.04 LTS 至 14.04 LTS）
     url: https://ubuntu.com/security/notices/USN-8948-2
   - title: Red Hat：CVE-2026-109618
@@ -44,7 +42,7 @@ import { facts } from '../../lib/data';
 {facts.unpatched}在現有官方公告中沒有修補。部分廠商仍有延長支援（例如 Ubuntu Pro 的 Legacy Support 涵蓋 16.04 的 php7.0 與 14.04 的 php5，Plesk 把 5.6、7.2、7.3 指向 TuxCare），但以自己的維護能力來說，策略應該是：
 
 1. **立刻規劃升級**到仍受支援且已修補的分支（8.3 以上最理想）。
-2. 升級完成前，**不要直接對網際網路開放**。ICSDA 提到的過渡做法是只走 VPN 或內網，或 WAF 加上限縮來源 IP。這些都不是修補。
+2. 升級完成前，**不要直接對網際網路開放**。過渡做法是只走 VPN 或內網，或 WAF 加上限縮來源 IP。這些都不是修補。
 3. WordPress 官方新聞稿的建議：自行管理主機且還停在更舊版本時，考慮先把網站下線，再準備升級。
 4. 在升級前先套[官方暫時緩解](/dev/mitigation/)，並照[偵測與應變](/dev/detect/)查日誌。
 

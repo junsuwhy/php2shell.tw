@@ -6,10 +6,8 @@ sources:
   - https://www.php.net/archive/2026.php#2026-10-21-5
   - https://thephp.foundation/blog/2026/10/21/todays-php-security-release-and-how-were-strengthening-php-security/
   - https://www.imperva.com/blog/php2shell-vulnerability-updates/
-  - https://news.cnyes.com/news/id/6635339
   - https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/
   - https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
-  - https://n.yam.com/Article/20261022685398
 ---
 
 # 術語表

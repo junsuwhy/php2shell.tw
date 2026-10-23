@@ -1,5 +1,6 @@
 ---
 import BasicPage from '../../../components/basic/BasicPage.astro';
+import AskVendor from '../../../components/basic/AskVendor.astro';
 import SafeVersions from '../../../components/basic/SafeVersions.astro';
 ---
 <BasicPage
@@ -29,9 +30,9 @@ import SafeVersions from '../../../components/basic/SafeVersions.astro';
   <ul>
     <li><strong>網站放在虛擬主機：</strong>找主機商，請他們更新主廚。</li>
     <li><strong>網站是外包廠商做的：</strong>找外包廠商，請他們確認主機也一起更新了。</li>
-    <li><strong>有自己的資訊人員：</strong>把這頁和<a href="/dev/">給工程師的這一區</a>轉給他。</li>
+    <li><strong>有自己的資訊人員：</strong>把這頁和<a href="/dev/am-i-affected/#cms">給工程師的檢查說明</a>轉給他。</li>
   </ul>
-  <p>請對方用文字回覆<strong>更新後的版本號</strong>，並確認「更新之後已經重新啟動」。</p>
+  <AskVendor />
 
   <h2>還沒拿到答覆前</h2>
   <p>Joomla 後台的「網站離線」設定擋不住這次的問題，因為事情發生在 Joomla 開始動作之前。拿不到答覆的話，請主機商或廠商讓網站暫停對外。</p>
