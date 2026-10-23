@@ -1,6 +1,6 @@
 ---
 // 新聞牆與懶人包的卡片：來源、台灣時間、標題；未取得全文要標示。
-import { languageLabel, newsHref, newsTitle, sourceGroup, type NewsEntry } from '../../lib/news';
+import { hasSummaryPage, languageLabel, newsHref, newsTitle, sourceGroup, type NewsEntry } from '../../lib/news';
 
 interface Props { entry: NewsEntry; headingLevel?: 'h2' | 'h3' }
 const { entry, headingLevel: H = 'h3' } = Astro.props;
@@ -16,7 +16,7 @@ const d = entry.data;
     <span class="card__source">{d.source}</span>
     <span class="num">{d.published_at_taipei}</span>
   </p>
-  <H class="card__title"><a href={newsHref(entry)}>{newsTitle(entry)}</a></H>
+  <H class="card__title"><a href={newsHref(entry)} rel={hasSummaryPage(entry) ? undefined : 'noopener'}>{newsTitle(entry)}</a></H>
   <p class="card__facts">
     <span>{d.source_type}</span>
     <span>{languageLabel(d.language)}</span>

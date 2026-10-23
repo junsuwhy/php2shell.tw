@@ -79,7 +79,7 @@ const quotes = defineCollection({
   }),
 });
 
-// 說法分歧：src/data/discrepancies.yaml（/news/rumors/ 並列各說法，assessment 只作對照）
+// 說法分歧：src/data/discrepancies.yaml（目前沒有頁面渲染，留作寫內容時的對照）
 const discrepancies = defineCollection({
   loader: file('src/data/discrepancies.yaml'),
   schema: z.object({

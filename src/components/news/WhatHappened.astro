@@ -2,7 +2,7 @@
 // 首頁「事件始末」：原 /news/ 首頁，接在「請立即更新」下面。
 // 先給懶人包，再依閱讀順序排各頁，每格附一句「裡面是什麼」。
 import ImageSlot from '../ImageSlot.astro';
-import { getNews, newsHref, newsTitle } from '../../lib/news';
+import { getNews, hasSummaryPage, newsHref, newsTitle } from '../../lib/news';
 
 const news = await getNews();
 // 不同媒體轉載常用同一個標題，只留第一則
@@ -16,10 +16,8 @@ const latest = news.filter((entry) => {
 const sections = [
   { href: '/news/story/', id: 'news-sec-story', title: '前因後果', note: '五分鐘讀完：從 2004 年的老問題到全球關站' },
   { href: '/news/timeline/', id: 'news-sec-timeline', title: '時間軸', note: '逐時經過，UTC／台灣時間對照' },
-  { href: '/news/rumors/', id: 'news-sec-rumors', title: '常見誤傳與說法不一', note: '數字不要加總、CVSS 不是 10 分' },
   { href: '/news/outages/', id: 'news-sec-outages', title: '預防性關站紀錄', note: '誰暫停服務、為什麼；不是受害名單' },
   { href: '/news/wall/', id: 'news-sec-wall', title: '新聞牆', note: `${news.length} 則新聞與公告摘要，可篩選` },
-  { href: '/news/quotes/', id: 'news-sec-quotes', title: '關鍵發言', note: '官方、研究者與資安業者的原話' },
 ];
 ---
 <section class="what" id="what-happened" aria-labelledby="what-title">
@@ -57,7 +55,7 @@ const sections = [
         {latest.map((entry) => (
           <li>
             <span class="latest__src">{entry.data.source}</span>
-            <a href={newsHref(entry)}>{newsTitle(entry)}</a>
+            <a href={newsHref(entry)} rel={hasSummaryPage(entry) ? undefined : 'noopener'}>{newsTitle(entry)}</a>
           </li>
         ))}
       </ul>
@@ -106,7 +104,7 @@ const sections = [
     list-style: none;
   }
   @media (min-width: 48rem) {
-    .sections { grid-template-columns: repeat(3, 1fr); }
+    .sections { grid-template-columns: repeat(4, 1fr); }
   }
   .sec {
     position: relative;

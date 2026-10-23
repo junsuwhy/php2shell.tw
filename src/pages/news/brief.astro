@@ -3,15 +3,15 @@ import Base from '../../layouts/Base.astro';
 import NewsCard from '../../components/news/NewsCard.astro';
 import TimelineList from '../../components/news/TimelineList.astro';
 import { facts, releaseTime as r } from '../../lib/data';
-import { getNews } from '../../lib/news';
+import { findNews, getNews, newsHref } from '../../lib/news';
 
 const news = await getNews();
 const latest = news.slice(0, 5);
-const ref = (file: string) => `/news/${file.replace(/\.md$/, '')}/`;
+const ref = (file: string) => newsHref(findNews(news, file));
 
-// 數字看板：每個數字來源不同、母體不同，不能相加（見 /news/rumors/#host-counts）
+// 數字看板：每個數字來源不同、母體不同，不能相加
 const board = [
-  { value: facts.php_share.value, label: '已知伺服器端語言的網站裡，使用 PHP 的比例', note: `${facts.php_share.source}。不是「網際網路的七成」。`, href: '/news/rumors/#seventy-percent' },
+  { value: facts.php_share.value, label: '已知伺服器端語言的網站裡，使用 PHP 的比例', note: `${facts.php_share.source}。不是「網際網路的七成」。` },
   { value: '近 5,500 萬', label: '當天看到跑著 PHP 的網路資產', note: 'Censys，經 NBC 報導', href: ref('2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md') },
   { value: '約 2,260 萬', label: '暴露在網路上、可能受影響的實例', note: 'Cortex Xpanse 估計', href: ref('2026-10-21-unit42-php-threat-brief.md') },
   { value: '59%', label: '有回報版本號的約 150 萬台主機中，跑的是拿不到官方修補的版本', note: 'Mallory 統計，經 CyberQ 報導', href: ref('2026-10-21-0852-cyberq-php-core-rce-leak.md') },
@@ -33,7 +33,7 @@ const versions = facts.fixed.map((f) => f.version).join('、');
           <li>
             <p class="board__value num">{b.value}</p>
             <p class="board__label">{b.label}</p>
-            <p class="board__note"><a href={b.href}>{b.note}</a></p>
+            <p class="board__note">{b.href ? <a href={b.href}>{b.note}</a> : b.note}</p>
           </li>
         ))}
       </ul>

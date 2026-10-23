@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import Base from '../layouts/Base.astro';
-import { getNews, languageLabel, newsHref, newsTitle, sourceGroup, sourceGroups } from '../lib/news';
+import { getNews, hasSummaryPage, languageLabel, newsHref, newsTitle, sourceGroup, sourceGroups } from '../lib/news';
 
 const news = await getNews();
 const groups = sourceGroups
@@ -56,7 +56,7 @@ const readable = (url: string) => {
               <p class="item__meta">
                 <span class="num">{n.data.published_at_taipei}</span>
                 {n.data.fetch_status === 'failed' && <span class="flag">未取得全文</span>}
-                <a href={newsHref(n)}>本站摘要</a>
+                {hasSummaryPage(n) && <a href={newsHref(n)}>本站摘要</a>}
               </p>
             </li>
           ))}
@@ -84,7 +84,6 @@ const readable = (url: string) => {
       <h2>下一步</h2>
       <ul>
         <li><a href="/news/wall/">用新聞牆篩選這些來源</a></li>
-        <li><a href="/news/rumors/">來源之間說法不一致的地方</a></li>
         <li><a href="/about/">本站的資料來源原則</a></li>
       </ul>
     </footer>

@@ -31,11 +31,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     </div>
   </HeroBanner>
 
-  <p class="last-ride" hidden data-last-ride>
-    <span>上次看的是</span>
-    <a data-last-ride-link></a>
-  </p>
-
   <nav class="exits" aria-label="選擇身份">
     {personas.map((p) => (
       <a class="exit" href={p.href} data-line={p.id}>
@@ -63,10 +58,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
         </li>
       ))}
     </ul>
-    <p class="notice__more">
-      8.1 以前的版本官方已不再發布更新，請盡快升級。點版本號可看版本對照與怎麼升級。<br />
-      不知道自己的網站有沒有用 PHP？不用自己判斷：請管網站的人或主機商確認；用 Shopify 這類開店平台的，由平台負責更新。不懂技術的話，<a href="/basic/check/">從檢查精靈開始</a>。
-    </p>
+    <p class="notice__more">8.1 以前的版本官方已不再發布更新，請盡快升級。</p>
     <p class="notice__ticket">
       來源：<a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a>
       <span class="num">{releasedTaipei}</span>（台灣時間）發布
@@ -76,23 +68,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   <WhatHappened />
 </Base>
 
-<script>
-  const names: Record<string, { name: string; href: string; line: string }> = {
-    basic: { name: '非技術人員', href: '/basic/', line: '黃線' },
-    dev: { name: '軟體開發人員', href: '/dev/', line: '綠線' },
-  };
-  let last: string | null = null;
-  try { last = localStorage.getItem('php2shell:persona'); } catch {}
-  const target = last ? names[last] : undefined;
-  const box = document.querySelector<HTMLElement>('[data-last-ride]');
-  const link = document.querySelector<HTMLAnchorElement>('[data-last-ride-link]');
-  if (target && box && link && last) {
-    link.href = target.href;
-    link.textContent = `${target.line}・${target.name}，繼續 →`;
-    box.dataset.line = last;
-    box.hidden = false;
-  }
-</script>
 
 <style>
   [data-line='basic'] { --c: var(--line-basic); }
@@ -125,21 +100,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   .station__meta div { display: flex; gap: 10px; }
   .station__meta dt { color: var(--on-graphite-soft); }
   .station__meta dd { margin: 0; font-weight: 700; }
-  /* 回訪 */
-  .last-ride {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0;
-    padding: 12px var(--gutter);
-    background: var(--graphite-2);
-    color: var(--on-graphite-soft);
-    font-size: 0.9375rem;
-    border-top: 6px solid var(--c, var(--graphite-rule));
-  }
-  .last-ride[hidden] { display: none; }
-  .last-ride a { color: var(--on-graphite); font-weight: 800; }
-
   /* 出口：一整面連續的導引牌，兩格以分隔線相接 */
   .exits {
     display: grid;

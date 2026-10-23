@@ -25,7 +25,9 @@ export async function getNews(): Promise<NewsEntry[]> {
 }
 
 export const newsTitle = (entry: NewsEntry) => entry.data.title_zh ?? entry.data.title;
-export const newsHref = (entry: NewsEntry) => `/news/${entry.id}/`;
+// 中文來源讀者直接看原文就好，不另做摘要頁；其他語言才有 /news/<slug>/。
+export const hasSummaryPage = (entry: NewsEntry) => !entry.data.language.startsWith('zh');
+export const newsHref = (entry: NewsEntry) => (hasSummaryPage(entry) ? `/news/${entry.id}/` : entry.data.url);
 
 const basename = (path: string) => path.split('/').pop()!.replace(/\.md$/, '');
 
@@ -40,10 +42,16 @@ export function resolveSources(refs: string[], news: NewsEntry[]): SourceRef[] {
   const byFile = new Map(news.map((n) => [basename(n.filePath ?? n.id), n]));
   return refs.map((ref) => {
     const hit = byFile.get(basename(ref));
-    if (hit) return { label: hit.data.source, href: newsHref(hit), internal: true };
+    if (hit) return { label: hit.data.source, href: newsHref(hit), internal: hasSummaryPage(hit) };
     if (/^https?:\/\//.test(ref)) return { label: new URL(ref).hostname.replace(/^www\./, ''), href: ref, internal: false };
     throw new Error(`找不到來源：${ref}（應為 docs/news 檔名或網址）`);
   });
+}
+
+export function findNews(news: NewsEntry[], file: string) {
+  const hit = news.find((n) => basename(n.filePath ?? n.id) === basename(file));
+  if (!hit) throw new Error(`找不到新聞：${file}`);
+  return hit;
 }
 
 export function referencesNews(refs: string[], entry: NewsEntry) {
