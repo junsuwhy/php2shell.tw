@@ -1,0 +1,12 @@
+// Cloudflare Workers Builds 部署設定：純靜態站，只上傳 astro build 產出的 dist/。
+// 有這個檔案 wrangler 就不會自動跑 `astro add cloudflare`（那會改成 SSR adapter 而 build 失敗）。
+// GA Measurement ID 請設在 Worker 的 Build 變數 PUBLIC_GA_MEASUREMENT_ID，不放 repo。
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "php2shell-tw",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
