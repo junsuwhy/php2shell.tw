@@ -129,9 +129,9 @@ slots:
 
   - id: basic-check
     file: basic-check.webp
-    page: /basic/check/
+    page: /basic/act/
     hero: true
-    where: 找出處理方式頁最上方滿版橫幅
+    where: 原「找出處理方式」頁最上方滿版橫幅；該頁已併入 /basic/act/ 的兩個問題段落，目前沒有頁面使用
     aspect: "21/9"
     size: 2520x1080
     alt: 街頭風插畫，一個人站在塗鴉牆前的叉路指示牌下，指示牌指向不同方向
@@ -150,9 +150,9 @@ slots:
 
   - id: basic-dashboard
     file: basic-dashboard.webp
-    page: /basic/systems/*
+    page: /basic/act/
     hero: true
-    where: 各系統頁最上方滿版橫幅（七個系統頁共用）
+    where: 原各系統頁與「怎樣算處理完」頁最上方滿版橫幅；這些頁已併入 /basic/act/，目前沒有頁面使用
     aspect: "21/9"
     size: 2520x1080
     alt: 街頭風插畫，一個人看著筆電上的網站後台，巨大的放大鏡照著一個標籤

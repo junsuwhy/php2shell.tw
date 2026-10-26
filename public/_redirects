@@ -1,0 +1,23 @@
+# 舊網址轉址（Cloudflare Workers static assets 讀這個檔，建置時隨 public/ 複製到 dist/）。
+# 非技術區的檢查頁、處理完頁與七個系統頁已併入單一頁 /basic/act/，舊網址以 301 轉到對應段落。
+# 每條都有加結尾斜線與不加的兩種寫法。
+# 其他轉址（/news/ 等）仍在 astro.config.mjs 的 redirects，不要搬到這裡重複設定。
+
+/basic/check/                 /basic/act/#q1          301
+/basic/check                  /basic/act/#q1          301
+/basic/done/                  /basic/act/#done        301
+/basic/done                   /basic/act/#done        301
+/basic/systems/wordpress/     /basic/act/#wordpress   301
+/basic/systems/wordpress      /basic/act/#wordpress   301
+/basic/systems/drupal/        /basic/act/#drupal      301
+/basic/systems/drupal         /basic/act/#drupal      301
+/basic/systems/joomla/        /basic/act/#joomla      301
+/basic/systems/joomla         /basic/act/#joomla      301
+/basic/systems/shop/          /basic/act/#shop        301
+/basic/systems/shop           /basic/act/#shop        301
+/basic/systems/cpanel/        /basic/act/#cpanel      301
+/basic/systems/cpanel         /basic/act/#cpanel      301
+/basic/systems/plesk/         /basic/act/#plesk       301
+/basic/systems/plesk          /basic/act/#plesk       301
+/basic/systems/outsourced/    /basic/act/#outsourced  301
+/basic/systems/outsourced     /basic/act/#outsourced  301

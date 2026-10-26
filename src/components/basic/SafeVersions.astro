@@ -1,9 +1,20 @@
 ---
 // 「安全版本」對照表：只讀 facts.yaml，改那裡這裡就跟著變。
 import { facts } from '../../lib/data';
+
+interface Props {
+  /** 放在小節裡面時標題降級 */
+  level?: 2 | 3 | 4;
+  /** 同一頁出現多次時給每個實例不同的前綴，標題 id 才不會重複 */
+  idPrefix?: string;
+}
+
+const { level = 2, idPrefix } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
+const titleId = idPrefix ? `${idPrefix}-safe-title` : 'safe-title';
 ---
-<section class="safe" aria-labelledby="safe-title">
-  <h2 id="safe-title">看到的版本，怎麼對照？</h2>
+<section class="safe" aria-labelledby={titleId}>
+  <Heading id={titleId}>看到的版本，怎麼對照？</Heading>
   <p>
     版本號通常長得像「8.3.36」。先看<strong>前兩段</strong>（例如 8.3）找到你的那一列，再看最後一段的數字有沒有<strong>大於或等於</strong>右邊。
   </p>
@@ -33,13 +44,13 @@ import { facts } from '../../lib/data';
     </tbody>
   </table>
   <p class="safe__aside">
-    數字比較舊，不一定代表沒修好：有些主機商會把修補裝進舊版本，型號不變、零件是新的。這種情況請對方附上安全公告編號，見<a href="/basic/done/">怎樣算處理完</a>。
+    數字比較舊，不一定代表沒修好：有些主機商會把修補裝進舊版本，型號不變、零件是新的。這種情況請對方附上安全公告編號，見<a href="/basic/act/#done">怎樣算處理完</a>。
   </p>
 </section>
 
 <style>
   .safe { display: grid; gap: 16px; }
-  h2 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  h2, h3, h4 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
   table {
     width: 100%;
     border-collapse: separate;
