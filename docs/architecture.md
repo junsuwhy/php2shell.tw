@@ -17,7 +17,7 @@
 - 每個區塊頁首都有「切換身份」入口，三區互相導流：
   - basic →「想看技術細節？給你的工程師這頁」→ /dev/
   - dev →「要跟老闆解釋？丟這頁給他」→ /basic/
-  - /news/* →「我自己也有網站」→ /basic/check/
+  - /news/* →「我自己也有網站」→ /basic/act/#q1
 
 ## 2. 站點地圖
 
@@ -35,17 +35,20 @@
 | 路由 | 內容 |
 |---|---|
 | `/basic/` | 發生什麼事（比喻：PHP＝餐廳廚房的主廚）、有多嚴重、為什麼全世界網站在關門、我需要做的三件事 |
-| `/basic/check/` | **互動檢查精靈**：問「你的網站是誰架的／放在哪」→ 導到對應的系統頁 |
-| `/basic/systems/wordpress/` | WordPress：怎麼在後台看 PHP 版本（網站健康狀態）、該找誰、更新 WordPress 本身「不夠」 |
-| `/basic/systems/drupal/` | Drupal：後台「狀態報告」看 PHP 版本、該找誰 |
-| `/basic/systems/joomla/` | Joomla：系統資訊看 PHP 版本 |
-| `/basic/systems/cpanel/` | cPanel 虛擬主機：在哪看／切換 PHP 版本，何時要找主機商 |
-| `/basic/systems/plesk/` | Plesk 主機面板 |
-| `/basic/systems/shop/` | 網路商店（WooCommerce、Magento 等；並說明 Shopify 這類代管平台由平台處理） |
-| `/basic/systems/outsourced/` | 網站是外包廠商做的／不知道誰做的 |
+| `/basic/what-happened/` | 發生什麼事（給非技術讀者的完整說明） |
+| `/basic/act/` | **單一行動頁**，由上而下：三件事 → 頁內導覽 → 兩個問題（`#q1`、`#q2`）→ 各系統收合段落 → 怎樣算處理完（`#done`、`#reopen`、`#no-owner`）|
+| `/basic/act/#wordpress` | WordPress：怎麼在後台看 PHP 版本（網站健康狀態）、該找誰、更新 WordPress 本身「不夠」 |
+| `/basic/act/#drupal` | Drupal：後台「狀態報告」看 PHP 版本、該找誰 |
+| `/basic/act/#joomla` | Joomla：系統資訊看 PHP 版本 |
+| `/basic/act/#cpanel` | cPanel 虛擬主機：在哪看／切換 PHP 版本，何時要找主機商 |
+| `/basic/act/#plesk` | Plesk 主機面板 |
+| `/basic/act/#shop` | 網路商店（WooCommerce、Magento 等；`#hosted` 說明 Shopify 這類代管平台由平台處理） |
+| `/basic/act/#outsourced` | 網站是外包廠商做的（`#vendor`）／不知道誰做的（`#unknown`） |
 | `/basic/faq/` | 我的手機會中毒嗎？網站關掉代表被駭了嗎？要不要改密碼？ |
 
 原則：不出現 CVE、RCE、worker、SAPI 等字；必要概念一律用比喻；每頁結尾都是「下一步做什麼」。
+
+原本獨立的檢查頁、「怎樣算處理完」頁與七個系統頁已併入 `/basic/act/`，舊網址由 `public/_redirects` 以 301 轉到對應錨點（OpenSpec 變更 `merge-basic-one-page`）。
 
 ### `/dev/` 軟體開發人員（geek／hacker 風格）
 
