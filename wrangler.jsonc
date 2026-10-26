@@ -8,5 +8,7 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
-  }
+  },
+  // 非 main 分支的 PR 由 Workers Builds 執行 `npx wrangler preview` 產生預覽，需要這個區塊（可以是空的）。
+  "previews": {}
 }
