@@ -4,3 +4,9 @@ domain: php2shell.tw
 lang: zh-Hant-TW
 # 站長聯絡 email，待提供；留空則不顯示
 contact_email: "contact@php2shell.tw"
+# 社群帳號（頁尾連結）。網址已含 utm 參數，標明來自頁尾。
+social:
+  - name: Instagram
+    url: https://www.instagram.com/php2shell.tw/?utm_source=php2shell.tw&utm_medium=footer
+  - name: Threads
+    url: https://www.threads.com/@php2shell.tw?utm_source=php2shell.tw&utm_medium=footer

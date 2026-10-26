@@ -18,7 +18,8 @@ interface Props {
 
 const { title, description = `${facts.name} 事件，依身份說清楚。`, persona } = Astro.props;
 const current = persona === 'gateway' ? undefined : persona;
-const fullTitle = title === site.title ? title : `${title}｜${site.title}`;
+// 已經以網站名稱結尾（例如首頁自訂的完整標題）就不再加後綴
+const fullTitle = title === site.title || title.endsWith(`｜${site.title}`) ? title : `${title}｜${site.title}`;
 const og = getSlot('og-default');
 const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
 ---
@@ -35,6 +36,8 @@ const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
     <meta property="og:locale" content="zh_TW" />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#22262c" />
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -59,6 +62,13 @@ const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
         <a href="/sources/">資料來源</a>
         {site.contact_email && <a href={`mailto:${site.contact_email}`}>聯絡站長</a>}
       </nav>
+      {site.social && site.social.length > 0 && (
+        <nav aria-label="社群帳號">
+          {site.social.map((s) => (
+            <a href={s.url} target="_blank" rel="noopener" aria-label={`${site.title} 的 ${s.name}（另開新視窗）`}>{s.name}</a>
+          ))}
+        </nav>
+      )}
     </footer>
   </body>
 </html>
@@ -89,6 +99,6 @@ const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
     color: var(--on-graphite-soft);
     font-size: 0.9375rem;
   }
-  .site-footer nav { display: flex; gap: 24px; }
+  .site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
   .site-footer a { color: var(--on-graphite); }
 </style>
