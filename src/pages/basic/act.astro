@@ -58,6 +58,10 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   heading="你需要做的三件事"
   description="弄清楚誰在管網站、請對方更新背後的 PHP 並給版本號；還沒確認前，考慮先暫停網站。依你的後台找到該找誰、要傳的詢問訊息，以及怎樣算處理完。"
 >
+  <nav class="jump-line" aria-label="快速跳到">
+    跳到：<a href="#q1">選你的系統</a><span aria-hidden="true">｜</span><a href="#done">怎樣算處理完</a>
+  </nav>
+
   <ol class="step-cards">
     <li><strong>弄清楚你的網站是什麼、誰在管。</strong>是 WordPress？放在哪家主機？還是外包廠商做的？不知道也沒關係，下面會一步步帶你找。</li>
     <li><strong>請管主機的人更新「主廚」，並給你版本號。</strong>只按網站後台的「更新外掛」不夠，要更新的是背後的 PHP。對方要能說出更新後的版本號，口頭說「我們有資安防護」不算數；怎樣才算完成，見<a href="#done">怎樣算處理完</a>。網站前面的防火牆、幫網站擋流量的加速服務、主機商的防護規則，都只能多一層看守，不能代替把主廚換掉。<AskVendor to="主機商或廠商" level={3} idPrefix="step" /></li>
@@ -513,6 +517,23 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
 </script>
 
 <style>
+  /* 標題下的跳轉小字：看起來是一行小字，連結的觸控高度仍有 44px（負邊距抵銷，不撐高行距） */
+  .jump-line {
+    margin: -12px 0 -4px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--floor-ink-soft);
+  }
+  .jump-line a {
+    display: inline-block;
+    padding: 12px 4px;
+    margin: -12px 0;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .jump-line a:hover,
+  .jump-line a:focus-visible { color: var(--floor-ink); }
   :global(.basic-page__body) .step-cards {
     counter-reset: step;
     list-style: none;

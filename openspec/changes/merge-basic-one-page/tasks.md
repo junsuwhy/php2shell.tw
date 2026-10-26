@@ -15,6 +15,7 @@
 - [x] 2.5 `#done`、`#reopen`、`#no-owner` 三段搬入，版本號由 `facts.fixed` 產生
 - [x] 2.6 JavaScript：依錨點打開祖先 `<details>`、捲動並聚焦；問題一次一題；尊重 `prefers-reduced-motion`；沒有 JavaScript 時全部可用
 - [x] 2.7 頁尾保留給工程師的連結
+- [x] 2.8 標題正下方加一行跳轉小字（`nav.jump-line`）：「選你的系統」→ `#q1`、「怎樣算處理完」→ `#done`，分隔符號 `aria-hidden`；小字外觀但連結觸控高度 ≥44px，不用 JavaScript
 
 ## 3. 刪頁、轉址與連結
 
