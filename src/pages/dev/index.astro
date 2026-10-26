@@ -1,5 +1,6 @@
 ---
 import CampaignLanding from '../../components/CampaignLanding.astro';
+import VersionMatrix from '../../components/dev/VersionMatrix.astro';
 import { facts, releaseClock } from '../../lib/data';
 
 const ids = facts.cves.map((c) => c.id).join('、');
@@ -16,6 +17,7 @@ const platforms = [
   { href: '/dev/fix/macos/', label: 'macOS' },
   { href: '/dev/fix/docker/', label: 'Docker' },
   { href: '/dev/fix/panels/', label: '控制台' },
+  { href: '/dev/fix/build-from-source/', label: '自行編譯' },
 ];
 ---
 <CampaignLanding
@@ -38,15 +40,26 @@ const platforms = [
   <ul slot="heroExtra" class="chips" aria-label="已修補版本（點選看版本矩陣）">
     {facts.fixed.map((item) => <li class="chip"><a class="chip-link" href="/dev/versions/">{item.version}</a></li>)}
   </ul>
-  <p slot="strip" class="platforms">
-    <span class="platforms__k">選你的平台：</span>
-    {platforms.map((item, i) => (
-      <span class="platforms__pair">
-        {i > 0 && <span aria-hidden="true">・</span>}
-        <a href={item.href}>{item.label}</a>
-      </span>
-    ))}
-  </p>
+  <nav slot="heroExtra" class="jump-line" aria-label="快速跳到">
+    跳到：<a href="#step-versions">版本對照</a><span aria-hidden="true">｜</span><a href="#step-platform">選你的系統</a>
+  </nav>
+  <ol slot="body" class="steps">
+    <li class="step">
+      <h2 id="step-versions" class="step__title"><span class="step__no" aria-hidden="true">1</span>先看版本對照</h2>
+      <details class="step__matrix" open>
+        <summary>官方修補版本</summary>
+        <VersionMatrix />
+      </details>
+      <p class="step__more"><a href="/dev/versions/">完整版本矩陣與受影響 SAPI 風險排序 <span aria-hidden="true">→</span></a></p>
+    </li>
+    <li class="step">
+      <h2 id="step-platform" class="step__title"><span class="step__no" aria-hidden="true">2</span>選你的系統</h2>
+      <ul class="platforms" aria-labelledby="step-platform">
+        {platforms.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+      <p class="step__more">不確定 PHP 從哪裡來？見<a href="/dev/am-i-affected/#source">先分辨 PHP 從哪裡來</a>。</p>
+    </li>
+  </ol>
   <p slot="strip" class="terms">看不懂 worker、SAPI、控制台？內文的專有名詞都有註解，也可以先翻<a href="/dev/glossary/">名詞表</a>。</p>
 </CampaignLanding>
 
@@ -77,38 +90,117 @@ const platforms = [
     font-weight: 700;
     line-height: 1.5;
   }
-  .platforms {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: baseline;
-    gap: 0.15em 0;
-    max-width: 52rem;
-    margin: 0 auto;
-    padding: 16px var(--gutter) 36px;
-    font-size: 0.9375rem;
-    line-height: 2;
-    color: var(--floor-ink-soft);
-  }
-  .platforms__k { margin-right: 0.2em; font-weight: 800; }
-  .platforms__pair { white-space: nowrap; }
-  .platforms a { font-weight: 800; color: var(--floor-ink); }
   /* HeroBanner 把 hero 內的連結都改白字；版號在白底膠囊上，要壓回深字 */
   .chips .chip > a.chip-link:link,
   .chips .chip > a.chip-link:visited { color: var(--on-line); text-decoration: none; }
   .chips .chip > a.chip-link:hover,
   .chips .chip > a.chip-link:focus-visible { text-decoration: underline; }
+  /* 小字外觀，連結觸控高度仍 ≥44px。顏色跟著 hero 文字走：窄螢幕是淺底深字，寬螢幕疊圖時 HeroBanner 改白字。 */
+  .jump-line {
+    margin: 12px 0 -6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .jump-line a {
+    display: inline-block;
+    padding: 12px 4px;
+    margin: -12px 0;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .jump-line a:focus-visible {
+    outline: 3px solid var(--line-dev);
+    outline-offset: -3px;
+  }
+
+  .steps {
+    display: grid;
+    gap: 32px;
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 32px var(--gutter) 8px;
+    list-style: none;
+  }
+  .step__title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    scroll-margin-top: 16px;
+  }
+  .step__no {
+    flex: none;
+    display: grid;
+    place-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--line-dev);
+    color: var(--on-line);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 1.25rem;
+  }
+  .step__matrix { margin-top: 10px; }
+  .step__matrix > summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .step__more {
+    margin-top: 8px;
+    font-size: 0.9375rem;
+    color: var(--floor-ink-soft);
+  }
+  .step__more a {
+    display: inline-block;
+    padding: 10px 0;
+    font-weight: 800;
+    color: var(--floor-ink);
+  }
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .platforms a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px 18px;
+    border: 2px solid var(--line-dev);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--on-line);
+    font-size: 1.0625rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .platforms a:hover { background: var(--line-dev); }
+  .platforms a:hover,
+  .platforms a:focus-visible { text-decoration: underline; text-underline-offset: 0.14em; }
+  .platforms a:focus-visible,
+  .step__more a:focus-visible,
+  .step__matrix > summary:focus-visible,
+  .terms a:focus-visible {
+    outline: 3px solid var(--graphite);
+    outline-offset: 3px;
+  }
+
   .terms {
     max-width: 52rem;
-    margin: -24px auto 0;
-    padding: 0 var(--gutter) 36px;
+    margin: 0 auto;
+    padding: 16px var(--gutter) 36px;
     text-align: center;
     font-size: 0.9375rem;
     color: var(--floor-ink-soft);
   }
   .terms a { font-weight: 800; color: var(--floor-ink); }
-  .platforms a:focus-visible {
-    outline: 3px solid var(--line-dev);
-    outline-offset: 3px;
-  }
 </style>
