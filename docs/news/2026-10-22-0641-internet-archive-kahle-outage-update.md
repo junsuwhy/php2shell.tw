@@ -22,7 +22,7 @@ Internet Archive 官方 X 帳號在 2026-10-22 06:41（台灣時間）轉貼創�
 ## 重點
 
 - **跟 PHP 漏洞有關，是官方自己說的**：Kahle 明寫「PHP vulnerability announced, soon saw attacks」，再說「Offline briefly, Back on new versions and running!」。
-- **是「看到攻擊」，不是「被攻破」**：說明裡沒有提到資料外洩或系統遭入侵，不要寫成 Internet Archive 遭入侵。
+- **是「看到攻擊」，不是「被攻破」**：說明中沒有提到資料外洩或系統遭入侵。
 - **停機時間**：官方帳號在 2026-10-21 22:22（台灣時間）發文說 archive.org 暫時下線（[貼文](https://x.com/internetarchive/status/2112912342564622841)），本則說明約 8 小時後發出，表示已恢復。
 - 說明沒有指出是 CVE-2026-109618 還是 CVE-2026-109619，此處也不推測。
 
