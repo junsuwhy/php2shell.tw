@@ -54,7 +54,7 @@
 
 | 路由 | 內容 |
 |---|---|
-| `/dev/` | TL;DR 與修補行動按鈕；下方兩步：① 先看版本對照（版本矩陣，連到 `/dev/versions/` 看 SAPI 風險排序）② 選你的系統（各平台修補頁按鈕），首頁到答案 2 頁 |
+| `/dev/` | TL;DR 與修補行動按鈕；下方兩步：① 先看版本對照（升級目標清單＋預設收合的完整版本對照表，連到 `/dev/versions/` 看 SAPI 風險排序）② 選你的系統（各平台修補頁按鈕），首頁到答案 2 頁 |
 | `/dev/root-cause/` | 成因概念（OOM bailout 留下半初始化／過期狀態；session upload-progress、OPcache、fatal error backtrace 三面向）——**只講概念，不講利用** |
 | `/dev/am-i-affected/` | 判斷方法：`php -v` 與實際 FPM／mod_php 版本可能不同、發行版回移植版號判讀、容器映像 |
 | `/dev/fix/debian/` | Debian（含 Sury 套件庫）|

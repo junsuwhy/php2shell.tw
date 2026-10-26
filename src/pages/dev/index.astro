@@ -46,8 +46,14 @@ const platforms = [
   <ol slot="body" class="steps">
     <li class="step">
       <h2 id="step-versions" class="step__title"><span class="step__no" aria-hidden="true">1</span>先看版本對照</h2>
-      <details class="step__matrix" open>
-        <summary>官方修補版本</summary>
+      <ul class="fixed-list" aria-label="各分支要升級到的版本">
+        {facts.fixed.map((f) => (
+          <li><span class="num">{f.branch}</span> <span aria-hidden="true">→</span><span class="visually-hidden">：</span> 升級到 <strong class="num">{f.version}</strong> 以上</li>
+        ))}
+      </ul>
+      <p class="fixed-note">升級後重啟所有 worker。</p>
+      <details class="step__matrix">
+        <summary>完整版本對照表</summary>
         <VersionMatrix />
       </details>
       <p class="step__more"><a href="/dev/versions/">完整版本矩陣與受影響 SAPI 風險排序 <span aria-hidden="true">→</span></a></p>
@@ -142,7 +148,22 @@ const platforms = [
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
     font-size: 1.25rem;
   }
-  .step__matrix { margin-top: 10px; }
+  /* 預設只列每個分支要升到哪一版，讓手機上步驟 2 在一、兩個螢幕內出現；完整矩陣收在下方 details。 */
+  .fixed-list {
+    display: grid;
+    gap: 4px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  .fixed-note {
+    margin-top: 4px;
+    font-size: 0.9375rem;
+    color: var(--floor-ink-soft);
+  }
+  .step__matrix { margin-top: 6px; }
   .step__matrix > summary {
     display: flex;
     align-items: center;
@@ -150,6 +171,19 @@ const platforms = [
     min-height: 44px;
     font-weight: 800;
     cursor: pointer;
+    list-style: none;
+  }
+  /* display:flex 會讓瀏覽器內建的三角形消失，自己補一個，展開時轉向 */
+  .step__matrix > summary::-webkit-details-marker { display: none; }
+  .step__matrix > summary::before {
+    content: '▸';
+    content: '▸' / '';
+    flex: none;
+    transition: transform 0.15s;
+  }
+  .step__matrix[open] > summary::before { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .step__matrix > summary::before { transition: none; }
   }
   .step__more {
     margin-top: 8px;

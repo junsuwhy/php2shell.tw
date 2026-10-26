@@ -10,9 +10,10 @@
 
 - `/dev/` 首頁 hero 保留原樣（標題、事實副句、版號膠囊、三顆修補行動按鈕），版號膠囊下方加一行跳轉小字「跳到：版本對照｜選你的系統」（`<nav class="jump-line">`，分別連到 `#step-versions`、`#step-platform`），與 `/basic/act/` 的跳轉小字一致。小字外觀但連結觸控高度 ≥44px；文字顏色跟著 hero（HeroBanner 疊圖時會把連結改白字，這行沿用而不強制指定顏色）。
 - hero 正下方新增標號的兩步（`<ol class="steps">`）：
-  1. **先看版本對照**（`#step-versions`）：直接嵌入既有的 `VersionMatrix` 元件（讀 `facts.yaml`，不寫死版號），包在原生 `<details open>` 裡，可收合；下方連到 `/dev/versions/` 看完整矩陣與受影響 SAPI 風險排序。
+  1. **先看版本對照**（`#step-versions`）：預設只列每個分支要升級到的版本（`facts.fixed` 的 `branch` 與 `version`，與首頁同一組，例如「8.5 → 升級到 8.5.12 以上」），下方一行沿用既有措辭「升級後重啟所有 worker」。完整的 `VersionMatrix` 元件原封不動（不刪任何一列）收在預設收合的原生 `<details>` 裡，summary 為「完整版本對照表」，觸控高度 ≥44px；不再另放「官方修補版本」summary，避免與表格 caption 重複。下方連到 `/dev/versions/` 看完整矩陣與受影響 SAPI 風險排序。版號一律讀 `facts.yaml`，不寫死。
   2. **選你的系統**（`#step-platform`）：一組按鈕連到各平台修補頁——Debian、Ubuntu、RHEL、Alpine、Windows、macOS、Docker、控制台，以及自行編譯（`/dev/fix/build-from-source/`，原本在 `/dev/checklist/`、`/dev/am-i-affected/` 與選單都已有入口，因此一併納入）。按鈕高度 48px，手機 390px 寬可換行。下方附一行連到既有的 `/dev/am-i-affected/#source`「先分辨 PHP 從哪裡來」。
 - 移除原本底部那行「選你的平台：」小字清單，避免同一組連結出現兩份。名詞表那行說明保留在頁尾。
+- 調整原因（產品經理決定）：原本步驟 1 以 `<details open>` 展開整張矩陣，手機 390px 寬時表格很長，步驟 2「選你的系統」被推到好幾個螢幕之後，違背大哥「1～2 頁內拿到答案」的目標。改成預設只列升級目標、完整表收合後，手機上步驟 2 約在 1～2 個螢幕內可見。
 - 純 HTML／CSS，沒有 JavaScript 也能用；視覺沿用 dev 區的 `--line-dev`、`--on-line`、`--graphite` 等既有變數。
 - `docs/architecture.md` 的 `/dev/` 列改為描述新的兩步結構。
 

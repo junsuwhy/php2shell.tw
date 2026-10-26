@@ -8,7 +8,7 @@
 
 ### Requirement: 開發者首頁提供兩步路線
 
-`/dev/` SHALL 在 hero 下方依序呈現標號的兩步：步驟 1「先看版本對照」（`#step-versions`）與步驟 2「選你的系統」（`#step-platform`）。步驟 1 MUST 直接顯示由 `facts.yaml` 產生的版本矩陣，並連到 `/dev/versions/`。步驟 2 MUST 以按鈕連到 Debian、Ubuntu、RHEL、Alpine、Windows、macOS、Docker、控制台與自行編譯的修補頁。同一組平台連結 MUST NOT 在首頁出現兩份。頁面 MUST 在沒有 JavaScript 時完整可用。
+`/dev/` SHALL 在 hero 下方依序呈現標號的兩步：步驟 1「先看版本對照」（`#step-versions`）與步驟 2「選你的系統」（`#step-platform`）。步驟 1 MUST 預設只列出 `facts.yaml` 中每個已修補分支要升級到的版本，並把完整版本矩陣原封不動放在預設收合（不帶 `open`）的原生 `<details>` 裡，summary 為「完整版本對照表」且觸控高度至少 44px；步驟 1 MUST 連到 `/dev/versions/`。步驟 2 MUST 以按鈕連到 Debian、Ubuntu、RHEL、Alpine、Windows、macOS、Docker、控制台與自行編譯的修補頁。同一組平台連結 MUST NOT 在首頁出現兩份。頁面 MUST 在沒有 JavaScript 時完整可用。
 
 #### Scenario: 首頁到修補頁
 
@@ -18,7 +18,18 @@
 #### Scenario: 版本對照不寫死
 
 - **WHEN** `facts.yaml` 的已修補版本更新
-- **THEN** 首頁步驟 1 的版本矩陣與 hero 版號膠囊跟著更新，不需改頁面
+- **THEN** 首頁步驟 1 的升級目標清單、收合的版本矩陣與 hero 版號膠囊都跟著更新，不需改頁面
+
+#### Scenario: 完整對照表預設收合
+
+- **WHEN** 訪客開啟 `/dev/`
+- **THEN** 步驟 1 顯示每個分支要升級到的版本，完整版本對照表預設收合
+- **AND** 點「完整版本對照表」展開後，看到與 `/dev/versions/` 相同、不缺列的版本矩陣
+
+#### Scenario: 手機上步驟 2 早點出現
+
+- **WHEN** 訪客在 390px 寬的手機上開啟 `/dev/`
+- **THEN** 步驟 2「選你的系統」約在 1～2 個螢幕內可見
 
 #### Scenario: 跳轉小字
 
