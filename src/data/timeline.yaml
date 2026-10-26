@@ -324,6 +324,7 @@
     - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
     - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
     - "2026-10-22-0839-guardian-php-flaw-shutdown-websites.md"
+    - "2026-10-21-2305-reuters-factbox-websites-offline.md"
   tags: ["關站"]
   importance: 3
 - id: "moda-notice-2026-10-22"
@@ -343,4 +344,22 @@
   sources:
     - "2026-10-23-1812-php-net-informational-advisory-session-upload-progress.md"
   tags: ["官方", "緩解", "待修補"]
+  importance: 2
+- id: "therecord-attempts-pocs-2026-10-23"
+  at: "2026-10-23T17:55:13Z"
+  precision: "exact"
+  title: "The Record：利用嘗試增加，專家稱尚未成功"
+  summary: "17:55 UTC（台灣 10 月 24 日 01:55），The Record 報導利用嘗試增加，但受訪專家表示嘗試都未成功，現有 PoC 多半只在實驗室條件下有效。仍應盡快修補。"
+  sources:
+    - "2026-10-24-0155-therecord-exploitation-attempts-pocs.md"
+  tags: ["在野利用", "PoC"]
+  importance: 2
+- id: "unit42-retraction-2026-10-25"
+  at: "2026-10-25T14:15:00-07:00"
+  precision: "exact"
+  title: "Unit 42 撤回歐洲政府機關遭入侵與 PHP2Shell 有關的說法"
+  summary: "10 月 25 日 14:15 美西（PDT，21:15 UTC；台灣 10 月 26 日 05:15），Unit 42 撤回 10 月 23 日的更新，表示無法證實歐洲政府機關遭入侵與這兩個 CVE 有關。本站不列為入侵案例。"
+  sources:
+    - "2026-10-26-0515-unit42-retracts-european-agency-claim.md"
+  tags: ["原始研究"]
   importance: 2
