@@ -30,7 +30,7 @@ sources:
 | 順序 | 措施 | 適用 | 修補後 |
 | --- | --- | --- | --- |
 | 1 | 下線，或只走 VPN／內網 | 全部 | 修補並驗證後恢復 |
-| 2 | `session.upload_progress.enabled=0` | 全部；應用不靠上傳進度 | 可保留；需要上傳進度再打開 |
+| 2 | `session.upload_progress.enabled=0` | 全部；應用不靠上傳進度 | 在 PHP 下一個例行修正版釋出前，請維持 `session.upload_progress.enabled=0` |
 | 3 | 調低 `post_max_size`，並在網頁伺服器限制請求大小 | 全部 | 依應用需求調回，維持在記憶體預算下 |
 | 4 | `fatal_error_backtraces=0` | 只有 PHP 8.5 | 可保留 |
 | 5 | `display_errors=0` | 全部正式環境 | 保留 |
@@ -84,6 +84,8 @@ PHP 官方的暫時數字：不需要上傳的站把 post_max_size 設為 8M，�
 ### 關掉上傳進度
 
 `session.upload_progress.enabled=0`，並重啟所有 worker。必須寫在請求開始解析前就生效的位置：php.ini、PHP-FPM pool 或伺服器設定。研究團隊的前提是應用不依賴上傳進度。
+
+已經更新到 10/21 修補版也一樣：PHP 官方 2026-10-23 10:12 UTC（台灣時間 18:12）公告還有一個待修補的 RCE 漏洞 CVE-2026-115560，建議維持 `session.upload_progress.enabled=0`，直到下一個例行修正版釋出。詳見[本站新聞摘要](/news/2026-10-23-1812-php-net-informational-advisory-session-upload-progress/)與 [php.net 官方公告](https://www.php.net/archive/2026.php#2026-10-23-1)。
 
 - **能擋什麼：** 已確認的 session 路徑。
 - **擋不了什麼：** OPcache 與 backtrace 那些變體。官方寫這只擋已確認的 session 路徑。
