@@ -108,6 +108,6 @@ sources:
 | Reuters | 歐洲關站與修補的通稿 | 香港01、Mashable、香港經濟日報轉述。AFR 轉載的正文未抓到 |
 | 《華爾街日報》（WSJ） | Heartbleed 比喻、近 200 個檔與逾 1 萬行、Thai Duong 與 Luttwak | 只有鉅亨網的編譯 |
 | 《紐約時報》（NYT） | 列入待核對清單 | `docs/news` 沒有 NYT 的摘要，知識檔也沒有引用 NYT 的具體句子 |
-| Wikipedia | GitHub advisory 是否在 13:34 UTC 公開（citation needed）；CISA 是否表示尚未觀察到；網際網路檔案館是否短暫關閉 | 僅 php.net 摘要的 time_note 提到 advisory 時間。另外兩則是待查證，沒有條目全文 |
+| Wikipedia | GitHub advisory 是否在 13:34 UTC 公開（citation needed）；CISA 是否表示尚未觀察到；網際網路檔案館是否短暫關閉 | 僅 php.net 摘要的 time_note 提到 advisory 時間。CISA 那則是待查證，沒有條目全文。網際網路檔案館短暫下線已不必靠 Wikipedia：路透引述其 X 貼文（`news/2026-10-21-2305-reuters-factbox-websites-offline.md`），以及官方帳號轉貼的創辦人 Brewster Kahle 說明（[X 貼文](https://x.com/internetarchive/status/2113037994924163166)，台灣時間 2026-10-22 06:41；`news/2026-10-22-0641-internet-archive-kahle-outage-update.md`）：PHP 漏洞公布後偵測到攻擊，短暫下線、更新修補後恢復。看到攻擊不等於被攻破 |
 
 另外沒有獨立全文、但被點過名的：Tenable 原文（蕃新聞有引，其中「攻擊鏈開發者為 LCFR」**沒有**出現在蕃新聞摘要）、CISA 的 KEV 頁、Chainguard 自己的發布說明（只有基金會記述 07:41 UTC）、ITmedia 關於《ワールドクエスト》停服的那一則、CERT-EU／ENISA 聯合聲明全文、NCSC-NL 的產品清單。

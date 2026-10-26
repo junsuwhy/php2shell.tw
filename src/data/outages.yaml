@@ -504,11 +504,12 @@
   name: "網際網路檔案館"
   region: "未載明"
   kind: "other"
-  action: "DownDetector 有障礙回報。Mashable：無法直接連結到這次更新。路透引述其 X 貼文，稱因緊急維護與安全修補下線，已恢復。"
-  php_confirmed: false
+  action: "DownDetector 有障礙回報，Mashable 當時表示無法直接連結到這次更新。路透引述其 X 貼文，稱因緊急維護與安全修補下線，已恢復。創辦人 Brewster Kahle 說明（由 Internet Archive 官方帳號轉貼），PHP 漏洞公布後偵測到攻擊，網站短暫下線、更新修補後已恢復；與 PHP 漏洞的關聯由這份官方說明確認。"
+  php_confirmed: true
   sources:
     - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"
     - "2026-10-21-2305-reuters-factbox-websites-offline.md"
+    - "2026-10-22-0641-internet-archive-kahle-outage-update.md"
 - id: "asana"
   name: "Asana"
   region: "未載明"

@@ -127,7 +127,8 @@ Cloudflare 從 10 月初就在做 WAF 規則，10 月 21 日 11:02（台灣）�
 | Pokémon Sleep、Pokémon HOME、Pokémon Champions | 維護 | Mashable：**未證實**與 PHP 有關 |
 | GOG | 維護，沒說原因 | Mashable：未證實 |
 | Duolingo | 有人回報錯誤變多 | Mashable：對方未提及此漏洞 |
-| 網際網路檔案館、Asana | DownDetector 有障礙回報 | Mashable：無法直接連結到這次更新。Wikipedia「檔案館短暫關閉」的條目全文未讀，不要寫成已證實 |
+| 網際網路檔案館 | 短暫下線，更新修補後恢復 | 路透引述其 X 貼文：因緊急維護與安全修補下線，已恢復。官方帳號轉貼創辦人 Brewster Kahle 的說明（[X 貼文](https://x.com/internetarchive/status/2113037994924163166)，台灣時間 2026-10-22 06:41）：PHP 漏洞公布後偵測到攻擊，**已確認與 PHP 漏洞有關**。Mashable、TechRadar 當時都沒能連結到 PHP（TechRadar 報導曾寫 not definitively linked，本站未收錄該篇全文），之後由官方說明釐清。「看到攻擊」不等於「被攻破」，不要寫成遭入侵 |
+| Asana | DownDetector 有障礙回報 | Mashable：無法直接連結到這次更新，不要寫成已證實 |
 
 ## 名言集
 
