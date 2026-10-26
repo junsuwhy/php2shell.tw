@@ -85,7 +85,7 @@ PHP 官方的暫時數字：不需要上傳的站把 post_max_size 設為 8M，�
 
 `session.upload_progress.enabled=0`，並重啟所有 worker。必須寫在請求開始解析前就生效的位置：php.ini、PHP-FPM pool 或伺服器設定。研究團隊的前提是應用不依賴上傳進度。
 
-已經更新到 10/21 修補版也一樣：PHP 官方 2026-10-23 10:12 UTC（台灣時間 18:12）公告還有一個待修補的 RCE 漏洞 CVE-2026-115560，建議維持 `session.upload_progress.enabled=0`，直到下一個例行修正版釋出。詳見[本站新聞摘要](/news/2026-10-23-1812-php-net-informational-advisory-session-upload-progress/)與 [php.net 官方公告](https://www.php.net/archive/2026.php#2026-10-23-1)。
+已經更新到 10/21 修補版也一樣：PHP 官方 2026-10-23 10:12 UTC（台灣時間 18:12）公告還有一個條件少見、尚待修補的 RCE 途徑 CVE-2026-115560，建議維持 `session.upload_progress.enabled=0`，直到下一個例行修正版釋出。詳見[本站新聞摘要](/news/2026-10-23-1812-php-net-informational-advisory-session-upload-progress/)與 [php.net 官方公告](https://www.php.net/archive/2026.php#2026-10-23-1)。
 
 - **能擋什麼：** 已確認的 session 路徑。
 - **擋不了什麼：** OPcache 與 backtrace 那些變體。官方寫這只擋已確認的 session 路徑。
