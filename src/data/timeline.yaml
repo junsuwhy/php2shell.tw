@@ -335,3 +335,12 @@
     - "2026-10-22-moda-php-emergency-update.md"
   tags: ["台灣", "政府"]
   importance: 2
+- id: "php-advisory-cve-2026-115560-2026-10-23"
+  at: "2026-10-23T10:12:28+00:00"
+  precision: "exact"
+  title: "PHP 官方公告另一個待修補的 RCE：CVE-2026-115560"
+  summary: "10 月 23 日 10:12 UTC（台灣 18:12），PHP 官方發布資訊性公告，指出還有一個待修補的遠端程式碼執行漏洞 CVE-2026-115560，只在少見設定下才可能觸發。官方建議先把 session.upload_progress.enabled 設為 0，修補會隨下一個常規版本釋出。受影響版本與評分待查證。"
+  sources:
+    - "2026-10-23-1812-php-net-informational-advisory-session-upload-progress.md"
+  tags: ["官方", "緩解", "待修補"]
+  importance: 2
