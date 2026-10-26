@@ -17,7 +17,11 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   hour12: false,
 }).format(new Date(facts.released_at));
 ---
-<Base title={site.title} persona="gateway" description="PHP2Shell（CVE-2026-109618、CVE-2026-109619）事件說明：網站老闆、工程師各有入口，另附事件始末、懶人包與時間軸。">
+<Base
+  title={`${facts.name} 漏洞懶人包：該怎麼更新、怎麼檢查｜${site.title}`}
+  persona="gateway"
+  description={`${facts.name} 漏洞一次看懂：網站老闆可以確認網站有沒有事、該找誰處理，工程師可以直接查各平台的修補、緩解與偵測步驟，另附事件始末與時間軸。`}
+>
   <HeroBanner id="home-concourse" variant="home">
     <div class="station__text">
       <h1 id="station-title">{facts.name} 事件</h1>
@@ -28,6 +32,27 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
       </dl>
     </div>
   </HeroBanner>
+
+  <section class="notice" aria-labelledby="notice-title">
+    <h2 id="notice-title">重要：有用 PHP 的網站，請立即更新</h2>
+    <ul class="notice__versions" aria-label="已修補版本">
+      {facts.fixed.map((f) => (
+        <li>
+          <a href="/dev/versions/" aria-label={`${f.branch} 系列已修補版本 ${f.version}：看版本對照與怎麼升級`}>
+            <span class="notice__branch num">{f.branch} 系列</span><span class="notice__version num">{f.version}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="notice__cta">
+      <a href="/basic/act/">我有網站，現在該做什麼<Arrow class="notice__cta-arrow" /></a>
+    </p>
+    <p class="notice__more">8.1 以前的版本官方已不再發布更新，請盡快升級。</p>
+    <p class="notice__ticket">
+      來源：<a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a>
+      <span class="num">{releasedTaipei}</span>（台灣時間）發布
+    </p>
+  </section>
 
   <nav class="exits" aria-label="選擇身份">
     {personas.map((p) => (
@@ -43,24 +68,6 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
       </a>
     ))}
   </nav>
-
-  <section class="notice" aria-labelledby="notice-title">
-    <h2 id="notice-title">重要：有用 PHP 的網站，請立即更新</h2>
-    <ul class="notice__versions" aria-label="已修補版本">
-      {facts.fixed.map((f) => (
-        <li>
-          <a href="/dev/versions/" aria-label={`${f.branch} 系列已修補版本 ${f.version}：看版本對照與怎麼升級`}>
-            <span class="notice__branch num">{f.branch} 系列</span><span class="notice__version num">{f.version}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-    <p class="notice__more">8.1 以前的版本官方已不再發布更新，請盡快升級。</p>
-    <p class="notice__ticket">
-      來源：<a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a>
-      <span class="num">{releasedTaipei}</span>（台灣時間）發布
-    </p>
-  </section>
 
   <WhatHappened />
 </Base>
@@ -196,6 +203,29 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
   .notice__versions a:focus-visible .notice__version { text-decoration: underline; }
   .notice__versions a:focus-visible { outline-color: var(--on-alert); }
   .notice__more a { color: var(--on-alert); font-weight: 700; }
+  /* 主要行動：非技術訪客最常需要的下一步，用路線黃跟白色版本牌區隔 */
+  .notice__cta { grid-column: 1 / -1; margin: 4px 0 0; }
+  .notice__cta a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 60px;
+    padding: 12px 22px 12px 26px;
+    border-radius: 999px;
+    background: var(--line-basic);
+    color: var(--on-line);
+    box-shadow: 0 0 0 3px var(--on-line);
+    font-size: clamp(1.1875rem, 2vw, 1.375rem);
+    font-weight: 900;
+    line-height: 1.3;
+    text-decoration: none;
+    --arrow-rotate: 90deg;
+  }
+  .notice__cta a:hover,
+  .notice__cta a:focus-visible { --arrow-shift: 6px 0; text-decoration: underline; }
+  .notice__cta a:focus-visible { outline: 3px solid var(--on-alert); outline-offset: 5px; }
+  .notice__cta :global(.notice__cta-arrow) { flex: none; font-size: 1.5rem; }
   .notice__branch { font-size: 0.8125rem; font-weight: 700; color: #7a1222; }
   .notice__version { font-size: 1.875rem; font-weight: 900; line-height: 1.1; }
   .notice__more { max-width: 62ch; color: var(--on-alert); }
@@ -224,5 +254,50 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     .exit :global(.exit__arrow) { font-size: 2.25rem; }
     .notice { grid-template-columns: 1fr; }
     .notice__ticket { border-left: 0; padding-left: 0; border-top: 1px dashed rgb(255 255 255 / 0.6); padding-top: 12px; }
+  }
+
+  /* 手機第一屏：不捲動就要看到「請立即更新」、四個修補版本與主要按鈕 */
+  @media (max-width: 600px) {
+    .station__text h1,
+    h1 { font-size: 2.25rem; }
+    .station__meta {
+      display: grid;
+      gap: 2px;
+      margin-top: 14px;
+      padding-top: 10px;
+      font-size: 0.875rem;
+    }
+    .notice { gap: 12px; padding: 20px var(--gutter) 24px; }
+    .notice h2 { font-size: 1.3125rem; line-height: 1.35; }
+    .notice__versions {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .notice__versions a { min-width: 0; padding: 6px 8px 8px; }
+    .notice__branch { font-size: 0.75rem; }
+    .notice__version { font-size: 1.125rem; }
+    .notice__cta a { display: flex; width: 100%; min-height: 56px; padding: 10px 18px 10px 22px; }
+    .notice__more,
+    .notice__ticket { font-size: 0.875rem; }
+
+    /* 身份卡改成橫的一條：圖縮到右側小方塊 */
+    .exit {
+      grid-template-columns: auto minmax(0, 1fr) 84px;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        'badge head art'
+        'gets gets art';
+      gap: 8px 14px;
+      padding: 16px var(--gutter) 18px;
+      border-top-width: 10px;
+    }
+    .exit + .exit { border-top-width: 10px; }
+    .exit__badge { width: 44px; font-size: 1.5rem; }
+    .exit__name { font-size: 1.5rem; }
+    .exit__gets { font-size: 1.0625rem; padding-right: 0; }
+    .exit :global(.exit__art) { width: 84px; aspect-ratio: 1; align-self: center; }
+    /* 卡片已經矮成一條，整張都可點，裝飾用的箭頭先收起來 */
+    .exit :global(.exit__arrow) { display: none; }
   }
 </style>

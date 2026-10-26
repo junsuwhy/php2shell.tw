@@ -5,9 +5,12 @@ import { facts } from '../../lib/data';
 interface Props {
   /** 收件對象，只用在標題，例如「主機商」 */
   to?: string;
+  /** 放在步驟卡片等小節裡面時用 3，標題降一級 */
+  level?: 2 | 3;
 }
 
-const { to = '主機商或廠商' } = Astro.props;
+const { to = '主機商或廠商', level = 2 } = Astro.props;
+const Heading = level === 3 ? 'h3' : 'h2';
 const cves = facts.cves.map((c) => c.id).join('、');
 const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell（${cves}）。想請您協助確認我們的網站，並用文字回覆：
 
@@ -22,54 +25,94 @@ const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell�
 
 謝謝！`;
 ---
-<section class="ask" aria-labelledby="ask-title">
-  <h2 id="ask-title">直接傳給{to}的訊息</h2>
+<section class:list={['ask', { 'ask--inline': level === 3 }]} aria-labelledby="ask-title">
+  <Heading id="ask-title">直接傳給{to}的訊息</Heading>
   <p>複製下面這段，把網址填上，用 Email 或客服單傳給對方。請對方<strong>用文字回覆</strong>，之後拿回覆對照<a href="/basic/done/">怎樣算處理完</a>。</p>
   <figure class="ask__box">
     <figcaption>
       <span>詢問訊息</span>
-      <button type="button" class="ask__copy" data-ask-copy><span data-ask-copy-text>複製</span></button>
+      <!-- 沒有 JavaScript 時按鈕不顯示，下面的文字仍可直接選取複製 -->
+      <button type="button" class="ask__copy" data-ask-copy hidden><span data-ask-copy-text>複製詢問訊息</span></button>
     </figcaption>
     <pre data-ask-text>{text}</pre>
-    <span class="visually-hidden" role="status" aria-live="polite" data-ask-status></span>
+    <p class="ask__status" role="status" aria-live="polite" data-ask-status></p>
   </figure>
 </section>
 
 <script>
-  document.addEventListener('click', async (event) => {
-    const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-ask-copy]');
-    if (!button) return;
-    const box = button.closest('.ask__box');
-    const text = box?.querySelector('[data-ask-text]')?.textContent ?? '';
-    let ok = false;
+  const LABEL = '複製詢問訊息';
+  document.querySelectorAll<HTMLButtonElement>('[data-ask-copy]').forEach((b) => (b.hidden = false));
+
+  // 先用 Clipboard API；不行（非 https、舊瀏覽器、權限被擋）再用舊式複製
+  const copy = async (text: string) => {
     try {
+      if (!navigator.clipboard) throw new Error('no clipboard');
       await navigator.clipboard.writeText(text);
-      ok = true;
+      return true;
     } catch {
-      // 沒有 Clipboard API（非 https、舊瀏覽器）時改用選取複製
       const area = document.createElement('textarea');
       area.value = text;
+      area.setAttribute('readonly', '');
       area.style.position = 'fixed';
       area.style.opacity = '0';
       document.body.append(area);
       area.select();
-      ok = document.execCommand('copy');
+      let ok = false;
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      }
       area.remove();
+      return ok;
     }
+  };
+
+  const timers = new WeakMap<Element, number>();
+
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>('[data-ask-copy]');
+    if (!button) return;
+    const box = button.closest('.ask__box');
+    const pre = box?.querySelector('[data-ask-text]');
     const label = button.querySelector('[data-ask-copy-text]');
     const status = box?.querySelector('[data-ask-status]');
-    if (label) label.textContent = ok ? '已複製' : '請手動選取';
-    if (status) status.textContent = ok ? '訊息已複製' : '無法自動複製，請手動選取文字';
-    window.setTimeout(() => {
-      if (label) label.textContent = '複製';
-      if (status) status.textContent = '';
-    }, 2000);
+    if (!box || !pre) return;
+
+    const ok = await copy(pre.textContent ?? '');
+    window.clearTimeout(timers.get(box));
+    if (ok) {
+      if (label) label.textContent = '已複製 ✓';
+      if (status) status.textContent = '已複製，可以貼到 Email 或客服單了。';
+      timers.set(
+        box,
+        window.setTimeout(() => {
+          if (label) label.textContent = LABEL;
+          if (status) status.textContent = '';
+        }, 4000),
+      );
+    } else {
+      // 都不行就把整段文字選起來，請訪客自己複製
+      const range = document.createRange();
+      range.selectNodeContents(pre);
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      if (label) label.textContent = LABEL;
+      if (status) status.textContent = '沒辦法自動複製。訊息已經幫你選取好了，請按 Ctrl+C（Mac 按 ⌘+C；手機請長按選取的文字，再點「複製」）。';
+    }
   });
 </script>
 
 <style>
   .ask { display: grid; gap: 12px; }
-  h2 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  h2,
+  h3 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  .ask--inline { margin-top: 16px; gap: 10px; }
+  .ask--inline h3 { font-size: 1.1875rem; margin-top: 0; }
+  .ask--inline > p { font-size: 1.0625rem; }
+  /* 放在白色卡片裡時加框，訊息才不會跟卡片混在一起 */
+  .ask--inline .ask__box { border: 2px solid var(--line-basic); background: var(--floor); }
   .ask__box { margin: 0; background: #fff; border-radius: 14px; overflow: hidden; }
   figcaption {
     display: flex;
@@ -92,7 +135,19 @@ const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell�
     font-weight: 800;
     cursor: pointer;
   }
+  .ask__copy[hidden] { display: none; }
   .ask__copy:focus-visible { outline: 3px solid var(--graphite); outline-offset: 2px; }
+  .ask__status {
+    margin: 0;
+    padding: 10px 16px 14px;
+    border-top: 1px solid var(--floor);
+    color: var(--floor-ink);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.6;
+  }
+  /* 空的時候收起來但不移出無障礙樹，螢幕閱讀器才收得到之後的更新 */
+  .ask__status:empty { padding: 0; border-top: 0; }
   pre {
     margin: 0;
     padding: 16px;

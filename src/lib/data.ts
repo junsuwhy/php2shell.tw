@@ -26,6 +26,7 @@ export interface Site {
   domain: string;
   lang: string;
   contact_email: string;
+  social?: { name: string; url: string }[];
 }
 
 export const facts = load<Facts>('facts');

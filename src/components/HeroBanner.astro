@@ -68,6 +68,10 @@ const showMedia = Boolean(slot && (slot.ready || import.meta.env.DEV));
   .hero--campaign.hero--media .hero__media :global(.hero__img) {
     aspect-ratio: 2 / 1;
   }
+  /* 手機首頁：圖改用原圖 21:9，比 16:9 矮一截，第一屏留給「請立即更新」；整面塗鴉也不會被裁掉。 */
+  @media (max-width: 899px) {
+    .hero--home .hero__media :global(.hero__img) { aspect-ratio: 21 / 9; }
+  }
   .hero--campaign:not(.hero--media) .hero__copy,
   .hero--campaign.hero--media .hero__copy {
     padding-bottom: 28px;
@@ -104,6 +108,27 @@ const showMedia = Boolean(slot && (slot.ready || import.meta.env.DEV));
       padding-top: clamp(36px, 6vh, 72px);
       padding-bottom: clamp(28px, 5vh, 56px);
       background: rgb(14 16 20 / 0.92);
+    }
+    /* 桌機首頁：原圖 21:9 在 1280–1440 寬會高到 550–620px，把公告的主要按鈕推出第一屏。
+       橫幅改跟視窗高度走（預留約 400px 給頁首與公告），圖用 cover 裁上下；
+       字在圖裡偏上，裁切重心放在上方 25%，切掉的主要是底部滴痕。文字較多時橫幅照文字撐高。 */
+    .hero--home.hero--media:not(.hero--campaign) {
+      min-height: clamp(340px, calc(100svh - 400px), calc(100vw * 9 / 21));
+    }
+    .hero--home.hero--media:not(.hero--campaign) .hero__media {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero--home.hero--media:not(.hero--campaign) .hero__media :global(.hero__img) {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      min-height: 0;
+      object-position: right 25%;
+    }
+    .hero--home.hero--media:not(.hero--campaign) .hero__copy {
+      padding-top: clamp(24px, 4vh, 48px);
+      padding-bottom: clamp(20px, 3vh, 36px);
     }
     .hero--media .hero__copy :global(h1),
     .hero--media .hero__copy :global(p),

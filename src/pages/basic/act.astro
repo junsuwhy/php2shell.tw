@@ -1,5 +1,6 @@
 ---
 import BasicPage from '../../components/basic/BasicPage.astro';
+import AskVendor from '../../components/basic/AskVendor.astro';
 ---
 <BasicPage
   title="你需要做的三件事"
@@ -8,7 +9,7 @@ import BasicPage from '../../components/basic/BasicPage.astro';
 >
   <ol class="step-cards">
     <li><strong>弄清楚你的網站是什麼、誰在管。</strong>是 WordPress？放在哪家主機？還是外包廠商做的？不知道也沒關係，下面會一步步帶你找。</li>
-    <li><strong>請管主機的人更新「主廚」，並給你版本號。</strong>只按網站後台的「更新外掛」不夠，要更新的是背後的 PHP。對方要能說出更新後的版本號，口頭說「我們有資安防護」不算數；怎樣才算完成，見<a href="/basic/done/">怎樣算處理完</a>。網站前面的防火牆、幫網站擋流量的加速服務、主機商的防護規則，都只能多一層看守，不能代替把主廚換掉。</li>
+    <li><strong>請管主機的人更新「主廚」，並給你版本號。</strong>只按網站後台的「更新外掛」不夠，要更新的是背後的 PHP。對方要能說出更新後的版本號，口頭說「我們有資安防護」不算數；怎樣才算完成，見<a href="/basic/done/">怎樣算處理完</a>。網站前面的防火牆、幫網站擋流量的加速服務、主機商的防護規則，都只能多一層看守，不能代替把主廚換掉。<AskVendor to="主機商或廠商" level={3} /></li>
     <li><strong>還沒確認前，考慮先暫停網站。</strong>如果今天拿不到「已經更新」的答覆，先讓網站暫停對外比較安全。萬一懷疑被闖入，請廠商<strong>先把紀錄留下來，不要急著整台重灌</strong>。</li>
   </ol>
 
@@ -50,6 +51,11 @@ import BasicPage from '../../components/basic/BasicPage.astro';
     font-weight: 900;
     font-size: 1.35rem;
     font-family: var(--font-num);
+  }
+  /* 手機上步驟卡片窄，號碼改放在上方，裡面的詢問訊息才有足夠寬度 */
+  @media (max-width: 560px) {
+    .step-cards > li { padding: 82px 18px 20px; }
+    .step-cards > li::before { left: 18px; top: 20px; }
   }
   .go { margin: 28px 0 0; }
   .go a {
