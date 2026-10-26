@@ -28,7 +28,7 @@
 
 ## 5. 驗證（步驟 1 精簡）
 
-- [ ] 5.1 `npm run build` 建置成功
-- [ ] 5.2 `dist/dev/index.html` 的步驟 1 列出全部 `facts.fixed` 版號；`<details class="step__matrix">` 沒有 `open` 屬性，summary 為「完整版本對照表」，裡面的矩陣列數與 `/dev/versions/` 相同
-- [ ] 5.3 手機 390px 寬時，步驟 2「選你的系統」約在 1～2 個螢幕內可見；展開 details 後完整表正常顯示、可橫向捲動
-- [ ] 5.4 沒有 JavaScript 時 details 仍可展開收合；summary 鍵盤可操作且有焦點外框
+- [x] 5.1 `npm run build` 建置成功
+- [x] 5.2 `dist/dev/index.html` 的步驟 1 列出全部 `facts.fixed` 版號；`<details class="step__matrix">` 沒有 `open` 屬性，summary 為「完整版本對照表」，裡面的矩陣列數與 `/dev/versions/` 相同
+- [x] 5.3 手機 390px 寬時，步驟 2「選你的系統」約在 1～2 個螢幕內可見；展開 details 後完整表正常顯示、可橫向捲動
+- [x] 5.4 沒有 JavaScript 時 details 仍可展開收合；summary 鍵盤可操作且有焦點外框
