@@ -150,7 +150,7 @@
   name: "芬蘭政府公共網路服務（Valtori）"
   region: "芬蘭"
   kind: "government"
-  action: "政府公共網路服務暫停。Mashable 寫是 Valtori 預防性關閉。"
+  action: "政府公共網路服務暫停。Mashable 寫是 Valtori 預防性關閉。路透社引述 Valtori 表示，未發現任何利用嘗試，停機並非資料外洩所致。"
   php_confirmed: true
   sources:
     - "2026-10-21-2009-bbc-websites-taken-down-worldwide.md"
