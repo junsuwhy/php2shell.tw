@@ -504,7 +504,7 @@
   name: "網際網路檔案館"
   region: "未載明"
   kind: "other"
-  action: "DownDetector 有障礙回報。Mashable：無法直接連結到這次更新。不要寫成已證實因 PHP 關閉。"
+  action: "DownDetector 有障礙回報。Mashable：無法直接連結到這次更新。不要寫成已證實因 PHP 關閉。路透引述其 X 貼文，稱因緊急維護與安全修補下線，已恢復；未說明與 PHP 有關。"
   php_confirmed: false
   sources:
     - "2026-10-22-0232-mashable-php-vulnerability-websites-offline.md"

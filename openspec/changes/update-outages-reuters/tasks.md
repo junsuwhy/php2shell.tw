@@ -7,7 +7,7 @@
 - [x] 1.3 新增 Reuters 沒提 PHP 的 10 筆（捷克政府、日本財務省、氣象廳、國稅廳、加拿大政府、野村、三菱 UFJ、全日空、JR 東日本、BBC 部分網頁入口），`php_confirmed: false`，action 寫明沒提到 PHP
 - [x] 1.4 新條目放在同地區條目旁
 - [x] 1.5 Valtori 維持 `php_confirmed: true`，action 補上路透社引述 Valtori 的說法：未發現任何利用嘗試，停機並非資料外洩所致
-- [ ] 1.6 網際網路檔案館的說明（自稱因緊急維護與安全修補下線）暫緩，等查證原始來源後再補；`php_confirmed` 維持 `false`
+- [x] 1.6 網際網路檔案館維持 `php_confirmed: false`，action 補上路透引述其 X 貼文的說法：因緊急維護與安全修補下線，已恢復；未說明與 PHP 有關
 
 ## 2. 驗證
 
