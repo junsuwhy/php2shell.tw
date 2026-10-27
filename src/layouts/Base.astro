@@ -56,7 +56,6 @@ const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
       <slot />
     </main>
     <footer class="site-footer">
-      <p>資料更新 <span class="num">{facts.updated_at}</span></p>
       <nav aria-label="網站資訊">
         <a href="/about/">關於本站</a>
         <a href="/sources/">資料來源</a>
