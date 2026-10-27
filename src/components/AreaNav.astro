@@ -113,7 +113,8 @@ function groupHasCurrent(children: { href: string }[]) {
     color: var(--on-graphite);
     text-decoration: none;
   }
-  .area-nav a[aria-current='page'] {
+  /* 權重要高於上面的 .area-nav__list > li > a 白字，路線色底上才會是深字 */
+  .area-nav .area-nav__list a[aria-current='page'] {
     background: var(--nav-accent);
     color: var(--on-line);
     font-weight: 800;
@@ -127,7 +128,7 @@ function groupHasCurrent(children: { href: string }[]) {
     outline: 3px solid #fff;
     outline-offset: -3px;
   }
-  .area-nav a[aria-current='page']:focus-visible { outline-color: #1b1e22; }
+  .area-nav a[aria-current='page']:focus-visible { outline-color: var(--on-line); }
 
   @media (min-width: 960px) {
     .area-nav__toggle { display: none; }

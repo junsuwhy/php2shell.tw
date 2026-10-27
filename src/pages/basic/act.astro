@@ -657,6 +657,8 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   /* 各系統收合段落 */
   .systems { display: grid; gap: 14px; margin-top: 12px; }
   .sys { scroll-margin-top: 24px; }
+  /* Chromium 收合 details 時內容仍留著版面位置，會疊在後面段落底下；收合時不排版 */
+  .sys:not([open]) > .sys__body { display: none; }
   .sys > summary {
     list-style: none;
     display: grid;
