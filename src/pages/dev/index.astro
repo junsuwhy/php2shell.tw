@@ -73,9 +73,9 @@ const platforms = [
   .sub { container-type: inline-size; }
   .sub__line {
     display: block;
-    white-space: nowrap;
-    /* 較長的那行（兩個 CVE 加 CVSS）在 17px 約 428px。窄欄用容器寬度把字縮到仍是一行。 */
-    font-size: min(1.0625rem, 3.55cqi);
+    /* 較長的那行（兩個 CVE 加 CVSS）在 17px 約 428px。窄欄用容器寬度把字縮到仍是一行；
+       最小 13px，再窄就換行。 */
+    font-size: clamp(0.8125rem, 3.55cqi, 1.0625rem);
   }
   .chips {
     display: flex;
@@ -128,6 +128,8 @@ const platforms = [
     padding: 32px var(--gutter) 8px;
     list-style: none;
   }
+  /* 段落行寬約 30 個中文字；版本表與平台按鈕維持整欄寬 */
+  .steps :global(p) { max-width: 60ch; }
   .step__title {
     display: flex;
     align-items: center;
@@ -229,7 +231,7 @@ const platforms = [
   }
 
   .terms {
-    max-width: 52rem;
+    max-width: calc(60ch + 2 * var(--gutter));
     margin: 0 auto;
     padding: 16px var(--gutter) 36px;
     text-align: center;
