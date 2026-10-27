@@ -12,6 +12,7 @@
 - [x] 2.4 開發者區：`dev/index.astro`、`dev/glossary.astro`、`CommandBlock.astro`、`VersionMatrix.astro`、`SapiRisk.astro`、`glossary-annotation.css`
 - [x] 2.5 事件始末與其他頁：`news/*.astro`、`NewsCard.astro`、`TimelineList.astro`、`SourceLinks.astro`、`about.astro`、`sources.astro`
 - [x] 2.6 搜尋 `src/` 確認除提案列出的例外外，沒有寫死的字級
+- [x] 2.7 首頁「請立即更新」標題改用 --fs-display（產品經理要求）
 
 ## 3. 驗證
 
