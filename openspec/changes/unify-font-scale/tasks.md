@@ -15,5 +15,5 @@
 
 ## 3. 驗證
 
-- [ ] 3.1 以 Node 24 執行 `npm run build` 確認建置通過
-- [ ] 3.2 本機建置或 PR 預覽以 taste-skill inspect 複驗 `/`、`/basic/act/`、`/dev/` 的字級種類；確認 /dev/ hero 副句最小 13px、/dev/ 段落 60ch、主選單目前頁面深字維持不變
+- [x] 3.1 以 Node 24 執行 `npm run build` 確認建置通過
+- [x] 3.2 本機建置或 PR 預覽以 taste-skill inspect 複驗 `/`、`/basic/act/`、`/dev/` 的字級種類；確認 /dev/ hero 副句最小 13px、/dev/ 段落 60ch、主選單目前頁面深字維持不變
