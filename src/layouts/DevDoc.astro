@@ -74,8 +74,8 @@ const { title, description, lede, hero, checked, sources, next = [] } = Astro.pr
   .dev-title { padding: 32px var(--gutter) 0; }
   .dev-doc { padding: 8px var(--gutter) 56px; }
   .dev-doc--after-hero { padding-top: 28px; }
-  h1 { font-size: clamp(1.75rem, 4vw, 2.375rem); font-weight: 900; }
-  .lede { margin-top: 12px; font-size: 1.125rem; color: var(--floor-ink-soft); }
+  h1 { font-size: var(--fs-display); font-weight: 900; }
+  .lede { margin-top: 12px; font-size: var(--fs-lead); color: var(--floor-ink-soft); }
   :global(.start) { display: grid; gap: 12px; margin-top: 8px; }
   :global(.start ul) {
     list-style: none;
@@ -95,18 +95,18 @@ const { title, description, lede, hero, checked, sources, next = [] } = Astro.pr
   }
   :global(.start a:hover),
   :global(.start a:focus-visible) { border-color: var(--line-dev); }
-  :global(.start strong) { font-size: 1.125rem; }
-  :global(.start span) { font-size: 0.9375rem; color: var(--floor-ink-soft); }
+  :global(.start strong) { font-size: var(--fs-lead); }
+  :global(.start span) { font-size: var(--fs-small); color: var(--floor-ink-soft); }
 
   .dev-doc__body { margin-top: 28px; }
   .dev-doc__body :global(h2) {
     margin: 2.5rem 0 0.75rem;
     padding-top: 0.5rem;
     border-top: 3px solid var(--line-dev);
-    font-size: 1.5rem;
+    font-size: var(--fs-heading);
     font-weight: 800;
   }
-  .dev-doc__body :global(h3) { margin: 1.75rem 0 0.5rem; font-size: 1.1875rem; font-weight: 800; }
+  .dev-doc__body :global(h3) { margin: 1.75rem 0 0.5rem; font-size: var(--fs-lead); font-weight: 800; }
   .dev-doc__body :global(p) { margin: 0.75rem 0; }
   .dev-doc__body :global(ul),
   .dev-doc__body :global(ol) { margin: 0.75rem 0; padding-left: 1.5rem; }
@@ -116,6 +116,7 @@ const { title, description, lede, hero, checked, sources, next = [] } = Astro.pr
     border-radius: 3px;
     background: #d8dce1;
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    /* 例外：等寬字看起來較大，用相對值跟著所在段落或標題縮放 */
     font-size: 0.9em;
     overflow-wrap: anywhere;
   }
@@ -133,16 +134,16 @@ const { title, description, lede, hero, checked, sources, next = [] } = Astro.pr
     width: 100%;
     margin: 1rem 0;
     border-collapse: collapse;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
   }
   .dev-doc__body :global(th),
   .dev-doc__body :global(td) { padding: 8px 10px; border-bottom: 1px solid #c9cdd3; text-align: left; vertical-align: top; }
   .dev-doc__body :global(thead th) { background: var(--graphite); color: var(--on-graphite); }
 
   .sources, .next { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--graphite-rule); }
-  .sources h2, .next h2 { font-size: 1.25rem; font-weight: 800; }
-  .sources__checked { margin: 0.5rem 0; font-size: 0.9375rem; color: var(--floor-ink-soft); }
-  .sources ul { padding-left: 1.25rem; font-size: 0.9375rem; overflow-wrap: anywhere; }
+  .sources h2, .next h2 { font-size: var(--fs-lead); font-weight: 800; }
+  .sources__checked { margin: 0.5rem 0; font-size: var(--fs-small); color: var(--floor-ink-soft); }
+  .sources ul { padding-left: 1.25rem; font-size: var(--fs-small); overflow-wrap: anywhere; }
   .next ul { list-style: none; margin: 0.75rem 0 0; padding: 0; display: grid; gap: 10px; }
   .next a {
     display: inline-block;
@@ -154,5 +155,5 @@ const { title, description, lede, hero, checked, sources, next = [] } = Astro.pr
     text-decoration: none;
   }
   .next a:hover { background: var(--line-dev); color: var(--on-line); }
-  .next__note { display: block; margin-top: 4px; font-size: 0.9375rem; color: var(--floor-ink-soft); }
+  .next__note { display: block; margin-top: 4px; font-size: var(--fs-small); color: var(--floor-ink-soft); }
 </style>

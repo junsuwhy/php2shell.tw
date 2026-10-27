@@ -53,7 +53,7 @@ import TimelineList from '../../components/news/TimelineList.astro';
 <style>
   .page { display: grid; gap: 32px; max-width: 46rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
   .page__head { display: grid; gap: 12px; }
-  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  h1 { font-size: var(--fs-display); font-weight: 900; }
   .tz { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; position: sticky; top: 0; z-index: 1; padding: 10px 0; background: var(--floor); }
   .tz[hidden] { display: none; }
   .tz [role='group'] { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -65,11 +65,11 @@ import TimelineList from '../../components/news/TimelineList.astro';
     background: #fff;
     color: var(--floor-ink);
     font: inherit;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     cursor: pointer;
   }
   .tz button[aria-pressed='true'] { background: var(--graphite); color: var(--on-graphite); }
   .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); }
-  .next h2 { font-size: 1.25rem; }
+  .next h2 { font-size: var(--fs-lead); }
   .next ul { margin: 0; padding-left: 1.2em; }
 </style>

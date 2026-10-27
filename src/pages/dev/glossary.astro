@@ -57,8 +57,8 @@ const byTerm = new Map(entries.flatMap((e) => [e.term, ...e.aliases].map((name) 
 
 <style>
   .glossary { max-width: 46rem; margin: 0 auto; padding: 32px var(--gutter) 56px; }
-  h1 { font-size: clamp(1.75rem, 4vw, 2.375rem); font-weight: 900; }
-  .lede { margin-top: 12px; font-size: 1.125rem; color: var(--floor-ink-soft); }
+  h1 { font-size: var(--fs-display); font-weight: 900; }
+  .lede { margin-top: 12px; font-size: var(--fs-lead); color: var(--floor-ink-soft); }
   .index ul { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
   .index a {
     display: inline-block;
@@ -69,17 +69,17 @@ const byTerm = new Map(entries.flatMap((e) => [e.term, ...e.aliases].map((name) 
     border-radius: 4px;
     background: #fff;
     text-decoration: none;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
   }
   .terms { margin: 32px 0 0; }
   .term { padding: 16px 0; border-top: 1px solid #c9cdd3; scroll-margin-top: 16px; }
   .term:target { background: #fff; outline: 3px solid var(--line-dev); outline-offset: 4px; }
   dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
-  .term__name { font-size: 1.25rem; font-weight: 800; }
-  .term__aliases { font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .term__name { font-size: var(--fs-lead); font-weight: 800; }
+  .term__aliases { font-size: var(--fs-small); color: var(--floor-ink-soft); }
   dd { margin: 8px 0 0; }
   dd p + p { margin-top: 6px; }
-  .term__plain, .term__see { font-size: 0.9375rem; color: var(--floor-ink-soft); }
+  .term__plain, .term__see { font-size: var(--fs-small); color: var(--floor-ink-soft); }
   .glossary-demo { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--graphite-rule); }
-  .glossary-demo h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; }
+  .glossary-demo h2 { font-size: var(--fs-lead); font-weight: 800; margin-bottom: 0.75rem; }
 </style>

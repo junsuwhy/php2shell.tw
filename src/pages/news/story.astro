@@ -102,22 +102,22 @@ const chapters = [
 <style>
   .page { display: grid; gap: 40px; max-width: 42rem; margin: 0 auto; padding: 28px var(--gutter) 64px; }
   .page__head { display: grid; gap: 16px; }
-  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
-  .lede { margin-top: 12px; font-size: 1.1875rem; }
+  h1 { font-size: var(--fs-display); font-weight: 900; }
+  .lede { margin-top: 12px; font-size: var(--fs-lead); }
   .chapters { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
   .chapters a { display: flex; gap: 12px; align-items: baseline; text-decoration: none; }
   .chapters a:hover { text-decoration: underline; }
   .chapters .num { flex: 0 0 3.5em; font-weight: 900; color: var(--floor-ink-soft); }
   .chapter { display: grid; gap: 14px; scroll-margin-top: 16px; }
-  .chapter__label { font-size: 0.9375rem; font-weight: 900; letter-spacing: 0.08em; color: var(--floor-ink-soft); }
-  .chapter h2 { font-size: 1.625rem; font-weight: 900; }
+  .chapter__label { font-size: var(--fs-small); font-weight: 900; letter-spacing: 0.08em; color: var(--floor-ink-soft); }
+  .chapter h2 { font-size: var(--fs-heading); font-weight: 900; }
   .chapter ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
   .chapter--note { padding: 18px; background: #fff; border-left: 6px solid var(--line-news); border-radius: 4px; }
-  .chapter--note h2 { font-size: 1.25rem; }
+  .chapter--note h2 { font-size: var(--fs-lead); }
   blockquote { display: grid; gap: 6px; margin: 0; padding: 4px 0 4px 16px; border-left: 4px solid var(--line-news); }
-  blockquote p:first-child { font-size: 1.125rem; font-weight: 700; }
-  .orig { color: var(--floor-ink-soft); font-size: 0.9375rem; font-style: italic; }
+  blockquote p:first-child { font-size: var(--fs-lead); font-weight: 700; }
+  .orig { color: var(--floor-ink-soft); font-size: var(--fs-small); font-style: italic; }
   .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); }
-  .next h2 { font-size: 1.25rem; }
+  .next h2 { font-size: var(--fs-lead); }
   .next ul { margin: 0; padding-left: 1.2em; }
 </style>

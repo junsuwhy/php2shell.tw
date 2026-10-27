@@ -74,7 +74,7 @@ const text = code.replace(/^\n+|\s+$/g, '');
     padding: 6px 6px 6px 14px;
     background: var(--graphite-2);
     border-bottom: 1px solid var(--graphite-rule);
-    font-size: 0.875rem;
+    font-size: var(--fs-small);
     color: var(--on-graphite-soft);
   }
   .command__copy {
@@ -96,7 +96,7 @@ const text = code.replace(/^\n+|\s+$/g, '');
     padding: 14px;
     overflow-x: auto;
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     line-height: 1.6;
   }
   code { font-family: inherit; white-space: pre; }

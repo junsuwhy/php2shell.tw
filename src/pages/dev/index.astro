@@ -74,8 +74,8 @@ const platforms = [
   .sub__line {
     display: block;
     /* 較長的那行（兩個 CVE 加 CVSS）在 17px 約 428px。窄欄用容器寬度把字縮到仍是一行；
-       最小 13px，再窄就換行。 */
-    font-size: clamp(0.8125rem, 3.55cqi, 1.0625rem);
+       最小 13px，再窄就換行。例外：下限 13px 不在全站字級裡，上限用 body。 */
+    font-size: clamp(0.8125rem, 3.55cqi, var(--fs-body));
   }
   .chips {
     display: flex;
@@ -92,7 +92,7 @@ const platforms = [
     background: #fff;
     color: var(--on-line);
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 0.95rem;
+    font-size: var(--fs-small);
     font-weight: 700;
     line-height: 1.5;
   }
@@ -104,7 +104,7 @@ const platforms = [
   /* 小字外觀，連結觸控高度仍 ≥44px。顏色跟著 hero 文字走：窄螢幕是淺底深字，寬螢幕疊圖時 HeroBanner 改白字。 */
   .jump-line {
     margin: 12px 0 -6px;
-    font-size: 0.9rem;
+    font-size: var(--fs-small);
     line-height: 1.5;
   }
   .jump-line a {
@@ -134,7 +134,7 @@ const platforms = [
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 1.5rem;
+    font-size: var(--fs-heading);
     font-weight: 900;
     scroll-margin-top: 16px;
   }
@@ -148,7 +148,7 @@ const platforms = [
     background: var(--line-dev);
     color: var(--on-line);
     font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-    font-size: 1.25rem;
+    font-size: var(--fs-lead);
   }
   /* 預設只列每個分支要升到哪一版，讓手機上步驟 2 在一、兩個螢幕內出現；完整矩陣收在下方 details。 */
   .fixed-list {
@@ -157,12 +157,12 @@ const platforms = [
     margin: 12px 0 0;
     padding: 0;
     list-style: none;
-    font-size: 1.0625rem;
+    font-size: var(--fs-body);
     line-height: 1.6;
   }
   .fixed-note {
     margin-top: 4px;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     color: var(--floor-ink-soft);
   }
   .step__matrix { margin-top: 6px; }
@@ -189,7 +189,7 @@ const platforms = [
   }
   .step__more {
     margin-top: 8px;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     color: var(--floor-ink-soft);
   }
   .step__more a {
@@ -215,7 +215,7 @@ const platforms = [
     border-radius: 12px;
     background: #fff;
     color: var(--on-line);
-    font-size: 1.0625rem;
+    font-size: var(--fs-body);
     font-weight: 800;
     text-decoration: none;
   }
@@ -235,7 +235,7 @@ const platforms = [
     margin: 0 auto;
     padding: 16px var(--gutter) 36px;
     text-align: center;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     color: var(--floor-ink-soft);
   }
   .terms a { font-weight: 800; color: var(--floor-ink); }

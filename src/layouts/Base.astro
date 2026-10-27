@@ -84,7 +84,7 @@ const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
   }
   .site-name {
     font-weight: 900;
-    font-size: 1.125rem;
+    font-size: var(--fs-lead);
     letter-spacing: 0.04em;
     text-decoration: none;
   }
@@ -96,7 +96,7 @@ const ogImage = og.ready ? new URL(og.src, Astro.site).href : undefined;
     padding: 28px var(--gutter) 40px;
     background: var(--graphite);
     color: var(--on-graphite-soft);
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
   }
   .site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
   .site-footer a { color: var(--on-graphite); }

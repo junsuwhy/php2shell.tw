@@ -50,7 +50,7 @@ const titleId = idPrefix ? `${idPrefix}-safe-title` : 'safe-title';
 
 <style>
   .safe { display: grid; gap: 16px; }
-  h2, h3, h4 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  h2, h3, h4 { font-size: var(--fs-heading); font-weight: 800; margin-top: 24px; }
   table {
     width: 100%;
     border-collapse: separate;
@@ -58,7 +58,7 @@ const titleId = idPrefix ? `${idPrefix}-safe-title` : 'safe-title';
     background: #fff;
     border-radius: 14px;
     overflow: hidden;
-    font-size: 1.0625rem;
+    font-size: var(--fs-body);
   }
   th, td {
     text-align: left;
@@ -70,11 +70,11 @@ const titleId = idPrefix ? `${idPrefix}-safe-title` : 'safe-title';
     background: var(--line-basic);
     color: var(--on-line);
     font-weight: 800;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
   }
   tbody th { font-weight: 800; white-space: nowrap; }
   tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
-  .safe__ver { font-weight: 900; font-size: 1.25rem; }
-  .safe__note { display: block; font-size: 0.9375rem; color: var(--floor-ink-soft); }
+  .safe__ver { font-weight: 900; font-size: var(--fs-lead); }
+  .safe__note { display: block; font-size: var(--fs-small); color: var(--floor-ink-soft); }
   .safe__aside { color: var(--floor-ink-soft); }
 </style>

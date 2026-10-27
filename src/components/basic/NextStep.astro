@@ -33,7 +33,7 @@ const { items } = Astro.props;
     color: var(--on-graphite);
   }
   h2 {
-    font-size: 1.375rem;
+    font-size: var(--fs-heading);
     font-weight: 900;
     margin-bottom: 18px;
   }
@@ -60,16 +60,16 @@ const { items } = Astro.props;
     background: var(--line-basic);
     color: var(--on-line);
   }
-  .next__label { font-weight: 800; font-size: 1.125rem; }
+  .next__label { font-weight: 800; font-size: var(--fs-lead); }
   .next__note {
     grid-column: 1;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     opacity: 0.85;
   }
   .next__arrow {
     grid-column: 2;
     grid-row: 1 / span 2;
-    font-size: 1.5rem;
+    font-size: var(--fs-heading);
     font-weight: 900;
   }
   .next__link:hover .next__label,

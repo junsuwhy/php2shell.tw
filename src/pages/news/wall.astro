@@ -92,10 +92,10 @@ const tags = countBy(news.flatMap((n) => n.data.tags));
 <style>
   .page { display: grid; gap: 28px; max-width: 72rem; margin: 0 auto; padding: 40px var(--gutter) 64px; }
   .page__head { display: grid; gap: 12px; max-width: 46rem; }
-  h1 { font-size: clamp(2rem, 6vw, 2.75rem); font-weight: 900; }
+  h1 { font-size: var(--fs-display); font-weight: 900; }
   .filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 16px; }
   .filters[hidden] { display: none; }
-  .filters label { display: grid; gap: 4px; font-size: 0.875rem; font-weight: 700; }
+  .filters label { display: grid; gap: 4px; font-size: var(--fs-small); font-weight: 700; }
   .filters select, .filters button {
     min-height: 44px;
     padding: 6px 10px;
@@ -104,14 +104,14 @@ const tags = countBy(news.flatMap((n) => n.data.tags));
     background: #fff;
     color: var(--floor-ink);
     font: inherit;
-    font-size: 0.9375rem;
+    font-size: var(--fs-small);
     max-width: 16rem;
   }
   .filters button { cursor: pointer; }
-  .filters__count { flex-basis: 100%; font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .filters__count { flex-basis: 100%; font-size: var(--fs-small); color: var(--floor-ink-soft); }
   .wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); gap: 16px; }
   .wall > :global([hidden]) { display: none; }
   .next { display: grid; gap: 8px; padding-top: 24px; border-top: 2px solid var(--graphite); max-width: 46rem; }
-  .next h2 { font-size: 1.25rem; }
+  .next h2 { font-size: var(--fs-lead); }
   .next ul { margin: 0; padding-left: 1.2em; }
 </style>

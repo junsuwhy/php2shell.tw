@@ -44,7 +44,7 @@ const events = (await getOrdered('timeline')).filter((e) => !highlightsOnly || e
     border: 3px solid var(--line-news);
   }
   .tl__item--key::before { background: var(--line-news); }
-  .tl__title { font-size: 1.125rem; line-height: 1.45; }
+  .tl__title { font-size: var(--fs-lead); line-height: 1.45; }
   .tl__badge {
     display: inline-block;
     margin-inline-end: 8px;
@@ -52,7 +52,7 @@ const events = (await getOrdered('timeline')).filter((e) => !highlightsOnly || e
     background: var(--line-news);
     color: var(--on-line);
     border-radius: 3px;
-    font-size: 0.8125rem;
+    font-size: var(--fs-small);
     vertical-align: 0.15em;
   }
 </style>

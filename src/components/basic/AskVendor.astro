@@ -113,10 +113,10 @@ const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell�
   .ask { display: grid; gap: 12px; }
   h2,
   h3,
-  h4 { font-size: 1.5rem; font-weight: 800; margin-top: 24px; }
+  h4 { font-size: var(--fs-heading); font-weight: 800; margin-top: 24px; }
   .ask--inline { margin-top: 16px; gap: 10px; }
-  .ask--inline :is(h3, h4) { font-size: 1.1875rem; margin-top: 0; }
-  .ask--inline > p { font-size: 1.0625rem; }
+  .ask--inline :is(h3, h4) { font-size: var(--fs-lead); margin-top: 0; }
+  .ask--inline > p { font-size: var(--fs-body); }
   /* 放在白色卡片裡時加框，訊息才不會跟卡片混在一起 */
   .ask--inline .ask__box { border: 2px solid var(--line-basic); background: var(--floor); }
   .ask__box { margin: 0; background: #fff; border-radius: 14px; overflow: hidden; }
@@ -148,7 +148,7 @@ const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell�
     padding: 10px 16px 14px;
     border-top: 1px solid var(--floor);
     color: var(--floor-ink);
-    font-size: 1rem;
+    font-size: var(--fs-body);
     font-weight: 700;
     line-height: 1.6;
   }
@@ -159,7 +159,7 @@ const text = `您好，PHP 官方在 2026-10-21 公布了重大漏洞 PHP2Shell�
     padding: 16px;
     white-space: pre-wrap;
     font-family: inherit;
-    font-size: 1.0625rem;
+    font-size: var(--fs-body);
     line-height: 1.7;
   }
 </style>

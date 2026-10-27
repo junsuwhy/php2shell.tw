@@ -39,12 +39,12 @@ const d = entry.data;
     border-top: 4px solid var(--line-news);
     border-radius: 4px;
   }
-  .card__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.875rem; color: var(--floor-ink-soft); }
+  .card__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--fs-small); color: var(--floor-ink-soft); }
   .card__source { font-weight: 700; color: var(--floor-ink); }
-  .card__title { font-size: 1.0625rem; line-height: 1.45; }
+  .card__title { font-size: var(--fs-body); line-height: 1.45; }
   .card__title a { text-decoration: none; }
   .card__title a:hover { text-decoration: underline; }
-  .card__facts { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 0.8125rem; color: var(--floor-ink-soft); }
+  .card__facts { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--fs-small); color: var(--floor-ink-soft); }
   .card__flag {
     padding: 0 6px;
     border: 1px solid var(--alert);
@@ -52,6 +52,6 @@ const d = entry.data;
     color: var(--alert);
     font-weight: 700;
   }
-  .card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 0.8125rem; }
+  .card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-small); }
   .card__tags li { padding: 0 8px; background: var(--floor); border-radius: 999px; }
 </style>

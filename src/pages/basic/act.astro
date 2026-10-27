@@ -520,7 +520,7 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   /* 標題下的跳轉小字：看起來是一行小字，連結的觸控高度仍有 44px（負邊距抵銷，不撐高行距） */
   .jump-line {
     margin: -12px 0 -4px;
-    font-size: 0.9rem;
+    font-size: var(--fs-small);
     line-height: 1.5;
     color: var(--floor-ink-soft);
   }
@@ -549,7 +549,7 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     padding: 22px 22px 22px 88px;
     border-radius: 18px;
     background: #fff;
-    font-size: 1.2rem;
+    font-size: var(--fs-lead);
     line-height: 1.7;
   }
   .step-cards > li::before {
@@ -565,7 +565,7 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     background: var(--line-basic);
     color: var(--on-line);
     font-weight: 900;
-    font-size: 1.35rem;
+    font-size: var(--fs-heading);
     font-family: var(--font-num);
   }
   /* 手機上步驟卡片窄，號碼改放在上方，裡面的詢問訊息才有足夠寬度 */
@@ -585,7 +585,7 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     border-radius: 14px;
     background: var(--line-basic);
     color: var(--on-line);
-    font-size: 1.3rem;
+    font-size: var(--fs-lead);
     font-weight: 900;
     line-height: 1.3;
     text-decoration: none;
@@ -614,7 +614,7 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     border-radius: 999px;
     background: #fff;
     border: 2px solid var(--graphite);
-    font-size: 1.0625rem;
+    font-size: var(--fs-body);
     font-weight: 800;
     line-height: 1.3;
     text-decoration: none;
@@ -631,10 +631,10 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   .q[hidden] { display: none; }
   .q__no {
     font-weight: 800;
-    font-size: 1rem;
+    font-size: var(--fs-body);
     color: var(--floor-ink-soft);
   }
-  .q h3 { font-size: 1.5rem; }
+  .q h3 { font-size: var(--fs-heading); }
   .choices {
     list-style: none;
     padding: 0 !important;
@@ -650,9 +650,9 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     text-decoration: none;
   }
   .choice:hover, .choice:focus-visible { border-color: var(--line-basic); }
-  .choice__label { font-weight: 800; font-size: 1.1875rem; }
-  .choice__hint { font-size: 1rem; color: var(--floor-ink-soft); }
-  .q__back { font-size: 1rem; }
+  .choice__label { font-weight: 800; font-size: var(--fs-lead); }
+  .choice__hint { font-size: var(--fs-body); color: var(--floor-ink-soft); }
+  .q__back { font-size: var(--fs-body); }
 
   /* 各系統收合段落 */
   .systems { display: grid; gap: 14px; margin-top: 12px; }
@@ -681,12 +681,12 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   :global(.basic-page__body) .sys__title {
     grid-column: 1;
     margin: 0;
-    font-size: 1.375rem;
+    font-size: var(--fs-heading);
     font-weight: 900;
   }
   .sys__lead {
     grid-column: 1;
-    font-size: 1.0625rem;
+    font-size: var(--fs-body);
     line-height: 1.6;
     color: var(--floor-ink-soft);
   }
@@ -735,10 +735,10 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   /* 怎樣算處理完 */
   .finish { display: grid; gap: 16px; margin-top: 24px; }
   .part { display: grid; gap: 16px; scroll-margin-top: 24px; }
-  .finish > .part > h3 { font-size: 1.375rem; margin-top: 16px; }
+  .finish > .part > h3 { font-size: var(--fs-heading); margin-top: 16px; }
   .memo { margin: 0; background: #fff; border-radius: 14px; overflow: hidden; }
   .memo figcaption { padding: 10px 14px; background: var(--line-basic); color: var(--on-line); font-weight: 800; }
-  .memo pre { margin: 0; padding: 16px; white-space: pre-wrap; font-family: inherit; font-size: 1.0625rem; line-height: 1.7; }
+  .memo pre { margin: 0; padding: 16px; white-space: pre-wrap; font-family: inherit; font-size: var(--fs-body); line-height: 1.7; }
 
   /* 程式移過去的焦點不畫框（不是互動元素） */
   [tabindex='-1']:focus { outline: none; }
@@ -746,6 +746,6 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
   .aside {
     margin-top: 18px;
     color: var(--floor-ink-soft);
-    font-size: 1.05rem;
+    font-size: var(--fs-body);
   }
 </style>

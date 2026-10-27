@@ -21,6 +21,13 @@
   --font-sans: 'Noto Sans TC Variable', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   --font-num: 'Noto Sans TC Variable', ui-sans-serif, system-ui, sans-serif;
 
+  /* 全站共用 5 種字級。display 是唯一隨視窗寬度變化的一級（手機 32px，寬螢幕 44px）。 */
+  --fs-display: clamp(2rem, 6vw, 2.75rem);
+  --fs-heading: 1.5rem;
+  --fs-lead: 1.1875rem;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+
   --gutter: clamp(16px, 4vw, 56px);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -39,7 +46,7 @@ body {
   background: var(--floor);
   color: var(--floor-ink);
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
+  font-size: var(--fs-body);
   line-height: 1.7;
   text-rendering: optimizeLegibility;
   font-kerning: normal;
@@ -65,7 +72,7 @@ a { color: inherit; text-underline-offset: 0.22em; text-decoration-thickness: 0.
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-/* 圖片位置標示（僅開發模式出現） */
+/* 圖片位置標示（僅開發模式出現；字級不套用全站字級） */
 .image-slot { display: block; width: 100%; height: auto; object-fit: cover; }
 .image-slot--pending {
   display: grid;
