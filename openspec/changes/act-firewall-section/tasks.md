@@ -8,5 +8,5 @@
 ## 2. 驗證
 
 - [x] 2.1 以 Node 24 執行 `npm run build` 確認建置通過（97 頁）
-- [ ] 2.2 Cloudflare 預覽確認段落、錨點與連結
-- [ ] 2.3 taste-skill inspect 與 390px 手機截圖
+- [x] 2.2 Cloudflare 預覽確認段落、錨點與連結
+- [x] 2.3 taste-skill inspect 與 390px 手機截圖
