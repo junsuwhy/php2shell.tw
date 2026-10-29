@@ -68,6 +68,15 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     <li><strong>還沒確認前，考慮先暫停網站。</strong>如果今天拿不到「已經更新」的答覆，先讓網站暫停對外比較安全。萬一懷疑被闖入，請廠商<strong>先把紀錄留下來，不要急著整台重灌</strong>。</li>
   </ol>
 
+  <section class="firewall callout" id="firewall" aria-labelledby="firewall-title">
+    <h2 id="firewall-title">防火牆、VPN 設備也要顧</h2>
+    <ul>
+      <li>防火牆、VPN 這類設備，管理頁面裡也可能跑 PHP。資安公司 Dream 揭露，有人用 PHP2Shell 攻擊防火牆的管理介面（<a href="https://dreamgroup.com/blog/chained-php2shell-exploit-roots-25-servers">Dream 原文</a>，目前只有 Dream 這一個來源）。</li>
+      <li>設備的管理頁面不要開放外網連線，只讓公司內部連得到。</li>
+      <li>去問設備廠商：這台有沒有受影響、修補什麼時候出來；有修補就盡快更新。</li>
+    </ul>
+  </section>
+
   <p class="go"><a href="#q1">找出你的處理方式 <span aria-hidden="true">→</span></a></p>
 
   <nav class="jump" aria-label="本頁段落">
@@ -573,6 +582,10 @@ PHP 官方在 2026-10-21 公布重大漏洞 PHP2Shell，外人可能不用帳號
     .step-cards > li { padding: 82px 18px 20px; }
     .step-cards > li::before { left: 18px; top: 20px; }
   }
+  /* 防火牆、VPN 設備補充：白底與左側色條來自全域 .callout */
+  .firewall { display: grid; gap: 12px; margin-top: 16px; scroll-margin-top: 24px; }
+  :global(.basic-page__body) .firewall h2 { font-size: 1.3rem; font-weight: 800; margin: 0; }
+  .firewall ul { font-size: 1.1rem; line-height: 1.7; }
   .go { margin: 28px 0 0; }
   .go a {
     display: flex;

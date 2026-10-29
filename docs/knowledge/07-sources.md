@@ -61,6 +61,7 @@ sources:
 | Sansec | `news/2026-10-21-sansec-php2shell-critical-rce.md` | https://sansec.io/research/php2shell | 電商、展示過的應用清單、維護模式無效、Cloudflare 07:43 |
 | AWS 安全部落格 | `news/2026-10-22-0636-aws-php2shell-exploitation-madpot.md` | https://aws.amazon.com/blogs/security/amazon-threat-intelligence-identifies-php2shell-exploitation-prior-to-public-disclosure-in-madpot/ | MadPot 10/17、PoC 時段、禁運引言 |
 | 竣盟科技 | `news/2026-10-22-1105-billows-php-enterprise-response.md` | https://blog.billows.com.tw/?p=6420 | 企業盤點：應用更新不等於 PHP 更新 |
+| Dream | （未建新聞檔） | https://dreamgroup.com/blog/chained-php2shell-exploit-roots-25-servers | 2026-10-28 揭露有人用 PHP2Shell 攻擊防火牆管理介面；單一來源，`/basic/act/#firewall` 引用。不收攻擊流程、廠商與版本 |
 
 ## 國際媒體
 
