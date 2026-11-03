@@ -16,6 +16,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 1. 檢查
@@ -51,3 +52,5 @@ brew upgrade php`} />
 
 - 再跑一次 `php -v`，並確認本機網頁伺服器連到的是更新後的那一支。
 - 開發機上的版本對上之後，別忘了正式環境要照它自己的平台頁修補。
+
+<PendingFix />

@@ -14,6 +14,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## cPanel（EasyApache 4 的 ea-php）
@@ -99,3 +100,5 @@ DirectAdmin 的 PHP 由 CustomBuild 編譯，更新 CustomBuild 後重新編譯 
 `./build versions` 會列出每個 PHP 槽位目前與可用的版本，編譯完再跑一次確認沒有待更新的項目。8.1 以前的分支修補狀態各槽位不一，見[舊版本策略](/dev/eol/)。編譯完成後重啟網頁伺服器與所有 PHP-FPM 服務，再向正在接流量的那一支 PHP 確認版本。
 
 代管主機的使用者沒有控制台的系統權限時，請直接向主機商要「已更新到哪一版、何時重啟」的明確回覆。
+
+<PendingFix />

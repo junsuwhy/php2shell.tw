@@ -12,6 +12,7 @@ sources:
   - title: cPanel 支援文章（指向 TuxCare 延長支援）
     url: https://support.cpanel.net/hc/en-us/articles/44397389677335-Critical-PHP-Security-Release-CVE-2026-109618-and-CVE-2026-109619
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 先想清楚要不要自己編
@@ -55,3 +56,5 @@ make -j"$(nproc)"`} />
 - 確認正在接流量的 PHP 是新的建置（版號可能和舊建置相同，請比對建置日期或你自己的建置標記）。
 - 確認測試環境觀察到的記憶體上限行為在正式環境不會造成意外中斷。
 - 記錄這份建置的來源與套用的回移植，之後的修補才找得到。
+
+<PendingFix />

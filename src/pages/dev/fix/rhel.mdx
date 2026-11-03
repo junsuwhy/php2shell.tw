@@ -12,6 +12,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21，含 remi 說明）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 1. 檢查
@@ -67,3 +68,5 @@ sudo systemctl restart httpd`} />
 
 - 再跑一次第 1 步的 changelog 指令，要找得到 CVE 編號。
 - 向正在接流量的那一支 PHP 確認，不只看命令列，見[我受影響嗎？](/dev/am-i-affected/#verify)。
+
+<PendingFix />

@@ -14,6 +14,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 1. 檢查
@@ -53,3 +54,5 @@ apk upgrade`} />
 - 再跑一次第 1 步，確認 PHP 套件版本等於或新於上表。
 - 對正在接流量的那一支確認版本，例如 `php-fpm84 -v`；容器要進到**正在跑的那一個**裡面看，見[我受影響嗎？](/dev/am-i-affected/#verify)。
 - 確認編排檔或部署腳本沒有把舊映像拉回來。
+
+<PendingFix />

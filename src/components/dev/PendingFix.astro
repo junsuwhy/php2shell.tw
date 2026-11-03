@@ -1,0 +1,2 @@
+<h2 id="pending">還沒完：維持關掉上傳進度</h2>
+<p>換上 10/21 修補版還不算全部完成。PHP 官方 10/23 公告還有一個尚待修補的漏洞 CVE-2026-115560，建議在 php.ini、PHP-FPM pool 或伺服器設定裡維持 <code>session.upload_progress.enabled=0</code>，改完重啟，直到下一個例行修正版釋出。怎麼設定、有什麼副作用，見<a href="/dev/mitigation/">暫時緩解</a>；官方說明見 <a href="https://www.php.net/archive/2026.php#2026-10-23-1">php.net 公告</a>。</p>
