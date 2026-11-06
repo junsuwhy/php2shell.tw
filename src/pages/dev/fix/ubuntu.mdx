@@ -16,6 +16,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 1. 檢查
@@ -83,3 +84,5 @@ sudo systemctl restart php8.3-fpm`} />
 
 - 再跑一次第 1 步的 `apt list`，確認版本等於或新於公告上的修補版。
 - 向正在接流量的那一支 PHP 確認，不只看命令列的 `php -v`，做法見[我受影響嗎？](/dev/am-i-affected/#verify)。
+
+<PendingFix />

@@ -12,6 +12,7 @@ sources:
   - title: Huntress：PHP2Shell 快速應變
     url: https://www.huntress.com/blog/php2shell-leaked-critical-php-vulnerabilities
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 import { facts } from '../../../lib/data';
 
@@ -43,3 +44,5 @@ php-cgi 也是 2024 年 CVE-2024-4577 的現場。當年的修補**不會**讓�
 - 對每一個盤點到的執行檔再跑一次 `php -v`，確認版本達到修補版。
 - 確認 IIS 或整合包實際指向的是新的那一份，不是旁邊另一個舊資料夾。
 - Huntress 提醒留意 `php-cgi.exe` 衍生出 `cmd`、`powershell`、`certutil.exe` 這類子行程，見[偵測與應變](/dev/detect/)。
+
+<PendingFix />

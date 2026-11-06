@@ -16,6 +16,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 import { facts } from '../../../lib/data';
 
@@ -52,3 +53,5 @@ kubectl exec <Pod 名> -- php -v`} />
 
 - 在正在接流量的容器（每一種服務、每一個叢集）裡再跑一次 `php -v`，確認達到修補版。
 - 核對執行中容器的映像版本，確認都是新建置的那一版。
+
+<PendingFix />

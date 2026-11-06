@@ -18,6 +18,7 @@ sources:
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
 ---
+import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ## 1. 檢查
@@ -93,3 +94,5 @@ sudo systemctl restart apache2`} />
 
 - 向正在接流量的那一支 PHP 確認版本（PHP-FPM 執行檔的 `-v`、Apache 載入的模組），不只看命令列，見[我受影響嗎？](/dev/am-i-affected/)。
 - 若緩解期間把 `memory_limit` 設成 `-1`，修補後改回應用真正需要的上限。
+
+<PendingFix />
