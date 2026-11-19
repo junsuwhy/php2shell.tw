@@ -15,6 +15,10 @@ tags: [官方, 緩解, 待修補]
 audience: [developer, non-technical]
 ---
 
+## 後續：已於 2026-11-19 修補
+
+PHP 於 2026-11-19 發布 8.5.13、8.4.28、8.3.37、8.2.36，已修補 CVE-2026-115560（見 `2026-11-19-php-net-changelog-security-release.md`）。以下為 10/23 公告當時的內容。
+
 ## 摘要（翻譯）
 
 PHP 官方於 2026-10-23 10:12 UTC（台灣時間 18:12）發布資訊性公告：PHP 還有一個遠端程式碼執行（RCE）漏洞 **CVE-2026-115560** 尚待修補。官方建議先把 `session.upload_progress.enabled` 設為 `0`，維持到下一個常規 bugfix 版本，以完全避開這個「不太可能發生」的 RCE 途徑。
