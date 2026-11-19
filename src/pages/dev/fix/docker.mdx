@@ -5,16 +5,18 @@ description: 容器環境修補 PHP2Shell：用已修補的官方 PHP 映像重�
 lede: 主機上更新套件不會換掉映像裡的 PHP。容器要重建映像、重新部署，再到正在接流量的容器裡確認。
 checked: "2026-10-22"
 sources:
-  - title: Docker Hub 官方 PHP 映像標籤（8.5.12）
+  - title: Docker Hub 官方 PHP 映像標籤（10/21 版 8.5.12）
     url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.5.12
-  - title: Docker Hub 官方 PHP 映像標籤（8.4.27）
+  - title: Docker Hub 官方 PHP 映像標籤（10/21 版 8.4.27）
     url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.4.27
-  - title: Docker Hub 官方 PHP 映像標籤（8.3.36）
+  - title: Docker Hub 官方 PHP 映像標籤（10/21 版 8.3.36）
     url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.3.36
-  - title: Docker Hub 官方 PHP 映像標籤（8.2.35）
+  - title: Docker Hub 官方 PHP 映像標籤（10/21 版 8.2.35）
     url: https://hub.docker.com/v2/repositories/library/php/tags?name=8.2.35
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: PHP.net ChangeLog（2026-11-19 新版）
+    url: https://www.php.net/ChangeLog-8.php
 ---
 import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
@@ -32,16 +34,18 @@ kubectl exec <Pod 名> -- php -v`} />
 
 ## 2. 更新：重建映像
 
-查詢時，官方 `library/php` 已有以下正式 tag：{facts.fixed.map((f) => f.version).join('、')}。變體包含 cli、apache、fpm、alpine、bookworm、trixie，以及對應的 ZTS。
+2026-10-22 查詢 10/21 修補版時，官方 `library/php` 已有以下正式 tag：8.5.12、8.4.27、8.3.36、8.2.35。變體包含 cli、apache、fpm、alpine、bookworm、trixie，以及對應的 ZTS。
 
-- 把 Dockerfile 的基底改成已修補的版本，**釘到完整版號**（例如 {facts.fixed[1].version} 的對應變體），不要只寫 `latest` 或只寫分支號，才知道實際跑的是哪一版。
-- 8.5.12 與 8.4.27 的查詢結果同時列出 RC1 tag，那不是這次的正式發行版，不要選到。
+PHP 已在 2026-11-19 發布更新的 {facts.fixed.map((f) => f.version).join('、')}（含 CVE-2026-115560 的修補），建議改用這些版本。這些新版在 Docker 官方映像上的上架狀況，本站尚未查證，待查證；請直接到 Docker Hub 確認有對應的 tag，再重建。下面的 tag、命令與推送時間都是 10/21 版的查詢結果。
+
+- 把 Dockerfile 的基底改成已修補的版本，**釘到完整版號**，不要只寫 `latest` 或只寫分支號，才知道實際跑的是哪一版。下面命令範例用的 8.4.27 是 10/21 版，請換成你確認過的新版。
+- 10/21 版的 8.5.12 與 8.4.27 查詢結果同時列出 RC1 tag，那不是正式發行版，不要選到。
 - 重建時拉取最新的基底映像，不要用到快取裡的舊層。
 - 第三方應用映像：等上游重建並發布含修補 PHP 的版本，再更新你的 tag。
 
 <CommandBlock label="重建時強制拉新的基底映像、不用快取" code={`docker build --pull --no-cache -t myapp:php-8.4.27 .`} />
 
-抽查各版第一筆映像的推送時間：8.5.12 為 2026-10-21 23:26 UTC（台灣時間 10-22 07:26），8.4.27 為 23:31 UTC，8.3.36 為 23:28 UTC，8.2.35 為 23:27 UTC。這不是每一個 tag 的推送時間。
+抽查 10/21 版各版第一筆映像的推送時間（2026-10-22 查詢）：8.5.12 為 2026-10-21 23:26 UTC（台灣時間 10-22 07:26），8.4.27 為 23:31 UTC，8.3.36 為 23:28 UTC，8.2.35 為 23:27 UTC。這不是每一個 tag 的推送時間。
 
 ## 3. 重啟：重新部署
 

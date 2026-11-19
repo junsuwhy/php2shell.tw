@@ -339,8 +339,8 @@
 - id: "php-advisory-cve-2026-115560-2026-10-23"
   at: "2026-10-23T10:12:28+00:00"
   precision: "exact"
-  title: "PHP 官方公告另一個待修補的 RCE：CVE-2026-115560"
-  summary: "10 月 23 日 10:12 UTC（台灣 18:12），PHP 官方發布資訊性公告，指出還有一個待修補的遠端程式碼執行漏洞 CVE-2026-115560，只在少見設定下才可能觸發。官方建議先把 session.upload_progress.enabled 設為 0，修補會隨下一個常規版本釋出。受影響版本與評分待查證。"
+  title: "PHP 官方公告另一個 RCE：CVE-2026-115560（已於 11/19 修補）"
+  summary: "10 月 23 日 10:12 UTC（台灣 18:12），PHP 官方發布資訊性公告，指出還有一個遠端程式碼執行漏洞 CVE-2026-115560，只在少見設定下才可能觸發。官方當時建議先把 session.upload_progress.enabled 設為 0，修補隨後續版本釋出，已於 11 月 19 日修補。當時受影響版本與評分待查證。"
   sources:
     - "2026-10-23-1812-php-net-informational-advisory-session-upload-progress.md"
   tags: ["官方", "緩解", "待修補"]
@@ -363,3 +363,13 @@
     - "2026-10-26-0515-unit42-retracts-european-agency-claim.md"
   tags: ["原始研究"]
   importance: 2
+
+- id: "php-release-2026-11-19"
+  at: "2026-11-19"
+  precision: "date-only"
+  title: "PHP 發布 8.5.13、8.4.28、8.3.37、8.2.36，修補 CVE-2026-115560"
+  summary: "11 月 19 日，PHP 發布 8.5.13、8.4.28、8.3.37、8.2.36，ChangeLog 列出 CVE-2026-115560（10 月 23 日公告的 RCE 途徑）已修補，另含 CGI、Date、FPM、Phar、Session、SOAP、Standard 等多個 CVE 的修補。官方只標日期，沒有發布鐘點。舊的 10 月 21 日版為 8.5.12、8.4.27、8.3.36、8.2.35。"
+  sources:
+    - "2026-11-19-php-net-changelog-security-release.md"
+  tags: ["官方", "修補"]
+  importance: 3

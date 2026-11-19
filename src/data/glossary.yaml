@@ -159,7 +159,7 @@
   term: "EOL"
   aliases: ["eol", "End of Life", "end of life"]
   plain: "官方不再修的版本，像已經歇業的分店，不會再出新的安全更新。"
-  note: "End of life。PHP 8.2 的安全支援到 2026-12-31；8.1 以前更早就停了一般官方發布。8.2.35 修了這次，仍應規劃離開這個分支。7.3 以前現有資料沒有官方修補。"
+  note: "End of life。PHP 8.2 的安全支援到 2026-12-31；8.1 以前更早就停了一般官方發布。8.2.36 是這個分支最新的修補版，已含這次與 CVE-2026-115560 的修補，仍應規劃離開這個分支。7.3 以前現有資料沒有官方修補。"
   see: ["回移植", "LTS"]
 - id: "lts"
   term: "LTS"
@@ -273,5 +273,5 @@
   term: "發行版"
   aliases: ["distro", "distribution", "Linux 發行版"]
   plain: "把 Linux 和 PHP 打包好、之後還負責維修的廠商或社群；修補常常走他們的套件公告，而不是只看 php.net。"
-  note: "例如 Debian、Ubuntu、RHEL。套件版號可能不是 8.3.36 這種 php.net 版號，仍可能已經回移植。官方寫明 rpms.remirepo.net 當天不會更新。"
+  note: "例如 Debian、Ubuntu、RHEL。套件版號可能不是 8.3.37 這種 php.net 版號，仍可能已經回移植。官方寫明 rpms.remirepo.net 當天不會更新。"
   see: ["回移植", "LTS"]
