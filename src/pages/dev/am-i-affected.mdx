@@ -11,6 +11,10 @@ sources:
     url: https://ubuntu.com/security/notices/USN-8948-1
   - title: Debian 安全追蹤：DSA-6574-1
     url: https://security-tracker.debian.org/tracker/DSA-6574-1
+  - title: Debian 安全追蹤：DSA-6641-1（CVE-2026-115560）
+    url: https://security-tracker.debian.org/tracker/DSA-6641-1
+  - title: Ubuntu：CVE-2026-115560
+    url: https://ubuntu.com/security/CVE-2026-115560
   - title: Plesk：Remote code execution in PHP shipped with Plesk
     url: https://support.plesk.com/hc/en-us/articles/44397729587351-Vulnerability-CVE-2026-109618-and-CVE-2026-109619-Remote-code-execution-in-PHP-shipped-with-Plesk
   - title: 英國 NCSC：Critical security issue affecting PHP
@@ -132,13 +136,15 @@ composer.json 的 PHP 版本需求（含 `config.platform`）只影響相依套�
 
 ## 發行版的版號怎麼讀
 
-發行版通常不升級大版本，而是把安全修補**回移植**到自己的套件。版號會是發行版自己的編號，比 php.net 的修補版號「小」也可能已經修好。官方查詢日 2026-10-22 讀到的例子：
+發行版通常不升級大版本，而是把安全修補**回移植**到自己的套件。版號會是發行版自己的編號，比 php.net 的修補版號「小」也可能已經修好。下表的例子：Ubuntu 兩列是 2026-10-22 查到的 10 月修補（CVE-2026-109618、CVE-2026-109619）；Debian 一列是 2026-11-20（台灣時間）查到的、已含 11/19 修補（CVE-2026-115560）的版本。
 
 | 發行版 | 套件 | 已修補的套件版 | 對照 php.net |
 | --- | --- | --- | --- |
-| Ubuntu 24.04 LTS | php8.3 | 8.3.6-0ubuntu0.24.04.13 | 數字看起來比 8.3.36 舊，但 USN 列為已修補 |
-| Ubuntu 22.04 LTS | php8.1 | 8.1.2-1ubuntu2.28 | 8.1 沒有新的官方安裝包，Ubuntu 自行回移植 |
-| Debian trixie | php8.4 | 8.4.27-1~deb13u1 | 修補前是 8.4.24-1~deb13u1，見 [Debian](/dev/fix/debian/) |
+| Ubuntu 24.04 LTS | php8.3 | 8.3.6-0ubuntu0.24.04.13 | 10 月修補：數字看起來比 8.3.36 舊，但 USN 列為已修補。CVE-2026-115560 的 Ubuntu 官方套件尚未發布，見 [Ubuntu](/dev/fix/ubuntu/) |
+| Ubuntu 22.04 LTS | php8.1 | 8.1.2-1ubuntu2.28 | 10 月修補：8.1 沒有新的官方安裝包，Ubuntu 自行回移植。CVE-2026-115560 同樣尚未發布 |
+| Debian trixie | php8.4 | 8.4.28-1~deb13u1（DSA-6641-1） | 含 CVE-2026-115560 修補；10 月修補版是 8.4.27-1~deb13u1（DSA-6574-1），再之前是 8.4.24-1~deb13u1，見 [Debian](/dev/fix/debian/) |
+
+尚未發布修補的發行版，先用[暫時緩解](/dev/mitigation/)的設定。
 
 規則：**以該發行版的安全公告或追蹤頁為準**，看已安裝的套件版本是否等於或新於公告上的修補版，不要只拿版號跟 php.net 比大小。
 

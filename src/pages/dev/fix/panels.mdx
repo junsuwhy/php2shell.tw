@@ -1,10 +1,18 @@
 ---
 layout: ../../../layouts/DevDoc.astro
 title: 修補：cPanel、Plesk、DirectAdmin
-description: 主機控制台修補 PHP2Shell：cPanel EasyApache 4 的 ea-php 修補版與官方指令、Plesk 修補版與檢查方式、DirectAdmin 現況。
+description: 主機控制台修補 PHP2Shell：cPanel EasyApache 4 的 ea-php 11/19 修補版與官方指令、Plesk 修補版與檢查方式、DirectAdmin 現況。
 lede: 控制台各自帶一套 PHP。照該控制台官方文章的版本與指令更新，不要只更新作業系統的 PHP 套件。
-checked: "2026-10-22"
+checked: "2026-11-20"
 sources:
+  - title: "cPanel：Security: Critical PHP Security Release on November 18, 2026（2026-11-19 18:24 UTC 更新）"
+    url: https://support.cpanel.net/hc/en-us/articles/45152249350423-Security-Critical-PHP-Security-Release-on-November-18-2026
+  - title: cPanel：PHP Security Release - CVE-2026-115560（10/23 舊文）
+    url: https://support.cpanel.net/hc/en-us/articles/44488655369367-PHP-Security-Release-CVE-2026-115560
+  - title: Plesk：Critical PHP Security Release on 19 Nov 2026
+    url: https://support.plesk.com/hc/en-us/articles/45146523211671-Critical-PHP-Security-Release-on-19-Nov-2026
+  - title: Plesk Obsidian Change Log（11/19 PHP Updates）
+    url: https://docs.plesk.com/release-notes/obsidian/change-log/
   - title: cPanel：Critical PHP Security Release - CVE-2026-109618 and CVE-2026-109619
     url: https://support.cpanel.net/hc/en-us/articles/44397389677335-Critical-PHP-Security-Release-CVE-2026-109618-and-CVE-2026-109619
   - title: Plesk：Remote code execution in PHP shipped with Plesk
@@ -21,32 +29,43 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 ### 1. 檢查
 
-cPanel EasyApache 4 的修補版：
+cPanel 已發布 11/19 的 PHP 安全更新（文章標題寫 November 18, 2026，2026-11-19 18:24 UTC 更新）。EasyApache 4 的修補版，左欄是 11/19 版（含 CVE-2026-115560），右欄是 10 月版作對照：
 
-| 套件 | 修補版 |
-| --- | --- |
-| ea-php85 | 8.5.12 |
-| ea-php84 | 8.4.27 |
-| ea-php83 | 8.3.36 |
-| ea-php82 | 8.2.35 |
-| ea-php81 | 8.1.34-5 |
-| ea-php80 | 8.0.30-12 |
-| ea-php74 | 7.4.33-19 |
+| 套件 | 11/19 修補版 | 10 月修補版（作對照） |
+| --- | --- | --- |
+| ea-php85 | 8.5.13 | 8.5.12 |
+| ea-php84 | 8.4.28 | 8.4.27 |
+| ea-php83 | 8.3.37 | 8.3.36 |
+| ea-php82 | 8.2.36 | 8.2.35 |
+| ea-php81 | 11/19 文章未列出，待查證 | 8.1.34-5 |
+| ea-php80 | 11/19 文章未列出，待查證 | 8.0.30-12 |
+| ea-php74 | 7.4.34 | 7.4.33-19 |
 
-cPanel & WHM 本身的修補版：11.110.0.153、11.134.0.66、11.136.0.50、11.138.0.18；WP Squared：11.138.1.17。
+cPanel & WHM 自己內部用的 PHP（11/19 文章）：v110 用 PHP 8.1.34；v134、v138 與 WP Squared 用 8.4.28。（10 月時 cPanel & WHM 本身的修補版是 11.110.0.153、11.134.0.66、11.136.0.50、11.138.0.18；WP Squared 為 11.138.1.17。）
 
-官方的檢查例子：查指定 ea-php 套件的變更紀錄裡是否出現 CVE 編號（把 `php81` 換成要查的分支）。
+注意：11/19 文章內仍寫「CVE IDs have not been published yet」，是發布前留下的舊文字；CVE-2026-115560 其實已公開。用 ea-php81、ea-php80 的，在 cPanel 列出新版前先用[暫時緩解](/dev/mitigation/)的設定。
 
-<CommandBlock label="cPanel 官方：檢查 ea-php81 是否已含修補" code={`rpm -q --changelog ea-php81-php-cli | grep -m1 CVE-2026-109618`} />
+官方的檢查例子（10 月文章）：查指定 ea-php 套件的變更紀錄裡是否出現 CVE 編號（把 `php81` 換成要查的分支）。11/19 版的 changelog 是否寫上 CVE-2026-115560，本站未查證；請同時確認套件版本達到上表的 11/19 修補版。
 
-CloudLinux 主機：cPanel 文章另列 CloudLinux 的 EasyApache 4 與 alt-php，請照 CloudLinux 的公告更新，再用同樣的 changelog 方式確認。
+<CommandBlock label="cPanel 官方：檢查 ea-php81 是否已含 10 月修補" code={`rpm -q --changelog ea-php81-php-cli | grep -m1 CVE-2026-109618`} />
+
+CloudLinux 主機：cPanel 10 月文章另列 CloudLinux 的 EasyApache 4 與 alt-php，請照 CloudLinux 的公告更新，再用同樣的 changelog 方式確認。
 
 ### 2. 更新
 
-<CommandBlock label="cPanel 官方：更新套件庫資料並更新套件" code={`yum clean all && yum makecache
-/scripts/rpmup`} />
+11/19 文章的更新步驟：先更新套件庫資料（依作業系統擇一），再更新套件。
 
-7.4 以前的 ea-php，該文指向 TuxCare Extended Lifecycle Support，沒有列出對應修補版。
+<CommandBlock label="cPanel 官方：CentOS／RHEL 系更新套件庫資料" code={`yum clean all && yum makecache`} />
+
+<CommandBlock label="cPanel 官方：Ubuntu 更新套件庫資料" code={`apt clean && apt update`} />
+
+<CommandBlock label="cPanel 官方：更新套件" code={`/scripts/update-packages`} />
+
+cPanel & WHM 內部用的 PHP 會在夜間維護時自動更新；要立刻更新，執行：
+
+<CommandBlock label="cPanel 官方：立即更新 cPanel 內部 PHP" code={`/scripts/autorepair update_cpanel_php8`} />
+
+7.4 以前的 ea-php，10 月文章指向 TuxCare Extended Lifecycle Support，沒有列出對應修補版。
 
 ### 3. 重啟
 
@@ -61,18 +80,20 @@ CloudLinux 主機：cPanel 文章另列 CloudLinux 的 EasyApache 4 與 alt-php�
 
 ### 1. 檢查
 
-隨 Plesk 提供的 PHP 都受影響。修補版：
+隨 Plesk 提供的 PHP 都受影響。Plesk 已發布 11/19 的 PHP 安全更新（含 CVE-2026-115560），修補版：
 
-- Linux 與 Windows 的 8.2 至 8.5：8.5.12、8.4.27、8.3.36、8.2.35。
-- Linux 的 8.1.34、8.0.30、7.4.33：**版號不變**，2026-10-21 建置的才含修補，更早的建置不含。
-- Plesk 本身（sw-engine）：Obsidian 18.0.80 Update 11、18.0.81 Update 4。
+- Linux 與 Windows 的 8.2 至 8.5：8.5.13、8.4.28、8.3.37、8.2.36。
+- Linux 的 8.1.34、8.0.30、7.4.33（已 EOL）：回移植 8.2.36 的安全修補，**版號不變**，要看建置日期。11/19 這批的建置日期，本站未查到，待查證；10 月那批是 2026-10-21 建置。
+- Plesk 本身（sw-engine／plesk-engine）：Obsidian 18.0.81 Update 9、18.0.82 Update 4。
 - 5.6、7.2、7.3：指向付費的 TuxCare 延長支援。
 
-官方檢查例子（換成要查的分支）：
+10 月那次的修補版是 8.5.12、8.4.27、8.3.36、8.2.35（sw-engine 為 18.0.80 Update 11、18.0.81 Update 4），只更新到那一版的請再更新。
+
+官方檢查例子（10 月文章，換成要查的分支）：
 
 <CommandBlock label="Plesk 官方：檢查 8.3 的版本與建置日期" code={`/opt/plesk/php/8.3/bin/php -v`} />
 
-官方示例輸出為 PHP 8.3.36，built: Oct 21 2026。8.1、8.0、7.4 要看建置日期，不能只看版號。
+8.2 以上看版號是否達到上面的 11/19 修補版；8.1、8.0、7.4 版號不變，不能只看版號，要看建置日期是否晚於這次更新。
 
 ### 2. 更新
 
@@ -90,7 +111,7 @@ CloudLinux 主機：cPanel 文章另列 CloudLinux 的 EasyApache 4 與 alt-php�
 
 ## DirectAdmin
 
-DirectAdmin 的 PHP 由 CustomBuild 編譯，更新 CustomBuild 後重新編譯 PHP 即可。DirectAdmin 在 2026-10-21 起發布含修補的 CustomBuild。
+DirectAdmin 的 PHP 由 CustomBuild 編譯，更新 CustomBuild 後重新編譯 PHP 即可。DirectAdmin 在 2026-10-21 起發布含 10 月修補的 CustomBuild。含 11/19 版（CVE-2026-115560）的 CustomBuild 狀態，本站在 2026-11-20 查詢時未找到可直接讀的官方來源，待查證；請用下面的 `./build versions` 看可用版本是否已達 8.5.13、8.4.28、8.3.37、8.2.36，還沒有的話先用[暫時緩解](/dev/mitigation/)的設定。
 
 <CommandBlock label="DirectAdmin：更新 CustomBuild、看版本、重新編譯 PHP" code={`cd /usr/local/directadmin/custombuild
 ./build update

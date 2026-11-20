@@ -3,7 +3,7 @@ layout: ../../../layouts/DevDoc.astro
 title: 修補：Windows
 description: Windows 上修補 PHP2Shell：官方 Windows binary、IIS 與 XAMPP 等軟體內建的 php-cgi.exe 盤點、重啟與驗證。
 lede: Windows 上最常漏掉的不是官方安裝的那一份 PHP，而是 IIS 設定、XAMPP 這類整合包或廠商軟體自己帶的 php-cgi.exe。
-checked: "2026-10-22"
+checked: "2026-11-20"
 sources:
   - title: windows.php.net 官方 Windows binary（releases 目錄）
     url: https://windows.php.net/downloads/releases/
@@ -33,7 +33,7 @@ php-cgi 也是 2024 年 CVE-2024-4577 的現場。當年的修補**不會**讓�
 
 ## 2. 更新
 
-- **自行安裝的 PHP**：從 windows.php.net 下載官方修補版的 zip。2026-10-22 查詢 10/21 修補版時，releases 目錄已有 8.5.12、8.4.27、8.3.36、8.2.35，並有 NTS、x86、x64 版本；請選和你現在相同的執行緒安全類型與架構。PHP 已在 2026-11-19 發布更新的 {facts.fixed.map((f) => f.version).join('、')}（含 CVE-2026-115560 的修補），建議改用這些版本；它們在 releases 目錄的上架狀況，本站尚未查證，待查證。目錄本身沒有安裝指令，依你原本的部署方式替換。
+- **自行安裝的 PHP**：從 windows.php.net 下載官方修補版的 zip。2026-11-20（台灣時間）查詢時，releases 目錄已上架 PHP 2026-11-19 發布的 {facts.fixed.map((f) => f.version).join('、')}（含 CVE-2026-115560 的修補；目錄日期 2026-11-19），建置版本分別是 8.6.0 用 vs18、8.5.13 與 8.4.28 用 vs17、8.3.37 與 8.2.36 用 vs16，每一版都有 Thread Safe／NTS 與 x64／x86 的 zip；請選和你現在相同的執行緒安全類型與架構。只換到 10/21 版（8.5.12、8.4.27、8.3.36、8.2.35）的請再替換一次。目錄本身沒有安裝指令，依你原本的部署方式替換。
 - **XAMPP 等整合包、廠商軟體**：PHP 是包在產品裡的，要等該產品發布含修補的版本，或依廠商指示替換。請直接問廠商要「已含 PHP 修補版」的明確回覆，並寫出內附的 PHP 版本。
 - **8.1 以前**：官方沒有新的 Windows binary，見[舊版本策略](/dev/eol/)。
 

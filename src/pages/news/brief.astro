@@ -15,12 +15,14 @@ const board = [
   { value: '近 5,500 萬', label: '當天看到跑著 PHP 的網路資產', note: 'Censys，經 NBC 報導', href: ref('2026-10-21-2106-nbcnews-critical-vulnerabilities-rush-to-update.md') },
   { value: '約 2,260 萬', label: '暴露在網路上、可能受影響的實例', note: 'Cortex Xpanse 估計', href: ref('2026-10-21-unit42-php-threat-brief.md') },
 ];
+// 10/21 當天推出的修補（歷史敘述，固定不變）；最新修補版跟著 facts.fixed
+const octVersions = '8.5.12、8.4.27、8.3.36、8.2.35';
 const versions = facts.fixed.map((f) => f.version).join('、');
 ---
 <Base title="懶人包" persona="news" description="PHP2Shell 事件懶人包：一句話看懂、數字看板、最新新聞與時間軸精華。">
   <header class="brief-head">
     <h1>懶人包</h1>
-    <p class="lede">撐起全球大量網站的 PHP，被找到兩個能讓外人遠端在伺服器上執行程式的嚴重漏洞（{facts.cves.map((c) => c.id).join('、')}，CVSS {facts.cves[0].cvss_v4}）。消息在修補前就先外洩，官方提前在台灣時間 <span class="num">{r.month}</span> 月 <span class="num">{r.day}</span> 日{r.taipei.part} <span class="num">{r.taipei.hour}</span> 點{r.taipei.minute > 0 && <> <span class="num">{r.taipei.minute}</span> 分</>}推出修補（{versions}），多國政府與企業網站先關站避險。</p>
+    <p class="lede">撐起全球大量網站的 PHP，被找到兩個能讓外人遠端在伺服器上執行程式的嚴重漏洞（{facts.cves.map((c) => c.id).join('、')}，CVSS {facts.cves[0].cvss_v4}）。消息在修補前就先外洩，官方提前在台灣時間 <span class="num">{r.month}</span> 月 <span class="num">{r.day}</span> 日{r.taipei.part} <span class="num">{r.taipei.hour}</span> 點{r.taipei.minute > 0 && <> <span class="num">{r.taipei.minute}</span> 分</>}推出修補（{octVersions}），多國政府與企業網站先關站避險。11 月 19 日官方再發布 {versions}，補上 10 月 23 日公告的另一個漏洞（CVE-2026-115560），只升到 10 月版的要再升級。</p>
   </header>
   <article class="page">
     <section aria-labelledby="board-t" class="block">
