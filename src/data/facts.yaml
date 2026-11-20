@@ -1,6 +1,6 @@
 # 核心事實：全站單一來源。改這裡，所有頁面跟著變。
 name: PHP2Shell
-updated_at: "2026-11-19"
+updated_at: "2026-11-20"
 cves:
   - id: CVE-2026-109618
     ghsa: GHSA-w8hw-w9fx-j79w
@@ -16,8 +16,11 @@ cves:
     advisory: https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
 released_at: "2026-10-21T14:00:00Z"
 official_advisory: https://www.php.net/archive/2026.php#2026-10-21-5
-# 官方支援分支的修補版本（2026-11-19 發布；舊的 10/21 版為 8.5.12、8.4.27、8.3.36、8.2.35）
+# 官方支援分支的修補版本（2026-11-19 發布；8.6.0 是同日正式發布的新分支，同樣含 CVE-2026-115560 修補；
+# 舊的 10/21 版為 8.5.12、8.4.27、8.3.36、8.2.35）
 fixed:
+  - branch: "8.6"
+    version: 8.6.0
   - branch: "8.5"
     version: 8.5.13
   - branch: "8.4"

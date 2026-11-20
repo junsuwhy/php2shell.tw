@@ -1,10 +1,12 @@
 ---
 layout: ../../../layouts/DevDoc.astro
 title: 修補：Ubuntu
-description: Ubuntu 上修補 PHP2Shell：USN-8948-1、USN-8948-2 的修補套件版、官方 apt 指令、ondrej PPA、重啟與驗證。
-lede: Ubuntu 官方說一般的系統更新就會帶入修補。下面的指令與版號都抄自 Ubuntu 的安全公告與官方部落格。
-checked: "2026-10-23"
+description: Ubuntu 上修補 PHP2Shell：USN-8948-1、USN-8948-2 的修補套件版、CVE-2026-115560 的 Ubuntu 狀態、官方 apt 指令、ondrej PPA、重啟與驗證。
+lede: Ubuntu 官方說一般的系統更新就會帶入 10 月的修補；CVE-2026-115560 的官方套件到 2026-11-20 仍未發布，先用緩解設定。下面的指令與版號都抄自 Ubuntu 的安全公告、CVE 頁與官方部落格。
+checked: "2026-11-20"
 sources:
+  - title: Ubuntu CVE 追蹤：CVE-2026-115560（2026-11-19 發布／更新）
+    url: https://ubuntu.com/security/CVE-2026-115560
   - title: Ubuntu USN-8948-1（26.10、26.04 LTS、24.04 LTS、22.04 LTS）
     url: https://ubuntu.com/security/notices/USN-8948-1
   - title: Ubuntu USN-8948-2（20.04 LTS 至 14.04 LTS）
@@ -15,6 +17,8 @@ sources:
     url: https://launchpad.net/~ondrej/+archive/ubuntu/php/+packages?field.name_filter=php8.3&field.status_filter=published
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: PHP.net 2026-11-19 發布公告
+    url: https://www.php.net/archive/2026.php#2026-11-19-2
 ---
 import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
@@ -25,7 +29,24 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 
 <CommandBlock label="Ubuntu 官方：列出已安裝的 PHP 套件" code={`apt list '?installed ?name(^php[0-9.]+$)'`} />
 
-拿版本對照公告。USN-8948-1（2026-10-21 發布）：
+拿版本對照公告。先說清楚：**下面兩張 USN-8948 表是 10 月（CVE-2026-109618、CVE-2026-109619）的修補，不含 CVE-2026-115560。**
+
+### CVE-2026-115560：Ubuntu 官方套件尚未發布修補，先用緩解設定
+
+2026-11-20（台灣時間）查詢時，Ubuntu 的 [CVE-2026-115560 頁面](https://ubuntu.com/security/CVE-2026-115560)（2026-11-19 發布／更新，Ubuntu priority 為 Medium）各版本狀態如下，USN 清單上最新的 PHP 公告仍是 2026-10-21 的 USN-8948-1／-2，沒有針對這個 CVE 的新 USN：
+
+| 套件 | 發行版 | 狀態 |
+| --- | --- | --- |
+| php8.5 | 26.10、26.04 LTS | Needs evaluation |
+| php8.3 | 24.04 LTS | Needs evaluation |
+| php8.1 | 22.04 LTS | Needs evaluation |
+| php7.4、php7.2、php7.0、php5 | 20.04、18.04、16.04、14.04 | Needs evaluation |
+
+在 Ubuntu 發布修補前，請先套用[暫時緩解](/dev/mitigation/)的設定（`session.upload_progress.enabled=0`），並追蹤上面的 CVE 頁。急著要上游修補版的，可以考慮下面的 ondrej/php PPA（非 Ubuntu 官方）。
+
+### 10 月修補：USN-8948-1、USN-8948-2
+
+USN-8948-1（2026-10-21 發布）：
 
 | 發行版 | 套件 | 修補版 |
 | --- | --- | --- |
@@ -47,7 +68,7 @@ USN-8948-2（同日發布，需要 Ubuntu Pro）：
 
 ### ondrej/php PPA
 
-很多主機用 ondrej/php PPA 裝其他 PHP 分支。它不是 Ubuntu 官方套件，上面的 USN 不涵蓋它，但 PPA 在 2026-10-21 已上架修補版（例如 24.04、22.04 的 `8.3.36-1+ubuntu24.04.1+deb.sury.org+1`）。PPA 的版號就是上游版號，對照[版本矩陣](/dev/versions/)即可。
+很多主機用 ondrej/php PPA 裝其他 PHP 分支。它不是 Ubuntu 官方套件，上面的 USN 與 CVE 頁不涵蓋它。2026-11-20（台灣時間）查詢時，PPA 的 24.04（noble）與 22.04（jammy）已上架 11/19 的 8.5.13、8.4.28、8.3.37、8.2.36，另有新分支 8.6.0；例如 24.04 的 `8.3.37-2+ubuntu24.04.1+deb.sury.org+1`（22.04 的版號同格式，字串是 `+ubuntu22.04.1`）。Launchpad 上 php8.4 的發布時間是 2026-11-19 20:38 UTC（台灣 11/20 04:38）。PPA 的版號就是上游版號，對照[版本矩陣](/dev/versions/)即可；只升到 10/21 版（例如 `8.3.36-1+ubuntu24.04.1+deb.sury.org+1`）的請再升級。
 
 分辨套件從哪裡來：
 

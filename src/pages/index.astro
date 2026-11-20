@@ -47,7 +47,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     <p class="notice__cta">
       <a href="/basic/act/">我有網站，現在該做什麼<Arrow class="notice__cta-arrow" /></a>
     </p>
-    <p class="notice__more">8.1 以前的版本官方已不再發布更新，請盡快升級。上面是 PHP 2026-11-19 發布的最新修補版（含 CVE-2026-115560 的修補）；只更新到 10/21 版（8.5.12、8.4.27、8.3.36、8.2.35）的，請再升級。</p>
+    <p class="notice__more">8.1 以前的版本官方已不再發布更新，請盡快升級。上面是 PHP 2026-11-19 發布的最新修補版（含 CVE-2026-115560 的修補；8.6.0 是同日正式發布的新系列）；只更新到 10/21 版（8.5.12、8.4.27、8.3.36、8.2.35）的，請再升級。</p>
     <p class="notice__ticket">
       來源：<a href={facts.official_advisory} rel="noopener">PHP 官方安全公告</a>
       <span class="num">{releasedTaipei}</span>（台灣時間）發布；11/19 新版見 <a href="https://www.php.net/ChangeLog-8.php" rel="noopener">PHP ChangeLog</a>
@@ -256,7 +256,7 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     .notice__ticket { border-left: 0; padding-left: 0; border-top: 1px dashed rgb(255 255 255 / 0.6); padding-top: 12px; }
   }
 
-  /* 手機第一屏：不捲動就要看到「請立即更新」、四個修補版本與主要按鈕 */
+  /* 手機第一屏：不捲動就要看到「請立即更新」、各系列修補版本與主要按鈕 */
   @media (max-width: 600px) {
     .station__text h1,
     h1 { font-size: 2.25rem; }
@@ -271,7 +271,8 @@ const releasedTaipei = new Intl.DateTimeFormat('zh-TW', {
     .notice h2 { font-size: 1.3125rem; line-height: 1.35; }
     .notice__versions {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      /* 版本數由 facts.fixed 決定（目前 5 個）；太窄時自動換行，不硬擠 */
+      grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
       gap: 6px;
     }
     .notice__versions a { min-width: 0; padding: 6px 8px 8px; }

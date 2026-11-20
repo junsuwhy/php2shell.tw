@@ -32,8 +32,8 @@ import { facts } from '../../lib/data';
 
 官方因這次的嚴重性，為 {facts.source_backports.join('、')} 提供了最小化的**原始碼**回移植，沒有新的官方安裝包。依序考慮：
 
-1. **發行版或 LTS 廠商的回移植套件**。例如：Ubuntu 22.04 LTS 的 php8.1 已有修補；Ubuntu 20.04 LTS 的 php7.4 修補經 Ubuntu Pro 提供；RHEL 8 的 php:7.4 已有勘誤。版號會是廠商自己的編號，以其安全公告為準。
-2. **控制台的套件**：Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號不變，2026-10-21 建置的才含修補；cPanel 的 ea-php74／80／81 有對應修補版，見[控制台頁](/dev/fix/panels/)。
+1. **發行版或 LTS 廠商的回移植套件**。例如：Ubuntu 22.04 LTS 的 php8.1 已有修補；Ubuntu 20.04 LTS 的 php7.4 修補經 Ubuntu Pro 提供；RHEL 8 的 php:7.4 已有勘誤。以上是 10 月兩個 CVE（CVE-2026-109618、CVE-2026-109619）的修補；CVE-2026-115560 在 Ubuntu 官方套件與 RHEL 到 2026-11-20 查詢時都尚未發布修補，先用[暫時緩解](/dev/mitigation/)的設定。版號會是廠商自己的編號，以其安全公告為準。
+2. **控制台的套件**：Plesk 在 Linux 上的 8.1.34、8.0.30、7.4.33 版號不變，10 月修補是 2026-10-21 建置的才含；11/19 那批 Plesk 也已把 8.2.36 的安全修補回移植進這三個分支。cPanel 10 月時 ea-php74／80／81 都有對應修補版，11/19 那批列出 ea-php74 7.4.34，ea-php80／81 的新版待查證，見[控制台頁](/dev/fix/panels/)。
 3. **付費延長支援**：cPanel 與 Plesk 都把更舊的分支指向 TuxCare。
 4. **[自行編譯](/dev/fix/build-from-source/)**：只適合能長期維護建置的團隊。
 

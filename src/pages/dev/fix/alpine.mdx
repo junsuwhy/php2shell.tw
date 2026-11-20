@@ -2,17 +2,29 @@
 layout: ../../../layouts/DevDoc.astro
 title: 修補：Alpine
 description: Alpine Linux 修補 PHP2Shell：各穩定分支 php82–php85 的修補版本、apk 更新、重啟與驗證。
-lede: Alpine 的 PHP 套件以分支命名（php85、php84⋯⋯）。3.21 以後的穩定分支都已上架修補版，用 apk 更新、重啟即可；跑在容器裡就重建映像。
-checked: "2026-10-23"
+lede: Alpine 的 PHP 套件以分支命名（php85、php84⋯⋯）。含 CVE-2026-115560 的 11/19 版目前只有 edge 與 v3.24 的部分套件上架，其他穩定分支還停在 10/21 版，先用緩解設定；有新版就用 apk 更新、重啟，跑在容器裡就重建映像。
+checked: "2026-11-20"
 sources:
+  - title: Alpine 套件頁：php85（edge／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php85
+  - title: Alpine 套件頁：php82（edge／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/edge/community/x86_64/php82
+  - title: Alpine 套件頁：php84（v3.24／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/v3.24/community/x86_64/php84
+  - title: Alpine 套件頁：php85（v3.24／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/v3.24/community/x86_64/php85
   - title: Alpine 套件頁：php84（v3.23／community／x86_64）
     url: https://pkgs.alpinelinux.org/package/v3.23/community/x86_64/php84
   - title: Alpine 套件頁：php83（v3.22／community／x86_64）
     url: https://pkgs.alpinelinux.org/package/v3.22/community/x86_64/php83
+  - title: Alpine 套件頁：php84（v3.21／community／x86_64）
+    url: https://pkgs.alpinelinux.org/package/v3.21/community/x86_64/php84
   - title: Alpine 套件頁：php82（v3.21／community／x86_64）
     url: https://pkgs.alpinelinux.org/package/v3.21/community/x86_64/php82
   - title: PHP.net 安全公告（2026-10-21）
     url: https://www.php.net/archive/2026.php#2026-10-21-5
+  - title: PHP.net 2026-11-19 發布公告
+    url: https://www.php.net/archive/2026.php#2026-11-19-2
 ---
 import PendingFix from "../../../components/dev/PendingFix.astro";
 import CommandBlock from '../../../components/dev/CommandBlock.astro';
@@ -24,17 +36,23 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 <CommandBlock label="Alpine 版本與已安裝的 PHP 套件" code={`cat /etc/alpine-release
 apk info -v | grep -E '^php[0-9]+-'`} />
 
-對照套件頁（community／x86_64，2026-10-23 查詢）。表格是修補版，已安裝版本等於或更新就算修好：
+對照套件頁（community／x86_64，2026-11-20 台灣時間查詢）。表格是各分支目前的套件版本：**粗體**是已含 11/19 修補（CVE-2026-115560）的版本；標「10/21 版」的只修了 10 月的兩個 CVE，11/19 版尚未上架：
 
 | 分支 | php85 | php84 | php83 | php82 |
 | --- | --- | --- | --- | --- |
-| edge、v3.24 | 8.5.12-r0 | 8.4.27-r0 | 8.3.36-r0 | — |
-| v3.23 | 8.5.12-r0 | 8.4.27-r0 | 8.3.36-r0 | — |
-| v3.22 | — | 8.4.27-r0 | 8.3.36-r0 | 8.2.35-r0 |
-| v3.21 | — | **沒有修補**（仍是 8.4.14-r0） | 8.3.36-r0 | 8.2.35-r0 |
+| edge | **8.5.13-r0** | **8.4.28-r0** | **8.3.37-r0** | **8.2.36-r0** |
+| v3.24 | 8.5.12-r0（10/21 版） | **8.4.28-r0** | **8.3.37-r0** | — |
+| v3.23 | 8.5.12-r0（10/21 版） | 8.4.27-r0（10/21 版） | 8.3.36-r0（10/21 版） | — |
+| v3.22 | — | 8.4.27-r0（10/21 版） | 8.3.36-r0（10/21 版） | 8.2.35-r0（10/21 版） |
+| v3.21 | — | 8.4.27-r0（10/21 版） | 8.3.36-r0（10/21 版） | 8.2.35-r0（10/21 版） |
 | v3.20 以前 | — | — | **沒有修補** | **沒有修補** |
 
-「—」是該分支沒有這個套件。v3.20 以前已不再更新，v3.21 的 php84 也沒有跟上；請升級 Alpine 分支，或換成有修補的 PHP 套件。
+「—」是該分支沒有這個套件。edge 的套件在 2026-11-19 建置，v3.24 的 php84、php83 在 2026-11-20 建置。
+
+- **已有 11/19 版**：edge 全部；v3.24 的 php84、php83。
+- **尚未發布 11/19 修補（2026-11-20 查詢）**：v3.24 的 php85，以及 v3.23、v3.22、v3.21 的所有 PHP 套件。這些先用[暫時緩解](/dev/mitigation/)的設定，並留意套件頁何時更新。
+- **更正**：本頁先前寫 v3.21 的 php84「沒有修補（仍是 8.4.14-r0）」已過時；它在 2026-10-22 建置了 8.4.27-r0，有 10 月的修補，但同樣還沒有 11/19 版。
+- v3.20 以前已不再更新（2026-10-23 查詢結果），請升級 Alpine 分支，或換成有修補的 PHP 套件。
 
 ## 2. 更新
 

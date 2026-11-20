@@ -3,8 +3,16 @@ layout: ../../../layouts/DevDoc.astro
 title: 修補：macOS（Homebrew）
 description: macOS 開發機上用 Homebrew 安裝的 PHP：公式裡的修補版本、更新後重啟與驗證。
 lede: Homebrew 的 PHP 通常在開發機上。它不是正式環境，但若開發機的 PHP 會對外接請求（例如分享給同事的本機服務），一樣要更新。
-checked: "2026-10-23"
+checked: "2026-11-20"
 sources:
+  - title: formulae.brew.sh：php
+    url: https://formulae.brew.sh/formula/php
+  - title: formulae.brew.sh：php@8.4
+    url: https://formulae.brew.sh/formula/php@8.4
+  - title: formulae.brew.sh：php@8.3
+    url: https://formulae.brew.sh/formula/php@8.3
+  - title: formulae.brew.sh：php@8.2
+    url: https://formulae.brew.sh/formula/php@8.2
   - title: Homebrew homebrew-core：php 公式
     url: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/p/php.rb
   - title: Homebrew homebrew-core：php@8.4 公式
@@ -24,14 +32,16 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 <CommandBlock label="列出已安裝的 PHP 公式與版本" code={`brew list --versions | grep '^php'
 php -v`} />
 
-對照 homebrew-core 公式裡的上游原始碼版本（2026-10-22 查詢）：
+對照 homebrew-core 公式裡的上游原始碼版本（2026-11-20 約 12:45–12:55 台灣時間／04:45–04:55 UTC 查詢 formulae.brew.sh）：
 
-| 公式 | 公式裡的上游 tarball |
-| --- | --- |
-| php | php-8.5.12.tar.xz |
-| php@8.4 | php-8.4.27.tar.xz |
-| php@8.3 | php-8.3.36.tar.xz |
-| php@8.2 | php-8.2.35.tar.xz |
+| 公式 | 公式裡的上游 tarball | 11/19 修補（CVE-2026-115560） |
+| --- | --- | --- |
+| php（8.5） | php-8.5.12.tar.xz | **尚未更新**，仍是 10/21 版 |
+| php@8.4 | php-8.4.28.tar.xz | 已更新 |
+| php@8.3 | php-8.3.37.tar.xz | 已更新 |
+| php@8.2 | php-8.2.35.tar.xz | **尚未更新**，仍是 10/21 版 |
+
+`php`、`php@8.2` 的公式還沒有 11/19 版：尚未發布修補，先用[暫時緩解](/dev/mitigation/)的設定，並留意公式何時更新後再 `brew upgrade`。
 
 同一台機器可能裝了好幾個 `php@` 公式，PATH 上的那一支不一定是本機網頁伺服器在用的那一支。
 

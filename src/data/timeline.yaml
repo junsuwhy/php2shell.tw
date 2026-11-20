@@ -368,7 +368,7 @@
   at: "2026-11-19"
   precision: "date-only"
   title: "PHP 發布 8.5.13、8.4.28、8.3.37、8.2.36，修補 CVE-2026-115560"
-  summary: "11 月 19 日，PHP 發布 8.5.13、8.4.28、8.3.37、8.2.36，ChangeLog 列出 CVE-2026-115560（10 月 23 日公告的 RCE 途徑）已修補，另含 CGI、Date、FPM、Phar、Session、SOAP、Standard 等多個 CVE 的修補。官方只標日期，沒有發布鐘點。舊的 10 月 21 日版為 8.5.12、8.4.27、8.3.36、8.2.35。"
+  summary: "11 月 19 日，PHP 發布 8.5.13、8.4.28、8.3.37、8.2.36，ChangeLog 列出 CVE-2026-115560（10 月 23 日公告的 RCE 途徑）已修補，另含 CGI、Date、FPM、Phar、Session、SOAP、Standard 等多個 CVE 的修補。同日也正式發布新分支 8.6.0，同樣含這項修補。官方只標日期，沒有發布鐘點。舊的 10 月 21 日版為 8.5.12、8.4.27、8.3.36、8.2.35。"
   sources:
     - "2026-11-19-php-net-changelog-security-release.md"
   tags: ["官方", "修補"]

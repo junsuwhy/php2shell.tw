@@ -1,10 +1,14 @@
 ---
 layout: ../../../layouts/DevDoc.astro
 title: 修補：RHEL／Rocky／Alma
-description: RHEL 家族修補 PHP2Shell：Red Hat RHSA 勘誤狀態、Rocky 與 AlmaLinux、remi 套件庫當天沒有更新時的處理。
-lede: RHEL 依 Red Hat 的 RHSA 勘誤更新；用 remi 套件庫的主機，官方明講當天不會有更新，要改走別的路。
-checked: "2026-10-23"
+description: RHEL 家族修補 PHP2Shell：Red Hat RHSA 勘誤狀態、CVE-2026-115560 尚無 RHSA 時的緩解、Rocky 與 AlmaLinux、remi 套件庫的 11/19 新版。
+lede: RHEL 依 Red Hat 的 RHSA 勘誤更新；CVE-2026-115560 到 2026-11-20 仍沒有 RHSA，先用緩解設定。用 remi 套件庫的主機，11/19 新版已經發布。
+checked: "2026-11-20"
 sources:
+  - title: Red Hat：CVE-2026-115560
+    url: https://access.redhat.com/security/cve/CVE-2026-115560
+  - title: remi 部落格（2026-11-19 發布 8.2.36、8.3.37、8.4.28、8.5.13）
+    url: https://blog.remirepo.net/
   - title: Red Hat：CVE-2026-109618
     url: https://access.redhat.com/security/cve/CVE-2026-109618
   - title: Red Hat 安全公報 RHSB-2026-013：Request handling memory corruption - php
@@ -22,11 +26,19 @@ import CommandBlock from '../../../components/dev/CommandBlock.astro';
 <CommandBlock label="看已安裝的 PHP 套件與來源套件庫（remi 開頭就是 remi）" code={`dnf list --installed 'php*'
 dnf module list --enabled php`} />
 
-再查這個套件是否已含修補：changelog 裡出現 CVE 編號就是已修。
+再查這個套件是否已含修補：changelog 裡出現 CVE 編號就是已修。10 月的修補看 CVE-2026-109618，11/19 的修補看 CVE-2026-115560，兩個都要出現。
 
-<CommandBlock label="changelog 裡找這次的 CVE（沒有輸出就是還沒修）" code={`rpm -q --changelog php-common | grep -m1 CVE-2026-109618`} />
+<CommandBlock label="changelog 裡找這次的 CVE（缺哪一個就是那一個還沒修）" code={`rpm -q --changelog php-common | grep -E 'CVE-2026-(109618|115560)'`} />
 
-Red Hat CVE 頁的狀態（RHSB-2026-013，2026-10-21 公開）：
+### CVE-2026-115560：Red Hat 尚未發布修補，先用緩解設定
+
+2026-11-20（台灣時間）查詢 Red Hat 的 [CVE-2026-115560 頁面](https://access.redhat.com/security/cve/CVE-2026-115560)：公開日 2026-11-19 14:41 UTC（台灣 22:41），Threat severity 為 Critical。RHEL 7、8、9、10 的各個 php 套件與模組串流（php、php8.4、php:7.4、php:8.2、php:8.3、php:8.4）狀態都是 **Affected**，還沒有 RHSA；RHEL 6 列為 Out of support scope。
+
+在 Red Hat 發布 RHSA 前，請先套用[暫時緩解](/dev/mitigation/)的設定（`session.upload_progress.enabled=0`），並追蹤上面的 CVE 頁。下表的 RHSA 只修了 10 月的兩個 CVE。
+
+### 10 月修補：CVE-2026-109618、CVE-2026-109619
+
+Red Hat CVE 頁的狀態（RHSB-2026-013，2026-10-21 公開；2026-10-23 查詢）：
 
 | 產品 | 套件 | 狀態 | 勘誤（發布時間 UTC／台灣時間） |
 | --- | --- | --- | --- |
@@ -47,7 +59,7 @@ Red Hat CVE 頁的狀態（RHSB-2026-013，2026-10-21 公開）：
 
 ### remi 套件庫
 
-remi 在 2026-10-22 發布 8.2.35、8.3.36、8.4.27、8.5.12，涵蓋 Enterprise Linux 8 以上（remi-modular 模組，以及 remi-safe 的平行安裝套件 php82～php85）。8.1 以前 remi 沒有發布修補，見[舊版本策略](/dev/eol/)。
+remi 在 2026-11-19 發布 8.2.36、8.3.37、8.4.28、8.5.13（含 CVE-2026-115560 的修補），remi-modular 涵蓋 Fedora 43 以上與 Enterprise Linux 8 以上，remi-safe 也有平行安裝（SCL）的套件。10 月那次是 2026-10-22 發布的 8.2.35、8.3.36、8.4.27、8.5.12，只升到那一版的請再更新。8.1 以前 remi 在 10 月沒有發布修補，見[舊版本策略](/dev/eol/)。
 
 ## 2. 更新
 
@@ -55,7 +67,7 @@ remi 在 2026-10-22 發布 8.2.35、8.3.36、8.4.27、8.5.12，涵蓋 Enterprise
 
 <CommandBlock label="用 remi-safe 平行安裝（例如 php83）的主機" code={`sudo dnf upgrade --refresh 'php83*'`} />
 
-上表狀態仍是 Affected 或 Under investigation 的組合，目前沒有修補可裝：先套[暫時緩解](/dev/mitigation/)、考慮暫時不直接對外，並換到有修補的版本或[自行編譯](/dev/fix/build-from-source/)。
+CVE-2026-115560 目前在所有 RHEL 版本都還沒有 RHSA；上表狀態仍是 Affected 或 Under investigation 的組合也一樣，目前沒有修補可裝：先套[暫時緩解](/dev/mitigation/)、考慮暫時不直接對外，並換到有修補的版本或[自行編譯](/dev/fix/build-from-source/)。
 
 ## 3. 重啟
 

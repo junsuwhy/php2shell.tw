@@ -4,7 +4,8 @@ import HeroBanner from '../../components/HeroBanner.astro';
 import { facts } from '../../lib/data';
 
 // 文字以 docs/knowledge/04-for-onlookers.md 為準
-const versions = facts.fixed.map((f) => f.version).join('、');
+// 這裡寫的是 10/21 當天上線的修補，屬歷史敘述，不跟著 facts.fixed（已是 11/19 版）變動
+const versions = '8.5.12、8.4.27、8.3.36、8.2.35';
 const chapters = [
   { id: 'y2004', label: '2004', title: '一個老毛病' },
   { id: 'y2024', label: '2024', title: '健檢看到影子，卻停在原地' },
